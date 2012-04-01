@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logob" />
+
+        <TextView
+            android:id="@+id/TxCon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="7px"
+            android:textColor="#000000"
+            android:text="@string/OAuthStatus" />
+
+        <Button
+            android:id="@+id/Anmelden"
+            android:layout_width="204dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/Anmelden" />
+
+    </LinearLayout>
+
+</LinearLayout>

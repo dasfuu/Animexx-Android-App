@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.meisterfuu.animexx"
+    android:versionCode="8"
+    android:versionName="1.4.7" >
+
+    <uses-sdk android:minSdkVersion="8" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.STATUS_BAR"/>
+	
+	<permission android:name="de.meisterfuu.animexx.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="de.meisterfuu.animexx.permission.C2D_MESSAGE" />
+
+    <!-- This app has permission to register and receive message -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Send the registration id to the server -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <permission android:protectionLevel="dangerous" android:label="@string/enspermsissionl" android:name="de.meisterfuu.animexx.permission.ENS_NOTIFY" android:icon="@drawable/logo" android:description="@string/enspermission" android:permissionGroup="android.permission-group.MESSAGES"></permission>
+	    
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".AnimexxActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".RequestTokenActivity" android:label="@string/app_name" android:launchMode="singleTask">
+            <intent-filter>
+            <data android:scheme="animexx" android:host="callback" /> 
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" /> 
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".Menu" android:screenOrientation="portrait"></activity>  
+        <activity android:name=".about" android:screenOrientation="portrait"></activity>  
+        <activity android:name=".ENS.ENS" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENSAusgang" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENSSingle" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.bla" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENSAnswer" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENSMenu" android:screenOrientation="portrait"></activity>
+        <activity android:name=".GB.GBViewList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".TableView"></activity>
+        <service android:enabled="true" android:name=".ENS.ENSService" />        
+        <receiver android:name=".C2DMReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+          <!-- Receive the actual message -->
+          <intent-filter>
+              <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+              <category android:name="de.meisterfuu.animexx" />
+          </intent-filter>
+          <!-- Receive the registration id -->
+          <intent-filter>
+              <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+              <category android:name="de.meisterfuu.animexx" />
+          </intent-filter>
+      </receiver>      
+      <receiver android:name=".ENSNotify" android:permission="de.meisterfuu.animexx.permission.ENS_NOTIFY">
+            <intent-filter>
+            <action android:name="de.meisterfuu.animexx.ensnotify" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, AnimexxActivity!</string>
+    <string name="app_name">Animexx</string>
+    <string name="Anmelden">Anmelden</string>
+    <string name="OAuthStatus">OAuth Status</string>
+    <string name="Betreff">Betreff</string>
+    <string name="ENSAn">An:</string>
+    <string name="Nachricht">Nachricht:</string>
+    <string name="Send">Absenden</string>
+    <string name="Answer">Antworten</string>
+    <string name="leer">" "</string>
+    <string name="Von">Von:</string>
+    <string name="line">"  "</string>
+    <string name="enspermsissionl">ENS Benachrichtigungen senden</string>
+    <string name="enspermission">Kann direkt ENS Benachrichtigungen an dich, über die Animexx App, senden.</string>
+    <string name="about">App by dasfuu</string>
+
+</resources>
