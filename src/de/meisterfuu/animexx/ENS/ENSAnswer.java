@@ -36,6 +36,10 @@ public class ENSAnswer extends Activity {
 	         xAn = bundle.getString("an");        
 	         xRelativ = bundle.getString("relativ");	 	        
 	        }
+	        
+	        if(this.getIntent().hasExtra("relativ")){        
+	         xRelativ = this.getIntent().getStringExtra("relativ");	 	        
+	        }
 
 	        Betreff.setText(xBetreff);
 	        An.setText(xAn);      
