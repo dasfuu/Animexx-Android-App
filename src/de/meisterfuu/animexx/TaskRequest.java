@@ -31,6 +31,10 @@ public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
     }
 
     protected void onPostExecute(String[] result) {
-    	GUI.UpDateUi(result);
+    	if (result[0].equals("Error")){
+    		GUI.DoError();
+    	}else{
+    		GUI.UpDateUi(result);
+    	}
     }
 }

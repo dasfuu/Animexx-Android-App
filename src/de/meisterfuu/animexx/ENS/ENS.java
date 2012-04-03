@@ -10,10 +10,13 @@ import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.profil.UserPopUp;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -39,6 +42,7 @@ public class ENS extends ListActivity implements UpDateUI {
 	String ordner = "1";
 	Integer offset = 0;
 	ProgressDialog dialog;
+	Context con;
 	
 	
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,13 @@ public class ENS extends ListActivity implements UpDateUI {
         	Bundle bundle = this.getIntent().getExtras();	        
         	ordner = bundle.getString("folder"); 	        
         }	
-    	
+        
+        con = this;
+        
+        NotificationManager mManager;
+        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager.cancel(42);
+        
     	dialog = ProgressDialog.show(this, "",Constants.LOADING, true);
      	if(ordner == "1"){
     		HttpGet[] HTTPs = new HttpGet[2];
@@ -78,6 +88,18 @@ public class ENS extends ListActivity implements UpDateUI {
 
   	  ListView lv = getListView();
   	  lv.setTextFilterEnabled(true);
+  	  
+  	lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+  	    public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
+  	    	if(pos >= offset){    	
+  	    		ENSPopUp Menu = new ENSPopUp(con, temp[pos].von, temp[pos].von_id, temp[pos].ENS_id, temp[pos].betreff);
+  	    		Menu.PopUp();
+  	    	}
+  	    	
+  	        return true;
+  	    }
+  	});
+
   	  
   	  lv.setOnItemClickListener(new OnItemClickListener() {
   		    public void onItemClick(AdapterView<?> parent, View view,
@@ -135,7 +157,8 @@ public class ENS extends ListActivity implements UpDateUI {
     		}
     		else{
     			ENSa = new ENSObject[1];
-        		ENSa[0] = new ENSObject("", "Leer :/", "", "", "", 10, 0, 0, 0, "0", -1, 0);  
+        		ENSa[0] = new ENSObject("Leer :/", ""+folder, 99, 0);
+        		offset += 1;
     		}  
     		
     		if(JSON.length > 1){
@@ -149,7 +172,7 @@ public class ENS extends ListActivity implements UpDateUI {
 
     		if(ENSlist.length() != 0){
     			for(int i=0;i < ENSlist.length();i++){
-    				ENSa[i+offset] = new ENSObject("//", ENSlist.getJSONObject(i).getString("betreff"), ENSlist.getJSONObject(i).getJSONObject("von").getString("username"), "//", ENSlist.getJSONObject(i).getString("datum_server")/*<-- TIME*/, ENSlist.getJSONObject(i).getInt("an_flags"), 0, 0, 0, ENSlist.getJSONObject(i).getString("id"), ENSlist.getJSONObject(i).getInt("typ"), folder);
+    				ENSa[i+offset] = new ENSObject("//", ENSlist.getJSONObject(i).getString("betreff"), ENSlist.getJSONObject(i).getJSONObject("von").getString("username"), ENSlist.getJSONObject(i).getJSONObject("von").getString("id"), "//", ENSlist.getJSONObject(i).getString("datum_server")/*<-- TIME*/, ENSlist.getJSONObject(i).getInt("an_flags"), 0, 0, 0, ENSlist.getJSONObject(i).getString("id"), ENSlist.getJSONObject(i).getInt("typ"), folder);
     			}
     		}
     		
@@ -159,13 +182,18 @@ public class ENS extends ListActivity implements UpDateUI {
 			e.printStackTrace(); 
 		}
     	
-   	return new ENSObject[] {new ENSObject("", "Fehler beim Abrufen", "", "", "", 10, 0, 0, 0, "0", -1, 0)};    	
+   	return new ENSObject[] {new ENSObject("", "Fehler beim Abrufen", "", "", "", "", 10, 0, 0, 0, "0", -1, 0)};    	
     }
 
 	
 	public void UpDateUi(String[] s) {
         dialog.dismiss();
 		setlist(new ENSAdapter(this, getENSlist(s, Integer.parseInt(ordner))));	
+	}
+
+	public void DoError() {
+		// TODO Auto-generated method stub
+		
 	}
     
 	

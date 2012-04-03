@@ -69,10 +69,11 @@ public  class Request {
         	jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/ens_open/?ens_id="+id+"&text_format=html&api=2");
          	JSONObject jsonResponse = new JSONObject(jsonOutput);
         	JSONObject m = (JSONObject)jsonResponse.get("return");
-        	String[] ens = new String[3];
+        	String[] ens = new String[4];
         	ens[0] = m.getString("betreff");
         	ens[2] = m.getString("text_html");
         	ens[1] = m.getJSONObject("von").getString("username");
+        	ens[3] = m.getJSONObject("von").getString("id");
         	
         	return ens;
 	}

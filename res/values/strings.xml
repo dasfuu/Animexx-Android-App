@@ -16,5 +16,14 @@
     <string name="enspermsissionl">ENS Benachrichtigungen senden</string>
     <string name="enspermission">Kann direkt ENS Benachrichtigungen an dich, über die Animexx App, senden.</string>
     <string name="about">App by dasfuu</string>
+    <string name="placeholder"></string>
+    <string name="Name">Name:</string>
+    <string name="Alter">Alter:</string>
+    <string name="Ort">Ort:</string>
+    <string name="Geburtstag">Geburtstag:</string>
+    <string name="EMail">E-Mail:</string>
+    <string name="Web">Website:</string>
+    <string name="Guestbook">Gästebuch</string>
+    <string name="SendENS">ENS senden!</string>
 
 </resources>

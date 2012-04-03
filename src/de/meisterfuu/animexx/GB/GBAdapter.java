@@ -1,8 +1,6 @@
 package de.meisterfuu.animexx.GB;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
+import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class GBAdapter extends ArrayAdapter<GBObject> {
 	private final Activity context;
@@ -55,11 +54,17 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		holder.time.setText(s.time);
 		holder.von.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+            	UserPopUp Menu = new UserPopUp(context, s.von, s.von_id);
+            	Menu.PopUp();
+            	
+            	/*
 				Bundle bundle = new Bundle();
 				bundle.putString("id",s.von_id);
 				Intent newIntent = new Intent(context.getApplicationContext(), GBViewList.class);
 				newIntent.putExtras(bundle);
 				context.startActivity(newIntent);
+				*/
+				
                }
            });      
    

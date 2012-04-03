@@ -4,7 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.widget.ListView;
@@ -24,6 +26,11 @@ public class GBViewList extends ListActivity {
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        Request.config =  PreferenceManager.getDefaultSharedPreferences(this);
+	        
+	        NotificationManager mManager;
+	        mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			mManager.cancel(43);
+			
 	        typ = "an";
 	        if(this.getIntent().hasExtra("id")){
 	        Bundle bundle = this.getIntent().getExtras();	        
