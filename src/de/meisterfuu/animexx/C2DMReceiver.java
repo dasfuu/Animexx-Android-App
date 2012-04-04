@@ -100,7 +100,8 @@ public class C2DMReceiver extends BroadcastReceiver {
 	    // the next two lines initialize the Notification, using the configurations above
 	    Notification notification = new Notification(icon, tickerText, when);
 	    notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-	    notification.defaults |= Notification.DEFAULT_SOUND;
+	    //notification.defaults |= Notification.DEFAULT_SOUND;
+	    notification.sound =  Uri.parse(Request.config.getString("ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));  
 	    notification.flags |= Notification.FLAG_AUTO_CANCEL;
 	    mManager.notify(id, notification);
 	}
@@ -124,7 +125,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	    // the next two lines initialize the Notification, using the configurations above
 	    Notification notification = new Notification(icon, tickerText, when);
 	    notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-	    notification.defaults |= Notification.DEFAULT_SOUND;
+	    notification.sound =  Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));  
 	    notification.flags |= Notification.FLAG_AUTO_CANCEL;
 	    mManager.notify(id, notification);
 	}
@@ -148,7 +149,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	    // the next two lines initialize the Notification, using the configurations above
 	    Notification notification = new Notification(icon, tickerText, when);
 	    notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-	    notification.defaults |= Notification.DEFAULT_SOUND;
+	    notification.sound =  Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));  
 	    notification.flags |= Notification.FLAG_AUTO_CANCEL;
 	    mManager.notify(id, notification);
 	}

@@ -25,5 +25,9 @@
     <string name="Web">Website:</string>
     <string name="Guestbook">Gästebuch</string>
     <string name="SendENS">ENS senden!</string>
+    <string name="SettingsENSTon">Sound nur bei ENS</string>
+    <string name="SettingsPushLabel">"Push: "</string>
+    <string name="SettingsSound">Ton: </string>
+    <string name="SettingsSoundENS">"ENS Ton: "</string>
 
 </resources>

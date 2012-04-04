@@ -2,6 +2,7 @@ package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
+import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class Menu extends Activity {
 	//private SharedPreferences config;
-	static final String[] List = new String[] {"ENS", "News", "Kontaktaktivitäten", "Gästebuch", "About"};
+	static final String[] List = new String[] {"ENS", "News", "Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About"};
 	ListView listView;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,8 @@ public class Menu extends Activity {
   		    	switch(position){
   		    	case 0: startActivity(new Intent().setClass(getApplicationContext(), ENSMenu.class)); break;
   		    	case 3: startActivity(new Intent().setClass(getApplicationContext(), GBViewList.class)); break;
-  		    	case 4: startActivity(new Intent().setClass(getApplicationContext(), about.class)); break;
+  		    	case 4: startActivity(new Intent().setClass(getApplicationContext(), Settings.class)); break;
+  		    	case 5: startActivity(new Intent().setClass(getApplicationContext(), about.class)); break;
   		    	default: Request.doToast("Gibts noch nicht :P", getApplicationContext()); break;
   		    	}
   		    	

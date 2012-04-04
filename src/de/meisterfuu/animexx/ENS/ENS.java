@@ -10,7 +10,6 @@ import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
-import de.meisterfuu.animexx.profil.UserPopUp;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="9"
-    android:versionName="1.4.8" >
+    android:versionCode="10"
+    android:versionName="1.4.9" >
 
     <uses-sdk android:minSdkVersion="8" />
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Menu" android:screenOrientation="portrait"></activity>  
+        <activity android:name=".Menu" android:screenOrientation="portrait"></activity>  "AndroidManifest.xml"
         <activity android:name=".about" android:screenOrientation="portrait"></activity>  
         <activity android:name=".ENS.ENS" android:screenOrientation="portrait"></activity>
         <activity android:name=".ENS.ENSAusgang" android:screenOrientation="portrait"></activity>
@@ -48,6 +48,7 @@
         <activity android:name=".ENS.ENSMenu" android:screenOrientation="portrait"></activity>
         <activity android:name=".profil.UserSteckbrief" android:screenOrientation="portrait"></activity>
         <activity android:name=".GB.GBViewList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".other.Settings" android:screenOrientation="portrait"></activity>
         <activity android:name=".TableView"></activity>
         <service android:enabled="true" android:name=".ENS.ENSService" />        
         <receiver android:name=".C2DMReceiver" android:permission="com.google.android.c2dm.permission.SEND">
