@@ -48,6 +48,7 @@
         <activity android:name=".ENS.ENSMenu" android:screenOrientation="portrait"></activity>
         <activity android:name=".profil.UserSteckbrief" android:screenOrientation="portrait"></activity>
         <activity android:name=".GB.GBViewList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".GB.GBAnswer" android:screenOrientation="portrait"></activity>
         <activity android:name=".other.Settings" android:screenOrientation="portrait"></activity>
         <activity android:name=".TableView"></activity>
         <service android:enabled="true" android:name=".ENS.ENSService" />        

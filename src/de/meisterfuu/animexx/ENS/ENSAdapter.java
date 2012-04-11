@@ -14,7 +14,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	private final ENSObject[] names;
 
 	static class ViewHolder {
-		public TextView text,txinfo;
+		public TextView text, txinfo;
 		public ImageView image;
 	}
 
@@ -40,19 +40,20 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		ENSObject s = names[position];
 		holder.text.setText(s.betreff);
-		if(s.typ == 99){
+		if (s.typ == 99) {
 			holder.image.setImageResource(R.drawable.folder);
 			holder.txinfo.setText("  ");
 		} else {
-			holder.txinfo.setText("Von "+s.von+" am "+s.time);
+			holder.txinfo.setText("Von " + s.von + " am " + s.time);
 			String flag = Integer.toBinaryString(s.flag);
-			
-			if(flag.charAt(flag.length()-1) == '0') {
+
+			if (flag.charAt(flag.length() - 1) == '0') {
 				holder.image.setImageResource(R.drawable.unseenmail);
-			}else if(flag.charAt(flag.length()-1) == '1'){
+			} else if (flag.charAt(flag.length() - 1) == '1') {
 				holder.image.setImageResource(R.drawable.unreadmail);
 			}
-			if(flag.length() >= 2 && flag.charAt(flag.length()-2) == '1') holder.image.setImageResource(R.drawable.mail);
+			if (flag.length() >= 2 && flag.charAt(flag.length() - 2) == '1')
+				holder.image.setImageResource(R.drawable.mail);
 		}
 
 		return rowView;

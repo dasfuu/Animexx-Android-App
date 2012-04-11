@@ -13,46 +13,60 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class Menu extends Activity {
-	//private SharedPreferences config;
-	static final String[] List = new String[] {"ENS", "News", "Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About"};
+	// private SharedPreferences config;
+	static final String[] List = new String[] { "ENS", "News",
+			"Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About" };
 	ListView listView;
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.menu2); 		
-        listView = (ListView) findViewById(R.id.mylist);
-        setlist();
-	}       
-    
-    //Anwendung "schließen" anstatt den LoginScreen zu öffnen
-    @Override
-    public void onBackPressed() {
-    	Intent startMain = new Intent(Intent.ACTION_MAIN);
-    	startMain.addCategory(Intent.CATEGORY_HOME);
-    	startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    	startActivity(startMain);
-    return;
-    }
-    
-    private void setlist(){
-    	listView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu, List));
-  		listView.setTextFilterEnabled(true);  	  
-  		listView.setOnItemClickListener(new OnItemClickListener() {
-  		    public void onItemClick(AdapterView<?> parent, View view,
-  		        int position, long id) {
-  		    	
-  		    	switch(position){
-  		    	case 0: startActivity(new Intent().setClass(getApplicationContext(), ENSMenu.class)); break;
-  		    	case 3: startActivity(new Intent().setClass(getApplicationContext(), GBViewList.class)); break;
-  		    	case 4: startActivity(new Intent().setClass(getApplicationContext(), Settings.class)); break;
-  		    	case 5: startActivity(new Intent().setClass(getApplicationContext(), about.class)); break;
-  		    	default: Request.doToast("Gibts noch nicht :P", getApplicationContext()); break;
-  		    	}
-  		    	
-  		    	
-  		    	
-  		    	}
-  		    });  	
-    }
-    
+
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.menu2);
+		listView = (ListView) findViewById(R.id.mylist);
+		setlist();
+	}
+
+	// Anwendung "schließen" anstatt den LoginScreen zu öffnen
+	@Override
+	public void onBackPressed() {
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+		startMain.addCategory(Intent.CATEGORY_HOME);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(startMain);
+		return;
+	}
+
+	private void setlist() {
+		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu, List));
+		listView.setTextFilterEnabled(true);
+		listView.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				switch (position) {
+				case 0:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), ENSMenu.class));
+					break;
+				case 3:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), GBViewList.class));
+					break;
+				case 4:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), Settings.class));
+					break;
+				case 5:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), about.class));
+					break;
+				default:
+					Request.doToast("Gibts noch nicht :P",
+							getApplicationContext());
+					break;
+				}
+
+			}
+		});
+	}
 
 }
