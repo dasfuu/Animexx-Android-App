@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.profil.UserPopUp;
@@ -15,7 +16,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 	private final Activity context;
 	private final GBObject[] names;
 
-	static class ViewHolder {
+	class ViewHolder {
 		public WebView text, imgA;
 		public ImageView image;
 		public TextView von, time;

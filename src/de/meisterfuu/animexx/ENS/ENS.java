@@ -87,7 +87,6 @@ public class ENS extends ListActivity implements UpDateUI {
 		setListAdapter(a);
 
 		ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,

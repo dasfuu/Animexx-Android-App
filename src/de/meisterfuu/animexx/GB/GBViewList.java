@@ -61,7 +61,6 @@ public class GBViewList extends ListActivity {
 		setListAdapter(a);
 
 		ListView lv = getListView();
-		lv.setTextFilterEnabled(true);
 	}
 
 	private GBObject[] getGBlist() {
