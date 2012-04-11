@@ -128,8 +128,7 @@ public class LoadImage extends LinearLayout {
 				break;
 			case FAILED:
 			default:
-				// Could change image here to a 'failed' image
-				// otherwise will just keep on spinning
+				mSpinner.setVisibility(View.INVISIBLE);
 				break;
 			}
 			return true;

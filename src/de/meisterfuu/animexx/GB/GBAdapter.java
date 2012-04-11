@@ -4,22 +4,20 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
+import de.meisterfuu.animexx.other.LoadImage;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class GBAdapter extends ArrayAdapter<GBObject> {
 	private final Activity context;
 	private final GBObject[] names;
 
-	class ViewHolder {
-		public WebView text, imgA;
-		public ImageView image;
-		public TextView von, time;
+	static class ViewHolder {
+		public TextView text;
+		public LoadImage image;
+		public TextView info;
 	}
 
 	public GBAdapter(Activity context, GBObject[] names) {
@@ -35,11 +33,9 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 			LayoutInflater inflater = context.getLayoutInflater();
 			rowView = inflater.inflate(R.layout.gblist, null);
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.text = (WebView) rowView.findViewById(R.id.gbentry);
-			viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
-			viewHolder.von = (TextView) rowView.findViewById(R.id.von);
-			viewHolder.time = (TextView) rowView.findViewById(R.id.time);
-			viewHolder.imgA = (WebView) rowView.findViewById(R.id.imgA);
+			viewHolder.text = (TextView) rowView.findViewById(R.id.GBtxt);
+			viewHolder.image = (LoadImage) rowView.findViewById(R.id.gbimage);
+			viewHolder.info = (TextView) rowView.findViewById(R.id.GBinfo);
 			rowView.setTag(viewHolder);
 		}
 
@@ -47,17 +43,15 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		final GBObject s = names[position];
 		// String data =
 		// "<body><img src=\"file:///android_asset/large_image.png\"/></body>";
-		if (s.avatar != "" && s.avatar != "null" && s.avatar != null)
-			holder.imgA.loadUrl(s.avatar);
-		else
-			holder.imgA.setVisibility(View.GONE);
-		holder.text.loadDataWithBaseURL("fake://fake.de", s.text, "text/html",
-				"UTF-8", null);
-		holder.imgA.loadUrl(s.avatar);
-		holder.image.setImageResource(R.drawable.mail);
-		holder.von.setText(s.von);
-		holder.time.setText(s.time);
-		holder.von.setOnClickListener(new View.OnClickListener() {
+		//if (s.avatar != "" && s.avatar != "null" && s.avatar != null)
+			holder.image.setImageDrawable(s.avatar);
+		//else
+		//	holder.image.setVisibility(View.GONE);
+
+		holder.text.setText(s.getEinleitung());
+		holder.info.setText(s.von+" am "+s.time);
+		
+		holder.info.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				UserPopUp Menu = new UserPopUp(context, s.von, s.von_id);
 				Menu.PopUp();

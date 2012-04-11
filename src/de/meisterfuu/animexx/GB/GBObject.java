@@ -1,5 +1,7 @@
 package de.meisterfuu.animexx.GB;
 
+import android.text.Html;
+
 public class GBObject {
 	public String text, an, von, von_id, an_id, entry_id, time, avatar;
 	public int typ;
@@ -16,15 +18,15 @@ public class GBObject {
 		this.von_id = von_id;
 		this.time = time;
 		if (avatar.startsWith("http"))
-			this.avatar = "";
+			this.avatar = avatar;
 		else
 			this.avatar = "";
 	}
 
 	public String getEinleitung() {
 		if (text.length() >= 32)
-			return text.substring(0, 31);
+			return Html.fromHtml(text.substring(0, 31)).toString();
 		else
-			return text;
+			return Html.fromHtml(text).toString();
 	}
 }

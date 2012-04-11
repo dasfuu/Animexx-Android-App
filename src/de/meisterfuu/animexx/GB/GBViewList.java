@@ -7,11 +7,13 @@ import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 
@@ -21,6 +23,7 @@ public class GBViewList extends ListActivity {
 	JSONArray GBlist;
 	GBObject[] temp;
 	String id2, username;
+	Context con;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -29,7 +32,7 @@ public class GBViewList extends ListActivity {
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(43);
-		
+		con = this;
 
 		typ = "an";
 		if (this.getIntent().hasExtra("id")) {
@@ -59,8 +62,34 @@ public class GBViewList extends ListActivity {
 
 	private void setlist(GBAdapter a) {
 		setListAdapter(a);
-
+		
 		ListView lv = getListView();
+
+		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
+					long id) {
+					GBPopUp Menu = new GBPopUp(con, temp[pos].von,
+							temp[pos].von_id, temp[pos].entry_id,
+							temp[pos].text);
+					Menu.PopUp();
+				return true;
+			}
+		});
+
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int pos, long id) {
+				Bundle bundle = new Bundle();
+				bundle.putString("von", temp[pos].von);
+				bundle.putString("von_id", temp[pos].von_id);
+				bundle.putString("id", temp[pos].entry_id);
+				bundle.putString("text", temp[pos].text);
+				Intent newIntent = new Intent(con.getApplicationContext(),
+					GBViewSingle.class);
+				newIntent.putExtras(bundle);
+				con.startActivity(newIntent);
+			}
+		});
 	}
 
 	private GBObject[] getGBlist() {
