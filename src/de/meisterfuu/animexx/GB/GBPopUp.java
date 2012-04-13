@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.ENS.ENSSingle;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class GBPopUp{

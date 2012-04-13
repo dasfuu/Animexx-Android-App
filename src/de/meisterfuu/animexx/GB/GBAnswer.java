@@ -80,5 +80,10 @@ public class GBAnswer extends Activity  implements UpDateUI {
 		dialog.dismiss();
 		Request.doToast("Senden gescheitert!", getApplicationContext());
 	}
+	
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

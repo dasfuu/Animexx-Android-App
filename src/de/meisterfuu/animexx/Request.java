@@ -76,6 +76,19 @@ public class Request {
 
 		return ens;
 	}
+	
+	
+	public static boolean RemoveENS(String id, String anvon){
+		try{
+		JSONObject jsonResponse = new JSONObject(makeSecuredReq("https://ws.animexx.de/json/ens/ens_move/?ens_ids[]="
+				+ id + "&vonan="+ anvon +"&zielordner=3&api=2"));
+		if(jsonResponse.getBoolean("success") == true) return true; else return false;
+			
+		} catch(Exception e){
+			return false;
+		}
+
+	}
 
 	public static int[] GetUser(String[] Names) throws Exception {
 

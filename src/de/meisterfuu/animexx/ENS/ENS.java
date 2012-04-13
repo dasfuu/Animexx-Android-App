@@ -54,31 +54,7 @@ public class ENS extends ListActivity implements UpDateUI {
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(42);
 
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
-		if (ordner == "1") {
-			HttpGet[] HTTPs = new HttpGet[2];
-			try {
-				HTTPs[0] = Request
-						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
-								+ ordner + "&ordner_typ=" + typ + "&api=2");
-				HTTPs[1] = Request
-						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
-								+ typ + "&api=2");
-				new TaskRequest(this).execute(HTTPs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			HttpGet[] HTTPs = new HttpGet[1];
-			try {
-				HTTPs[0] = Request
-						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
-								+ ordner + "&ordner_typ=" + typ + "&api=2");
-				new TaskRequest(this).execute(HTTPs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		refresh();
 
 	}
 
@@ -94,7 +70,7 @@ public class ENS extends ListActivity implements UpDateUI {
 				if (pos >= offset) {
 					ENSPopUp Menu = new ENSPopUp(con, temp[pos].von,
 							temp[pos].von_id, temp[pos].ENS_id,
-							temp[pos].betreff);
+							temp[pos].betreff, typ, 1);
 					Menu.PopUp();
 				}
 
@@ -207,6 +183,39 @@ public class ENS extends ListActivity implements UpDateUI {
 	public void DoError() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
+		if (ordner == "1") {
+			HttpGet[] HTTPs = new HttpGet[2];
+			try {
+				HTTPs[0] = Request
+						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
+								+ ordner + "&ordner_typ=" + typ + "&api=2");
+				HTTPs[1] = Request
+						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
+								+ typ + "&api=2");
+				new TaskRequest(this).execute(HTTPs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			HttpGet[] HTTPs = new HttpGet[1];
+			try {
+				HTTPs[0] = Request
+						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
+								+ ordner + "&ordner_typ=" + typ + "&api=2");
+				new TaskRequest(this).execute(HTTPs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void onNewIntent(Intent intent){
+		refresh();
 	}
 
 }

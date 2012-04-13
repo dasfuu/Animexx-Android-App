@@ -129,5 +129,10 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 		// TODO Auto-generated method stub
 
 	}
+	
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
