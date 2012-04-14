@@ -9,6 +9,7 @@ import java.util.List;
 import oauth.signpost.OAuth;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
+import oauth.signpost.http.HttpRequest;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -378,6 +379,9 @@ public class Request {
 
 		return s;
 	}
+	
+	
+
 
 	// HttpPost request = new HttpPost(url);
 	// HttpParameters para = new HttpParameters();

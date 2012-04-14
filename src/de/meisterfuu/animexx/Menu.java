@@ -2,6 +2,7 @@ package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
+import de.meisterfuu.animexx.other.KaroTaler;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +24,15 @@ public class Menu extends Activity {
 		setContentView(R.layout.menu2);
 		listView = (ListView) findViewById(R.id.mylist);
 		setlist();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent intent2 = new Intent();
+		intent2.setAction("de.meisterfuu.animexx.karotaler");
+		intent2.putExtra("action", "stats" ); 
+		sendBroadcast(intent2);
 	}
 
 	// Anwendung "schließen" anstatt den LoginScreen zu öffnen

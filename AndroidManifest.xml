@@ -48,6 +48,7 @@
         <activity android:name=".ENS.ENSMenu" android:screenOrientation="portrait"></activity>
         <activity android:name=".profil.UserSteckbrief" android:screenOrientation="portrait"></activity>
         <activity android:name=".GB.GBViewList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".other.KaroTalerAlert" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"></activity>
         <activity android:name=".GB.GBViewSingle" android:screenOrientation="portrait"></activity>
         <activity android:name=".GB.GBAnswer" android:screenOrientation="portrait"></activity>
         <activity android:name=".other.Settings" android:screenOrientation="portrait"></activity>
@@ -68,6 +69,11 @@
       <receiver android:name=".ENSNotify" android:permission="de.meisterfuu.animexx.permission.ENS_NOTIFY">
             <intent-filter>
             <action android:name="de.meisterfuu.animexx.ensnotify" />
+            </intent-filter>
+        </receiver>
+         <receiver android:name=".other.KaroTaler">
+            <intent-filter>
+            <action android:name="de.meisterfuu.animexx.karotaler" />
             </intent-filter>
         </receiver>
     </application>

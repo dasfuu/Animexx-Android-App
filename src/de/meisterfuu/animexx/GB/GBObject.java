@@ -6,9 +6,7 @@ public class GBObject {
 	public String text, an, von, von_id, an_id, entry_id, time, avatar;
 	public int typ;
 
-	public GBObject() {
 
-	}
 
 	public GBObject(String text, String id, String von, String von_id,
 			String time, String avatar) {
@@ -22,10 +20,19 @@ public class GBObject {
 		else
 			this.avatar = "";
 	}
+	
+	public GBObject() {
+		this.text = "Leer";
+		this.entry_id = "-1";
+		this.von = "";
+		this.von_id = "";
+		this.time = "";
+		this.avatar = "";
+	}
 
 	public String getEinleitung() {
 		if (text.length() >= 32)
-			return Html.fromHtml(text.substring(0, 31)).toString();
+			return Html.fromHtml(text.substring(0, 32)).toString();
 		else
 			return Html.fromHtml(text).toString();
 	}
