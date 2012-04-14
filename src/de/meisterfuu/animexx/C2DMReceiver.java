@@ -32,7 +32,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 		if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventENS")) {
 			String von = intent.getExtras().getString("from_username");
-			notify("Neue ENS von " + von, "Neue ENS", context, 42);
+			notifyENS("Neue ENS von " + von, "Neue ENS", context, 42);
 
 		} else if (intent.getExtras().getString("type")
 				.equalsIgnoreCase("XXEventGaestebuch")) {
@@ -48,8 +48,8 @@ public class C2DMReceiver extends BroadcastReceiver {
 					url);
 
 		} else {
-			notifyURL("Es ist etwas passiert, nur was? 42!",
-					"Unbekanntes Event! 42!", context, 666, "http://animexx.de");
+			notifyURL("Es ist etwas passiert, nur was?",
+					"Event 42!", context, 666, "http://animexx.de");
 		}
 
 	}
@@ -86,83 +86,70 @@ public class C2DMReceiver extends BroadcastReceiver {
 		}
 	}
 
-	private void notify(String s, String title, Context context, int id) {
-		mManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+	private void notifyENS(String s, String title, Context context, int id) {
+		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
-		int icon = R.drawable.notification_icon; // icon from resources
-		CharSequence tickerText = s; // ticker-text
-		long when = System.currentTimeMillis(); // notification time
-		CharSequence contentTitle = title; // message title
-		CharSequence contentText = s; // message text
+		int icon = R.drawable.notification_icon; 	// icon from resources
+		CharSequence tickerText = s; 				// ticker-text
+		long when = System.currentTimeMillis(); 	// notification time
+		CharSequence contentTitle = title; 			// message title
+		CharSequence contentText = s; 				// message text
 
 		Intent intent = new Intent(context, ENS.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-				intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
-		notification.setLatestEventInfo(context, contentTitle, contentText,
-				contentIntent);
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		// notification.defaults |= Notification.DEFAULT_SOUND;
-		notification.sound = Uri.parse(Request.config.getString(
-				"ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));
+		notification.sound = Uri.parse(Request.config.getString("ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
 
 	private void notifyURL(String s, String title, Context context, int id,
 			String URL) {
-		mManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
-		int icon = R.drawable.notification_icon; // icon from resources
-		CharSequence tickerText = s; // ticker-text
-		long when = System.currentTimeMillis(); // notification time
-		CharSequence contentTitle = title; // message title
-		CharSequence contentText = s; // message text
+		int icon = R.drawable.notification_icon; 	// icon from resources
+		CharSequence tickerText = s; 				// ticker-text
+		long when = System.currentTimeMillis(); 	// notification time
+		CharSequence contentTitle = title;			// message title
+		CharSequence contentText = s; 				// message text
 
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
-				| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-				intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP	| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
-		notification.setLatestEventInfo(context, contentTitle, contentText,
-				contentIntent);
-		notification.sound = Uri.parse(Request.config.getString("ringtonePref",
-				"DEFAULT_NOTIFICATION_URI"));
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
 
 	private void notifyGB(String s, String title, Context context, int id) {
-		mManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
-		int icon = R.drawable.notification_icon; // icon from resources
-		CharSequence tickerText = s; // ticker-text
-		long when = System.currentTimeMillis(); // notification time
-		CharSequence contentTitle = title; // message title
-		CharSequence contentText = s; // message text
+		int icon = R.drawable.notification_icon; 	// icon from resources
+		CharSequence tickerText = s; 				// ticker-text
+		long when = System.currentTimeMillis();		// notification time
+		CharSequence contentTitle = title; 			// message title
+		CharSequence contentText = s; 				// message text
 
 		Intent intent = new Intent(context, GBViewList.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-				intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
-		notification.setLatestEventInfo(context, contentTitle, contentText,
-				contentIntent);
-		notification.sound = Uri.parse(Request.config.getString("ringtonePref",
-				"DEFAULT_NOTIFICATION_URI"));
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
