@@ -35,7 +35,7 @@ public class Menu extends Activity {
 		sendBroadcast(intent2);
 	}
 
-	// Anwendung "schließen" anstatt den LoginScreen zu öffnen
+
 	@Override
 	public void onBackPressed() {
 		Intent startMain = new Intent(Intent.ACTION_MAIN);
