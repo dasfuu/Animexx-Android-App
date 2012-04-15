@@ -53,6 +53,12 @@
         <activity android:name=".GB.GBAnswer" android:screenOrientation="portrait"></activity>
         <activity android:name=".other.Settings" android:screenOrientation="portrait"></activity>
         <activity android:name=".TableView"></activity>
+        <activity android:name=".other.SharePictureENS" android:screenOrientation="portrait">
+        <intent-filter>
+				<action android:name="android.intent.action.SEND" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data android:mimeType="image/*" />
+		</intent-filter></activity>
         <service android:enabled="true" android:name=".ENS.ENSService" />        
         <receiver android:name=".C2DMReceiver" android:permission="com.google.android.c2dm.permission.SEND">
           <!-- Receive the actual message -->

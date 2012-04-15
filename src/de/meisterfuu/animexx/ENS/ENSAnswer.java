@@ -31,14 +31,19 @@ public class ENSAnswer extends Activity {
 		Send = (Button) findViewById(R.id.BtSend);
 
 		if (this.getIntent().hasExtra("betreff")) {
-			Bundle bundle = this.getIntent().getExtras();
-			xBetreff = bundle.getString("betreff");
-			xAn = bundle.getString("an");
-			xRelativ = bundle.getString("relativ");
+			xBetreff = this.getIntent().getStringExtra("betreff");
 		}
 
+		if (this.getIntent().hasExtra("an")) {
+			xAn = this.getIntent().getStringExtra("an");
+		}
+		
 		if (this.getIntent().hasExtra("relativ")) {
 			xRelativ = this.getIntent().getStringExtra("relativ");
+		}
+		
+		if (this.getIntent().hasExtra("msg")) {
+			Nachricht.setText(this.getIntent().getStringExtra("msg"));
 		}
 
 		Betreff.setText(xBetreff);
