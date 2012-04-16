@@ -2,7 +2,6 @@ package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
-import de.meisterfuu.animexx.other.KaroTaler;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class Menu extends Activity {
 	// private SharedPreferences config;
 	static final String[] List = new String[] { "ENS", "News",
-			"Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About" };
+			"Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About"};
 	ListView listView;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,15 +23,16 @@ public class Menu extends Activity {
 		setContentView(R.layout.menu2);
 		listView = (ListView) findViewById(R.id.mylist);
 		setlist();
+		Intent intent2 = new Intent();
+		intent2.setAction("de.meisterfuu.animexx.karotaler");
+		intent2.putExtra("action", "stats" ); 
+		intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		sendBroadcast(intent2);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Intent intent2 = new Intent();
-		intent2.setAction("de.meisterfuu.animexx.karotaler");
-		intent2.putExtra("action", "stats" ); 
-		sendBroadcast(intent2);
 	}
 
 

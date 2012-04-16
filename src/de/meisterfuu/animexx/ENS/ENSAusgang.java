@@ -116,9 +116,8 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			if ((ENSlist.length() + offset) > 0) {
 				ENSa = new ENSObject[(ENSlist.length() + offset)];
 			} else {
-				ENSa = new ENSObject[1];
-				ENSa[0] = new ENSObject("Leer :/", "" + folder, 99, 0);
-				offset += 1;
+				Request.doToast("Ordner leer!", getApplicationContext());
+				return new ENSObject[] {};
 			}
 
 			if (JSON.length > 1) {
@@ -157,8 +156,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			e.printStackTrace();
 		}
 
-		return new ENSObject[] { new ENSObject("", "Fehler beim Abrufen", "",
-				"", "", "", 10, 0, 0, 0, "0", -1, 0) };
+		return new ENSObject[] {};
 	}
 
 	public void UpDateUi(String[] s) {

@@ -151,7 +151,7 @@ public class SharePictureENS extends Activity{
 			if(result[0].equalsIgnoreCase("Bild erfolgreich hochgeladen!")){
 				
 				Bundle bundle2 = new Bundle();
-				bundle2.putString("msg", result[1]);
+				bundle2.putString("msg", "Ich habe etwas interessantes für dich bei Imgur hochgeladen: \n"+result[1]);
 				Intent newIntent = new Intent(getApplicationContext(),
 						ENSAnswer.class);
 				newIntent.putExtras(bundle2);

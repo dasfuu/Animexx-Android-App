@@ -104,21 +104,29 @@ public class GBViewList extends ListActivity {
 			if (GBlist.length() != 0) {
 				for (int i = 0; i < GBlist.length(); i++) {
 					JSONObject tempo = GBlist.getJSONObject(i);
+					String von = "---";
+					try{
+						von = tempo.getJSONObject("von")
+						.getString("username");
+					}catch(Exception e){
+						von = "---";
+					}
 					GBa[i] = new GBObject(tempo.getString("text_html"),
-							tempo.getString("id"), tempo.getJSONObject("von")
-									.getString("username"), tempo
+							tempo.getString("id"), von , tempo
 									.getJSONObject("von").getString("id"),
 							tempo.getString("datum_server"),
 							tempo.getString("avatar"));
 				}
-			} else
-				return new GBObject[] { new GBObject() };
+			} else {
+				Request.doToast("Ordner leer!", getApplicationContext());
+				return new GBObject[] {};
+			}
 			temp = GBa;
 			return temp;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new GBObject[] { new GBObject() };
+		return new GBObject[] {};
 	}
 
 }

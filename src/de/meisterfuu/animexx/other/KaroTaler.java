@@ -4,10 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.meisterfuu.animexx.Request;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +37,7 @@ public class KaroTaler extends BroadcastReceiver{
 			JSONObject a = new JSONObject(Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_statistik/?api=2"));
 			JSONArray ab = a.getJSONObject("return").getJSONArray("kt_abholbar");
 			if(ab.length() > 0){
-				abholbar = ab.getInt(0);
+				abholbar = ab.getJSONObject(0).getInt("kt");
 			} else {
 				abholbar = 0;
 			}
