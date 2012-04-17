@@ -8,6 +8,7 @@ import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.UserObject;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -54,9 +55,9 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
 					long id) {
 				if (pos >= offset) {
-					ENSPopUp Menu = new ENSPopUp(con, temp[pos].von,
-							temp[pos].von_id, temp[pos].ENS_id,
-							temp[pos].betreff, typ, 2);
+					ENSPopUp Menu = new ENSPopUp(con, temp[pos].getVon().getUsername(),
+							temp[pos].getVon().getId(), temp[pos].getENS_id(),
+							temp[pos].getBetreff(), typ, 1);
 					Menu.PopUp();
 				}
 
@@ -71,7 +72,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				String i = "-1";
 				if (position < offset) {
 					i = "2";
-					i = temp[position].ENS_id;
+					i = temp[position].getENS_id();
 					// Request.doToast(""+i, getApplicationContext());
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
@@ -80,7 +81,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				} else {
-					i = temp[position].ENS_id;
+					i = temp[position].getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
 					Intent newIntent = new Intent(getApplicationContext(),
@@ -123,30 +124,28 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			if (JSON.length > 1) {
 				if (FolderList.length() != 0) {
 					for (int i = 0; i < FolderList.length() - 2; i++) {
-						ENSa[i] = new ENSObject(FolderList.getJSONObject(i + 2)
-								.getString("name"), FolderList.getJSONObject(
-								i + 2).getString("ordner_id"), 99, 0);
+						ENSa[i].setBetreff(FolderList.getJSONObject(i+2).getString("name"));
+						ENSa[i].setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
+						ENSa[i].setTyp(99);
+						ENSa[i].setOrdner(folder);
 					}
 				}
 			}
 
 			if (ENSlist.length() != 0) {
 				for (int i = 0; i < ENSlist.length(); i++) {
-					ENSa[i + offset] = new ENSObject(
-							"//",
-							ENSlist.getJSONObject(i).getString("betreff"),
-							ENSlist.getJSONObject(i).getJSONObject("von")
-									.getString("username"),
-							ENSlist.getJSONObject(i).getJSONObject("von")
-									.getString("id"),
-							"//",
-							ENSlist.getJSONObject(i).getString("datum_server")/*
-																			 * <--
-																			 * TIME
-																			 */,
-							3, 0, 0, 0, ENSlist.getJSONObject(i)
-									.getString("id"), ENSlist.getJSONObject(i)
-									.getInt("typ"), folder);
+					ENSa[i+offset].setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
+					ENSa[i+offset].setTime(ENSlist.getJSONObject(i).getString("datum_server"));
+					
+					UserObject von = new UserObject();
+					von.setId(ENSlist.getJSONObject(i).getJSONObject("von").getString("id"));
+					von.setUsername(ENSlist.getJSONObject(i).getJSONObject("von").getString("username"));
+					ENSa[i+offset].setVon(von);
+					
+					ENSa[i+offset].setFlags(2);
+					ENSa[i+offset].setENS_id(ENSlist.getJSONObject(i).getString("id"));
+					ENSa[i+offset].setTyp(ENSlist.getJSONObject(i).getInt("typ"));
+					ENSa[i+offset].setOrdner(folder);
 				}
 			}
 

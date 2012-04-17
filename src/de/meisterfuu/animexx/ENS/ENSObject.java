@@ -1,35 +1,127 @@
 package de.meisterfuu.animexx.ENS;
 
+import java.util.ArrayList;
+
+import de.meisterfuu.animexx.other.UserObject;
+
 public class ENSObject {
-	public String text, betreff, von, signatur, ENS_id, time, von_id;
-	public int flag, referenz, konversation, id, typ, ordner;
+	private String Betreff, Signatur, ENS_id, Time;
+	private String Text = "";
+	private int Flags, Referenz, Konversation, id, Ordner, Typ;
+	private UserObject von;
+	private ArrayList<UserObject> an = new ArrayList<UserObject>();
 
 	public ENSObject() {
-
+		
+	}
+	
+	public void addAnUser(UserObject user){
+		this.an.add(user);
+	}
+	
+	public UserObject getAnUser(int i){
+		return this.an.get(i);
+	}
+	
+	public UserObject[] getAnArray(){
+		return this.an.toArray(null);
 	}
 
-	public ENSObject(String text, String betreff, String von, String von_id,
-			String signatur, String time, int flag, int referenz,
-			int konversation, int id, String ENS_id, int typ, int ordner) {
-		this.text = text;
-		this.betreff = betreff;
-		this.von = von;
-		this.von_id = von_id;
-		this.signatur = signatur;
-		this.time = time;
-		this.flag = flag;
-		this.referenz = referenz;
-		this.konversation = konversation;
+	public String getText() {
+		return Text;
+	}
+
+	public void setText(String text) {
+		Text = text;
+	}
+
+	public String getBetreff() {
+		return Betreff;
+	}
+
+	public void setBetreff(String betreff) {
+		Betreff = betreff;
+	}
+
+	public String getSignatur() {
+		return Signatur;
+	}
+
+	public void setSignatur(String signatur) {
+		Signatur = signatur;
+	}
+
+	public String getENS_id() {
+		return ENS_id;
+	}
+
+	public void setENS_id(String eNS_id) {
+		ENS_id = eNS_id;
+	}
+
+	public String getTime() {
+		return Time;
+	}
+
+	public void setTime(String time) {
+		Time = time;
+	}
+
+	public int getFlags() {
+		return Flags;
+	}
+
+	public void setFlags(int flags) {
+		Flags = flags;
+	}
+
+	public int getReferenz() {
+		return Referenz;
+	}
+
+	public void setReferenz(int referenz) {
+		Referenz = referenz;
+	}
+
+	public int getKonversation() {
+		return Konversation;
+	}
+
+	public void setKonversation(int konversation) {
+		Konversation = konversation;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
 		this.id = id;
-		this.ENS_id = ENS_id;
-		this.typ = typ;
-		this.ordner = ordner;
 	}
 
-	public ENSObject(String text, String id, int typ, int ordner) {
-		this.betreff = text;
-		this.ENS_id = id;
-		this.typ = typ;
-		this.ordner = ordner;
+	public int getOrdner() {
+		return Ordner;
 	}
+
+	public void setOrdner(int ordner) {
+		Ordner = ordner;
+	}
+
+	public int getTyp() {
+		return Typ;
+	}
+
+	public void setTyp(int typ) {
+		Typ = typ;
+	}
+
+	public UserObject getVon() {
+		return von;
+	}
+
+	public void setVon(UserObject von) {
+		this.von = von;
+	}
+
+
 }

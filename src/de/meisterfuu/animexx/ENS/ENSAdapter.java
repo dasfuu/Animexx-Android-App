@@ -39,13 +39,13 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		ENSObject s = names[position];
-		holder.text.setText(s.betreff);
-		if (s.typ == 99) {
+		holder.text.setText(s.getBetreff());
+		if (s.getTyp() == 99) {
 			holder.image.setImageResource(R.drawable.folder);
 			holder.txinfo.setText("  ");
 		} else {
-			holder.txinfo.setText("Von " + s.von + " am " + s.time);
-			String flag = Integer.toBinaryString(s.flag);
+			holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
+			String flag = Integer.toBinaryString(s.getFlags());
 
 			if (flag.charAt(flag.length() - 1) == '0') {
 				holder.image.setImageResource(R.drawable.unseenmail);

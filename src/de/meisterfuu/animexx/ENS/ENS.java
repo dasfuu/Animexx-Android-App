@@ -8,6 +8,7 @@ import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.UserObject;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -32,8 +33,9 @@ public class ENS extends ListActivity implements UpDateUI {
 
 	String typ;
 	AlertDialog alertDialog;
-	JSONArray ENSlist, FolderList;
+
 	ENSObject[] temp;
+	ENSObject[] FolderList;
 	String ordner = "1";
 	Integer offset = 0;
 	ProgressDialog dialog;
@@ -68,9 +70,9 @@ public class ENS extends ListActivity implements UpDateUI {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
 					long id) {
 				if (pos >= offset) {
-					ENSPopUp Menu = new ENSPopUp(con, temp[pos].von,
-							temp[pos].von_id, temp[pos].ENS_id,
-							temp[pos].betreff, typ, 1);
+					ENSPopUp Menu = new ENSPopUp(con, temp[pos].getVon().getUsername(),
+							temp[pos].getVon().getId(), temp[pos].getENS_id(),
+							temp[pos].getBetreff(), typ, 1);
 					Menu.PopUp();
 				}
 
@@ -85,7 +87,7 @@ public class ENS extends ListActivity implements UpDateUI {
 				String i = "-1";
 				if (position < offset) {
 					i = "1";
-					i = temp[position].ENS_id;
+					i = temp[position].getENS_id();
 					// Request.doToast(""+i, getApplicationContext());
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
@@ -94,7 +96,7 @@ public class ENS extends ListActivity implements UpDateUI {
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				} else {
-					i = temp[position].ENS_id;
+					i = temp[position].getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
 					Intent newIntent = new Intent(getApplicationContext(),
@@ -109,18 +111,16 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 
 	private ENSObject[] getENSlist(String[] JSON, int folder) {
+
 		try {
-			// JSONObject jsonResponse = new
-			// JSONObject(Request.makeSecuredReq("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="+folder+"&ordner_typ="+typ+"&api=2"));
+			JSONArray ENSlist, FolderList = null;
+			
 			JSONObject jsonResponse = new JSONObject(JSON[0]);
 			ENSlist = jsonResponse.getJSONArray("return");
 
 			if (JSON.length > 1) {
-				// JSONObject jsonResponse2 = new
-				// JSONObject(Request.makeSecuredReq("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="+typ+"&api=2"));
-				JSONObject jsonResponse2 = new JSONObject(JSON[1]);
-				FolderList = jsonResponse2.getJSONObject("return")
-						.getJSONArray("an");
+				jsonResponse = new JSONObject(JSON[1]);
+				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");
 				offset = FolderList.length() - 2;
 			} else {
 				offset = 0;
@@ -136,31 +136,29 @@ public class ENS extends ListActivity implements UpDateUI {
 
 			if (JSON.length > 1) {
 				if (FolderList.length() != 0) {
-					for (int i = 0; i < FolderList.length() - 2; i++) {
-						ENSa[i] = new ENSObject(FolderList.getJSONObject(i + 2)
-								.getString("name"), FolderList.getJSONObject(
-								i + 2).getString("ordner_id"), 99, 0);
+					for (int i = 0; i < FolderList.length() - 2; i++) {						
+						ENSa[i].setBetreff(FolderList.getJSONObject(i+2).getString("name"));
+						ENSa[i].setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
+						ENSa[i].setTyp(99);
+						ENSa[i].setOrdner(folder);
 					}
 				}
 			}
 
 			if (ENSlist.length() != 0) {
 				for (int i = 0; i < ENSlist.length(); i++) {
-					ENSa[i + offset] = new ENSObject(
-							"//",
-							ENSlist.getJSONObject(i).getString("betreff"),
-							ENSlist.getJSONObject(i).getJSONObject("von")
-									.getString("username"),
-							ENSlist.getJSONObject(i).getJSONObject("von")
-									.getString("id"),
-							"//",
-							ENSlist.getJSONObject(i).getString("datum_server")/*
-																			 * <--
-																			 * TIME
-																			 */,
-							ENSlist.getJSONObject(i).getInt("an_flags"), 0, 0,
-							0, ENSlist.getJSONObject(i).getString("id"),
-							ENSlist.getJSONObject(i).getInt("typ"), folder);
+					ENSa[i+offset].setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
+					ENSa[i+offset].setTime(ENSlist.getJSONObject(i).getString("datum_server"));
+					
+					UserObject von = new UserObject();
+					von.setId(ENSlist.getJSONObject(i).getJSONObject("von").getString("id"));
+					von.setUsername(ENSlist.getJSONObject(i).getJSONObject("von").getString("username"));
+					ENSa[i+offset].setVon(von);
+					
+					ENSa[i+offset].setFlags(ENSlist.getJSONObject(i).getInt("an_flags"));
+					ENSa[i+offset].setENS_id(ENSlist.getJSONObject(i).getString("id"));
+					ENSa[i+offset].setTyp(ENSlist.getJSONObject(i).getInt("typ"));
+					ENSa[i+offset].setOrdner(folder);
 				}
 			}
 
@@ -186,9 +184,12 @@ public class ENS extends ListActivity implements UpDateUI {
 	public void refresh() {
 		// TODO Auto-generated method stub
 		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
+		try {
+			
+		
 		if (ordner == "1") {
 			HttpGet[] HTTPs = new HttpGet[2];
-			try {
+
 				HTTPs[0] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
 								+ ordner + "&ordner_typ=" + typ + "&api=2");
@@ -196,19 +197,18 @@ public class ENS extends ListActivity implements UpDateUI {
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
 								+ typ + "&api=2");
 				new TaskRequest(this).execute(HTTPs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		} else {
 			HttpGet[] HTTPs = new HttpGet[1];
-			try {
+
 				HTTPs[0] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
 								+ ordner + "&ordner_typ=" + typ + "&api=2");
 				new TaskRequest(this).execute(HTTPs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		}
+			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
