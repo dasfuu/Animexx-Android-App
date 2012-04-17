@@ -3,6 +3,8 @@ package de.meisterfuu.animexx.other;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class UserObject {
 
 	private String id, username;

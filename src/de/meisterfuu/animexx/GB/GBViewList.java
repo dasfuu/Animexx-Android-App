@@ -105,6 +105,7 @@ public class GBViewList extends ListActivity {
 			if (GBlist.length() != 0) {
 				for (int i = 0; i < GBlist.length(); i++) {
 					JSONObject tp = GBlist.getJSONObject(i);	
+					GBa[i] = new GBObject();
 					
 					UserObject von = new UserObject();
 					von.ParseJSON(tp.getJSONObject("von"));

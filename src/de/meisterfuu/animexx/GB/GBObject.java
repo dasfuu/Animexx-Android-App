@@ -2,6 +2,7 @@ package de.meisterfuu.animexx.GB;
 
 import de.meisterfuu.animexx.other.UserObject;
 import android.text.Html;
+import android.util.Log;
 
 public class GBObject {
 	private String text, entry_id, time, avatar;

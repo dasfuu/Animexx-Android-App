@@ -44,7 +44,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 
 		holder.image.setImageDrawable(s.getAvatar());
 		holder.text.setText(s.getEinleitung());
-		holder.info.setText(s.getVon()+" am "+s.getTime());
+		holder.info.setText(s.getVon().getUsername()+" am "+s.getTime());
 		
 		if(!s.getVon().getId().equals("none")){
 			holder.info.setOnClickListener(new View.OnClickListener() {
