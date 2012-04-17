@@ -46,10 +46,10 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		holder.text.setText(s.getEinleitung());
 		holder.info.setText(s.getVon()+" am "+s.getTime());
 		
-		if(!s.getVon_id().equals("none")){
+		if(!s.getVon().getId().equals("none")){
 			holder.info.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					UserPopUp Menu = new UserPopUp(context, s.getVon(), s.getVon_id());
+					UserPopUp Menu = new UserPopUp(context, s.getVon().getUsername(), s.getVon().getId());
 					Menu.PopUp();
 				}
 			});

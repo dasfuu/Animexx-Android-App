@@ -140,9 +140,14 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					ENSa[i+offset].setTime(ENSlist.getJSONObject(i).getString("datum_server"));
 					
 					UserObject von = new UserObject();
-					von.setId(ENSlist.getJSONObject(i).getJSONObject("von").getString("id"));
-					von.setUsername(ENSlist.getJSONObject(i).getJSONObject("von").getString("username"));
+					von.ParseJSON(ENSlist.getJSONObject(i).getJSONObject("von"));
 					ENSa[i+offset].setVon(von);
+					
+					for(int z = 0; z < ENSlist.getJSONObject(i).getJSONArray("an").length(); z++){
+						UserObject an = new UserObject();
+						an.ParseJSON(ENSlist.getJSONObject(i).getJSONArray("an").getJSONObject(z));
+						ENSa[i+offset].addAnUser(an);
+					}
 					
 					ENSa[i+offset].setFlags(2);
 					ENSa[i+offset].setENS_id(ENSlist.getJSONObject(i).getString("id"));

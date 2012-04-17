@@ -1,11 +1,30 @@
 package de.meisterfuu.animexx.other;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class UserObject {
 
-	private String id, username, SteckbriefFreigabe;
+	private String id, username;
+	private boolean SteckbriefFreigabe;
+	
+	public void ParseJSON(JSONObject user){
+		//Fehler durch abgemeldete User abfangen
+		try {
+			setId(user.getString("id"));
+			setUsername(user.getString("username"));
+			setSteckbriefFreigabe(user.getBoolean("steckbrief_freigabe"));
+		} catch (JSONException e) {
+			setId("none");
+			setUsername("Abgemeldet");
+			setSteckbriefFreigabe(false);
+		}
+	}
 	
 	public UserObject() {
-
+		setId("none");
+		setUsername("Abgemeldet");
+		setSteckbriefFreigabe(false);
 	}
 
 	public String getId() {
@@ -24,11 +43,11 @@ public class UserObject {
 		this.username = username;
 	}
 
-	public String getSteckbriefFreigabe() {
+	public boolean getSteckbriefFreigabe() {
 		return SteckbriefFreigabe;
 	}
 
-	public void setSteckbriefFreigabe(String steckbriefFreigabe) {
+	public void setSteckbriefFreigabe(boolean steckbriefFreigabe) {
 		SteckbriefFreigabe = steckbriefFreigabe;
 	}
 	

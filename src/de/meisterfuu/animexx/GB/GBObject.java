@@ -1,18 +1,20 @@
 package de.meisterfuu.animexx.GB;
 
+import de.meisterfuu.animexx.other.UserObject;
 import android.text.Html;
 
 public class GBObject {
-	private String text, an, von, von_id, an_id, entry_id, time, avatar;
+	private String text, entry_id, time, avatar;
 	private int typ;
+	private UserObject An,Von;
 	
 	public GBObject() {
 		this.text = "";
 		this.entry_id = "";
-		this.von = "";
-		this.von_id = "";
 		this.time = "";
 		this.avatar = "";
+		An = new UserObject();
+		Von = new UserObject();
 	}
 	
 	public GBObject(boolean i) {
@@ -33,38 +35,6 @@ public class GBObject {
 
 	public void setText(String text) {
 		this.text = text;
-	}
-
-	public String getAn() {
-		return an;
-	}
-
-	public void setAn(String an) {
-		this.an = an;
-	}
-
-	public String getVon() {
-		return von;
-	}
-
-	public void setVon(String von) {
-		this.von = von;
-	}
-
-	public String getVon_id() {
-		return von_id;
-	}
-
-	public void setVon_id(String von_id) {
-		this.von_id = von_id;
-	}
-
-	public String getAn_id() {
-		return an_id;
-	}
-
-	public void setAn_id(String an_id) {
-		this.an_id = an_id;
 	}
 
 	public String getEntry_id() {
@@ -100,5 +70,21 @@ public class GBObject {
 
 	public void setTyp(int typ) {
 		this.typ = typ;
+	}
+
+	public void setAn(UserObject an) {
+		An = an;
+	}
+
+	public void setVon(UserObject von) {
+		Von = von;
+	}
+
+	public UserObject getAn() {
+		return An;
+	}
+
+	public UserObject getVon() {
+		return Von;
 	}
 }
