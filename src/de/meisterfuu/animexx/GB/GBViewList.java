@@ -19,10 +19,10 @@ import de.meisterfuu.animexx.Request;
 
 public class GBViewList extends ListActivity {
 
-	String typ;
+	String typ = "an";
 	JSONArray GBlist;
-	GBObject[] temp;
-	String id2, username;
+	GBObject[] List;
+	String id, username;
 	Context con;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,32 +32,34 @@ public class GBViewList extends ListActivity {
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(43);
+		
 		con = this;
 
-		typ = "an";
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
-			id2 = bundle.getString("id");
+			id = bundle.getString("id");
 		} else {
-			id2 = Request.config.getString("id", "none");
-			username = "Dich!";
+			id = Request.config.getString("id", "none");
+			username = "Du!";
 		}
 
-		final GBViewList tempAPP = this;
-		final ProgressDialog dialog = ProgressDialog.show(tempAPP, "",
-				Constants.LOADING, true);
-		new Thread(new Runnable() {
-			public void run() {
-				final GBAdapter a;
-				a = new GBAdapter(tempAPP, getGBlist());
-				tempAPP.runOnUiThread(new Runnable() {
-					public void run() {
-						setlist(a);
-						dialog.dismiss();
-					}
-				});
-			}
-		}).start();
+		if(!id.equals("none")){
+			final GBViewList tempAPP = this;
+			final ProgressDialog dialog = ProgressDialog.show(tempAPP, "",
+					Constants.LOADING, true);
+			new Thread(new Runnable() {
+				public void run() {
+					final GBAdapter a;
+					a = new GBAdapter(tempAPP, getGBlist());
+					tempAPP.runOnUiThread(new Runnable() {
+						public void run() {
+							setlist(a);
+							dialog.dismiss();
+						}
+					});
+				}
+			}).start();
+		}
 	}
 
 	private void setlist(GBAdapter a) {
@@ -68,9 +70,9 @@ public class GBViewList extends ListActivity {
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
 					long id) {
-					GBPopUp Menu = new GBPopUp(con, temp[pos].von,
-							temp[pos].von_id, temp[pos].entry_id,
-							temp[pos].text);
+					GBPopUp Menu = new GBPopUp(con, List[pos].getVon(),
+							List[pos].getVon_id(), List[pos].getEntry_id(),
+							List[pos].getEinleitung());
 					Menu.PopUp();
 				return true;
 			}
@@ -80,10 +82,10 @@ public class GBViewList extends ListActivity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int pos, long id) {
 				Bundle bundle = new Bundle();
-				bundle.putString("von", temp[pos].von);
-				bundle.putString("von_id", temp[pos].von_id);
-				bundle.putString("id", temp[pos].entry_id);
-				bundle.putString("text", temp[pos].text);
+				bundle.putString("von", List[pos].getVon());
+				bundle.putString("von_id", List[pos].getVon_id());
+				bundle.putString("id", List[pos].getEntry_id());
+				bundle.putString("text", List[pos].getText());
 				Intent newIntent = new Intent(con.getApplicationContext(),
 					GBViewSingle.class);
 				newIntent.putExtras(bundle);
@@ -96,33 +98,37 @@ public class GBViewList extends ListActivity {
 		try {
 			JSONObject jsonResponse = new JSONObject(
 					Request.makeSecuredReq("https://ws.animexx.de/json/mitglieder/gaestebuch_lesen/?user_id="
-							+ id2 + "&text_format=html&api=2"));
-			GBlist = jsonResponse.getJSONObject("return").getJSONArray(
-					"eintraege");
+											+ id 
+											+ "&text_format=html&api=2"));
+			GBlist = jsonResponse.getJSONObject("return").getJSONArray("eintraege");
 			GBObject[] GBa = new GBObject[(GBlist.length())];
 
 			if (GBlist.length() != 0) {
 				for (int i = 0; i < GBlist.length(); i++) {
-					JSONObject tempo = GBlist.getJSONObject(i);
-					String von = "---";
+					JSONObject tp = GBlist.getJSONObject(i);	
+					
+					//Fehler durch nichtmehr angemeldete User abfangen
 					try{
-						von = tempo.getJSONObject("von")
-						.getString("username");
+						GBa[i].setVon(tp.getJSONObject("von").getString("username"));
+						GBa[i].setVon_id(tp.getJSONObject("von").getString("id"));
 					}catch(Exception e){
-						von = "---";
+						GBa[i].setVon("Abgemeldet");
+						GBa[i].setVon_id("none");
 					}
-					GBa[i] = new GBObject(tempo.getString("text_html"),
-							tempo.getString("id"), von , tempo
-									.getJSONObject("von").getString("id"),
-							tempo.getString("datum_server"),
-							tempo.getString("avatar"));
+					
+					GBa[i].setText(tp.getString("text_html"));
+					GBa[i].setEntry_id(tp.getString("id"));
+					GBa[i].setTime(tp.getString("datum_server"));
+					GBa[i].setAvatar(tp.getString("avatar"));
 				}
 			} else {
-				Request.doToast("Ordner leer!", getApplicationContext());
+				//Keine Einträge im Gästebuch
 				return new GBObject[] {};
 			}
-			temp = GBa;
-			return temp;
+			
+			List = GBa;
+			return List;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

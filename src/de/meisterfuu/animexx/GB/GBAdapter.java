@@ -41,32 +41,20 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		final GBObject s = names[position];
-		// String data =
-		// "<body><img src=\"file:///android_asset/large_image.png\"/></body>";
-		//if (s.avatar != "" && s.avatar != "null" && s.avatar != null)
-			holder.image.setImageDrawable(s.avatar);
-		//else
-		//	holder.image.setVisibility(View.GONE);
 
+		holder.image.setImageDrawable(s.getAvatar());
 		holder.text.setText(s.getEinleitung());
-		holder.info.setText(s.von+" am "+s.time);
+		holder.info.setText(s.getVon()+" am "+s.getTime());
 		
-		holder.info.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				UserPopUp Menu = new UserPopUp(context, s.von, s.von_id);
-				Menu.PopUp();
-
-				/*
-				 * Bundle bundle = new Bundle();
-				 * bundle.putString("id",s.von_id); Intent newIntent = new
-				 * Intent(context.getApplicationContext(), GBViewList.class);
-				 * newIntent.putExtras(bundle);
-				 * context.startActivity(newIntent);
-				 */
-
-			}
-		});
-
+		if(!s.getVon_id().equals("none")){
+			holder.info.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					UserPopUp Menu = new UserPopUp(context, s.getVon(), s.getVon_id());
+					Menu.PopUp();
+				}
+			});
+		}
+		
 		return rowView;
 	}
 }
