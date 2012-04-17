@@ -136,7 +136,8 @@ public class ENS extends ListActivity implements UpDateUI {
 
 			if (JSON.length > 1) {
 				if (FolderList.length() != 0) {
-					for (int i = 0; i < FolderList.length() - 2; i++) {						
+					for (int i = 0; i < FolderList.length() - 2; i++) {	
+						ENSa[i] = new ENSObject();
 						ENSa[i].setBetreff(FolderList.getJSONObject(i+2).getString("name"));
 						ENSa[i].setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
 						ENSa[i].setTyp(99);
@@ -147,12 +148,18 @@ public class ENS extends ListActivity implements UpDateUI {
 
 			if (ENSlist.length() != 0) {
 				for (int i = 0; i < ENSlist.length(); i++) {
+					ENSa[i+offset] = new ENSObject();
 					ENSa[i+offset].setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
 					ENSa[i+offset].setTime(ENSlist.getJSONObject(i).getString("datum_server"));
 					
 					UserObject von = new UserObject();
-					von.setId(ENSlist.getJSONObject(i).getJSONObject("von").getString("id"));
-					von.setUsername(ENSlist.getJSONObject(i).getJSONObject("von").getString("username"));
+					try{
+						von.setId(ENSlist.getJSONObject(i).getJSONObject("von").getString("id"));
+						von.setUsername(ENSlist.getJSONObject(i).getJSONObject("von").getString("username"));
+					}catch(Exception e){
+						von.setId("none");
+						von.setUsername("Abgemeldet");	
+					}
 					ENSa[i+offset].setVon(von);
 					
 					ENSa[i+offset].setFlags(ENSlist.getJSONObject(i).getInt("an_flags"));
