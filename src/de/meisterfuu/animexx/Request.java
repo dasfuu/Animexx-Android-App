@@ -363,6 +363,7 @@ public class Request {
 		httpclient.getParams().setParameter(CoreProtocolPNames.USER_AGENT,
 				"Android App " + Constants.VERSION);
 		consumer.sign(r);
+		Log.i("Animexx", "Request : " + r.getURI());
 		HttpResponse response = httpclient.execute(r);
 		Log.i("Animexx", "Statusline : " + response.getStatusLine());
 		InputStream data = response.getEntity().getContent();

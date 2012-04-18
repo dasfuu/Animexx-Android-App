@@ -1,5 +1,7 @@
 package de.meisterfuu.animexx.ENS;
 
+import java.util.ArrayList;
+
 import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,6 +21,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -34,12 +38,18 @@ public class ENS extends ListActivity implements UpDateUI {
 	String typ;
 	AlertDialog alertDialog;
 
-	ENSObject[] temp;
-	ENSObject[] FolderList;
-	String ordner = "1";
-	Integer offset = 0;
+	//ENSObject[] temp;
+	//ENSObject[] FolderList;
+	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
+	String ordner;
+	int offset = 0;
 	ProgressDialog dialog;
 	Context con;
+	int max,maxf;
+	int page = 0;
+	int mPrevTotalItemCount = 0;
+	Boolean loading;
+	ENSAdapter adapter;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,16 +58,17 @@ public class ENS extends ListActivity implements UpDateUI {
 		if (this.getIntent().hasExtra("folder")) {
 			Bundle bundle = this.getIntent().getExtras();
 			ordner = bundle.getString("folder");
-		}
-
+		} else ordner = "1";
+		
 		con = this;
 
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(42);
-
+		
+		adapter = new ENSAdapter(this, ENSArray);
+		setlist(adapter);
 		refresh();
-
 	}
 
 	private void setlist(ENSAdapter a) {
@@ -67,12 +78,12 @@ public class ENS extends ListActivity implements UpDateUI {
 		ListView lv = getListView();
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
+			public boolean onItemLongClick(AdapterView<?> av, View v, int position,
 					long id) {
-				if (pos >= offset) {
-					ENSPopUp Menu = new ENSPopUp(con, temp[pos].getVon().getUsername(),
-							temp[pos].getVon().getId(), temp[pos].getENS_id(),
-							temp[pos].getBetreff(), typ, 1);
+				if (position >= offset) {
+					ENSPopUp Menu = new ENSPopUp(con, ENSArray.get(position).getVon().getUsername(),
+							ENSArray.get(position).getVon().getId(), ENSArray.get(position).getENS_id(),
+							ENSArray.get(position).getBetreff(), typ, 1);
 					Menu.PopUp();
 				}
 
@@ -87,8 +98,8 @@ public class ENS extends ListActivity implements UpDateUI {
 				String i = "-1";
 				if (position < offset) {
 					i = "1";
-					i = temp[position].getENS_id();
-					// Request.doToast(""+i, getApplicationContext());
+					i = ENSArray.get(position).getENS_id();
+					//Request.doToast(""+i, getApplicationContext());
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
 					Intent newIntent = new Intent(getApplicationContext(),
@@ -96,7 +107,7 @@ public class ENS extends ListActivity implements UpDateUI {
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				} else {
-					i = temp[position].getENS_id();
+					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
 					Intent newIntent = new Intent(getApplicationContext(),
@@ -108,9 +119,24 @@ public class ENS extends ListActivity implements UpDateUI {
 			}
 
 		});
+		
+		lv.setOnScrollListener(new OnScrollListener() {
+				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				    if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
+				        mPrevTotalItemCount = totalItemCount;
+				        refresh();
+				    }
+				}
+
+				public void onScrollStateChanged(AbsListView view,
+						int scrollState) {
+					//Useless Forced Method -.-
+				}								
+		});
 	}
 
-	private ENSObject[] getENSlist(String[] JSON, int folder) {
+	@SuppressWarnings("unchecked")
+	private ArrayList<ENSObject> getENSlist(String[] JSON, int folder) {
 
 		try {
 			JSONArray ENSlist, FolderList = null;
@@ -121,66 +147,73 @@ public class ENS extends ListActivity implements UpDateUI {
 			if (JSON.length > 1) {
 				jsonResponse = new JSONObject(JSON[1]);
 				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");
+				//max = FolderList.getJSONObject(0).getInt("gesamt");
 				offset = FolderList.length() - 2;
 			} else {
 				offset = 0;
 			}
+			
+			if(ENSlist.length() <= 0) return (ArrayList<ENSObject>)ENSArray.clone();
 
-			ENSObject[] ENSa;
-			if ((ENSlist.length() + offset) > 0) {
-				ENSa = new ENSObject[(ENSlist.length() + offset)];
-			} else {
+			//ENSObject[] ENSa;
+			final ArrayList<ENSObject> ENSa = new ArrayList<ENSObject>();
+			if ((ENSlist.length() + offset) <= 0) {
 				Request.doToast("Ordner leer!", getApplicationContext());
-				return new ENSObject[] {};
+				return ENSa;
 			}
 
 			if (JSON.length > 1) {
 				if (FolderList.length() != 0) {
 					for (int i = 0; i < FolderList.length() - 2; i++) {	
-						ENSa[i] = new ENSObject();
-						ENSa[i].setBetreff(FolderList.getJSONObject(i+2).getString("name"));
-						ENSa[i].setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
-						ENSa[i].setTyp(99);
-						ENSa[i].setOrdner(folder);
+						ENSa.add(i, new ENSObject());
+						ENSa.get(i).setBetreff(FolderList.getJSONObject(i+2).getString("name"));
+						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
+						ENSa.get(i).setTyp(99);
+						ENSa.get(i).setOrdner(folder);
 					}
 				}
 			}
 
 			if (ENSlist.length() != 0) {
 				for (int i = 0; i < ENSlist.length(); i++) {
-					ENSa[i+offset] = new ENSObject();
-					ENSa[i+offset].setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
-					ENSa[i+offset].setTime(ENSlist.getJSONObject(i).getString("datum_server"));
+					ENSObject tempENS  = new ENSObject();					
+
+					tempENS.setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
+					tempENS.setTime(ENSlist.getJSONObject(i).getString("datum_server"));
 					
 					UserObject von = new UserObject();
 					von.ParseJSON(ENSlist.getJSONObject(i).getJSONObject("von"));
-					ENSa[i+offset].setVon(von);
+					tempENS.setVon(von);
 					
 					for(int z = 0; z < ENSlist.getJSONObject(i).getJSONArray("an").length(); z++){
 						UserObject an = new UserObject();
 						an.ParseJSON(ENSlist.getJSONObject(i).getJSONArray("an").getJSONObject(z));
-						ENSa[i+offset].addAnUser(an);
+						tempENS.addAnUser(an);
 					}
 					
-					ENSa[i+offset].setFlags(ENSlist.getJSONObject(i).getInt("an_flags"));
-					ENSa[i+offset].setENS_id(ENSlist.getJSONObject(i).getString("id"));
-					ENSa[i+offset].setTyp(ENSlist.getJSONObject(i).getInt("typ"));
-					ENSa[i+offset].setOrdner(folder);
+					tempENS.setFlags(ENSlist.getJSONObject(i).getInt("an_flags"));
+					tempENS.setENS_id(ENSlist.getJSONObject(i).getString("id"));
+					tempENS.setTyp(ENSlist.getJSONObject(i).getInt("typ"));
+					tempENS.setOrdner(folder);
+					
+					ENSa.add(tempENS);
 				}
 			}
 
-			temp = ENSa;
-			return temp;
+			ENSArray.addAll(ENSa);
+
+			return (ArrayList<ENSObject>)ENSArray.clone();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return new ENSObject[] {};
+		return new ArrayList<ENSObject>();
 	}
+
 
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		setlist(new ENSAdapter(this, getENSlist(s, Integer.parseInt(ordner))));
+		adapter.refill(getENSlist(s, Integer.parseInt(ordner)));
 	}
 
 	public void DoError() {
@@ -194,7 +227,7 @@ public class ENS extends ListActivity implements UpDateUI {
 		try {
 			
 		
-		if (ordner == "1") {
+		if (ordner == "1" && page == 0) {
 			HttpGet[] HTTPs = new HttpGet[2];
 
 				HTTPs[0] = Request
@@ -204,13 +237,15 @@ public class ENS extends ListActivity implements UpDateUI {
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
 								+ typ + "&api=2");
 				new TaskRequest(this).execute(HTTPs);
+				page += 1;
 		} else {
 			HttpGet[] HTTPs = new HttpGet[1];
 
 				HTTPs[0] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
-								+ ordner + "&ordner_typ=" + typ + "&api=2");
+								+ ordner + "&ordner_typ=" + typ + "&seite="+page+"&api=2");
 				new TaskRequest(this).execute(HTTPs);
+				page += 1;
 		}
 			
 		

@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class AnimexxActivity extends Activity {
-	/** Called when the activity is first created. */
 
 	private Button AnmeldeButton;
 	private SharedPreferences config;

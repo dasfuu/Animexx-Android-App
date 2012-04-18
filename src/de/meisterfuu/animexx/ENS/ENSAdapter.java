@@ -1,7 +1,10 @@
 package de.meisterfuu.animexx.ENS;
 
+import java.util.ArrayList;
+
 import de.meisterfuu.animexx.R;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,17 +14,23 @@ import android.widget.TextView;
 
 public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	private final Activity context;
-	private final ENSObject[] names;
+	private ArrayList<ENSObject> names;
 
 	static class ViewHolder {
 		public TextView text, txinfo;
 		public ImageView image;
 	}
 
-	public ENSAdapter(Activity context, ENSObject[] names) {
+	public ENSAdapter(Activity context, ArrayList<ENSObject> names) {
 		super(context, R.layout.enslist, names);
 		this.context = context;
 		this.names = names;
+	}
+	
+	public void refill(ArrayList<ENSObject> newData) {
+	    names=newData;
+		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
+	    notifyDataSetChanged();
 	}
 
 	@Override
@@ -38,7 +47,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		ENSObject s = names[position];
+		ENSObject s = names.get(position);
 		holder.text.setText(s.getBetreff());
 		if (s.getTyp() == 99) {
 			holder.image.setImageResource(R.drawable.folder);
