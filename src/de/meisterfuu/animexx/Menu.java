@@ -2,6 +2,7 @@ package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
+import de.meisterfuu.animexx.Home.ContactsActivityList;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
@@ -56,6 +57,10 @@ public class Menu extends Activity {
 				case 0:
 					startActivity(new Intent().setClass(
 							getApplicationContext(), ENSMenu.class));
+					break;
+				case 2:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), ContactsActivityList.class));
 					break;
 				case 3:
 					startActivity(new Intent().setClass(

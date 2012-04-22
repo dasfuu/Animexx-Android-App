@@ -2,6 +2,7 @@ package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.ENS.ENS;
 import de.meisterfuu.animexx.GB.GBViewList;
+import de.meisterfuu.animexx.Home.ContactsActivityList;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -119,9 +120,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 		CharSequence contentTitle = title;			// message title
 		CharSequence contentText = s; 				// message text
 
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP	| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		Intent intent = new Intent().setClass(context, ContactsActivityList.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
