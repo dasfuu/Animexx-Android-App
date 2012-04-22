@@ -58,7 +58,7 @@ public class ContactActivityObject {
 	}
 
 	public void setEventURL(String eventURL) {
-		this.eventURL = eventURL;
+		this.eventURL = "http://animexx.onlinewelten.com"+eventURL;
 	}
 
 	public String getEventID() {
