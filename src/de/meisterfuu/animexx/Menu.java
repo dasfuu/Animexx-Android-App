@@ -6,6 +6,7 @@ import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,17 +18,17 @@ public class Menu extends Activity {
 	static final String[] List = new String[] { "ENS", "News",
 			"Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About"};
 	ListView listView;
-
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu2);
 		listView = (ListView) findViewById(R.id.mylist);
 		setlist();
-		Intent intent2 = new Intent();
-		intent2.setAction("de.meisterfuu.animexx.karotaler");
-		intent2.putExtra("action", "stats" ); 
-		intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		sendBroadcast(intent2);
+		//Intent intent2 = new Intent();
+		//intent2.setAction("de.meisterfuu.animexx.karotaler");
+		//intent2.putExtra("action", "stats" ); 
+		//intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		//sendBroadcast(intent2);
 	}
 	
 	@Override

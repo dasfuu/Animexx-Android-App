@@ -4,7 +4,7 @@
     android:versionCode="17"
     android:versionName="1.5" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="8"  android:targetSdkVersion="8"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.STATUS_BAR"/>
 	
@@ -40,6 +40,7 @@
 
         <activity android:name=".Menu" android:screenOrientation="portrait"></activity>
         <activity android:name=".about" android:screenOrientation="portrait"></activity>  
+        <activity android:name=".Debug" android:screenOrientation="portrait"></activity>  
         <activity android:name=".ENS.ENS" android:screenOrientation="portrait" ></activity>
         <activity android:name=".ENS.ENSAusgang" android:screenOrientation="portrait"></activity>
         <activity android:name=".ENS.ENSSingle" android:screenOrientation="portrait"></activity>
