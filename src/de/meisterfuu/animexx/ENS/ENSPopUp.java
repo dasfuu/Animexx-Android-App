@@ -90,7 +90,7 @@ public class ENSPopUp {
 
 	private void openAnswer() {
 		Bundle bundle2 = new Bundle();
-		bundle2.putString("betreff", "Re:" + Betreff);
+		bundle2.putString("betreff", Betreff);
 		bundle2.putString("relativ", ENSid);
 		bundle2.putString("an", username);
 		Intent newIntent = new Intent(con.getApplicationContext(),

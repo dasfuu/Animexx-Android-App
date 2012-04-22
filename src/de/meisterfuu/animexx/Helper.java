@@ -2,7 +2,6 @@ package de.meisterfuu.animexx;
 
 import java.util.regex.Pattern;
 
-import android.util.Log;
 
 public class Helper {
 	public static String BetreffRe(String Betreff){

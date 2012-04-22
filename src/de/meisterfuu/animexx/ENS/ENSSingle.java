@@ -76,7 +76,7 @@ public class ENSSingle extends Activity {
 			public void onClick(View v) {
 				Bundle bundle2 = new Bundle();
 				bundle2.putString("relativ", id2);
-				bundle2.putString("betreff", "Re:" + msg[0]);
+				bundle2.putString("betreff", msg[0]);
 				bundle2.putString("an", msg[1]);
 				Intent newIntent = new Intent(getApplicationContext(),
 						ENSAnswer.class);

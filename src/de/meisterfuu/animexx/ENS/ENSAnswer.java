@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.booleanobject;
@@ -42,6 +43,8 @@ public class ENSAnswer extends Activity {
 			xRelativ = this.getIntent().getStringExtra("relativ");
 		}
 		
+		if(xRelativ != "-1") xBetreff = Helper.BetreffRe(xBetreff);
+				
 		if (this.getIntent().hasExtra("msg")) {
 			Nachricht.setText(this.getIntent().getStringExtra("msg"));
 		}
