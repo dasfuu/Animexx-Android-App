@@ -55,6 +55,7 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 					int position, long id) {
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Array.get(position).getEventURL()));
 				intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP	| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
+				startActivity(intent);
 			}
 
 		});
