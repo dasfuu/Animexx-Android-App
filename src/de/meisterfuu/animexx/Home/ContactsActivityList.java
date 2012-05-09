@@ -89,7 +89,7 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 					tempObject.setEventID(list.getJSONObject(i).getString("event_id"));
 					tempObject.setEventTyp(list.getJSONObject(i).getString("event_typ"));
 					tempObject.setEventURL(list.getJSONObject(i).getString("link"));
-					tempObject.setImgURL(list.getJSONObject(i).getString("img_url"));
+					if(list.getJSONObject(i).has("img_url")) tempObject.setImgURL(list.getJSONObject(i).getString("img_url"));
 					tempObject.setTime(list.getJSONObject(i).getString("datum"));
 					tempObject.setVonID(list.getJSONObject(i).getString("event_von"));
 					tempObject.setVonUsername(list.getJSONObject(i).getString("event_von_username"));
@@ -114,8 +114,8 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 	}
 
 	public void DoError() {
-		// TODO Auto-generated method stub
-
+		dialog.dismiss();
+		Request.doToast("Fehler", this);
 	}
 
 	public void refresh() {

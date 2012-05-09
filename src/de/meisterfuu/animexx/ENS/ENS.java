@@ -217,7 +217,8 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 
 	public void DoError() {
-		// TODO Auto-generated method stub
+		dialog.dismiss();
+		Request.doToast("Fehler", this);
 
 	}
 
