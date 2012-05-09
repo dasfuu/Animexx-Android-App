@@ -31,33 +31,28 @@ import android.widget.ListView;
 
 public class ENS extends ListActivity implements UpDateUI {
 
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!
-	// !!GAAAAAAAANZ GROßE KACKE!!
-	// !!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 	String typ;
 	AlertDialog alertDialog;
 
-	//ENSObject[] temp;
-	//ENSObject[] FolderList;
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
 	String ordner;
-	int offset = 0;
+	int offset;
 	ProgressDialog dialog;
 	Context con;
-	int max,maxf;
-	int page = 0;
-	int mPrevTotalItemCount = 0;
-	Boolean loading;
+	int page;
+	int mPrevTotalItemCount;
 	ENSAdapter adapter;
+	TaskRequest Task = null;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		typ = "an";
+				
 		if (this.getIntent().hasExtra("folder")) {
 			Bundle bundle = this.getIntent().getExtras();
 			ordner = bundle.getString("folder");
+			offset = 0;
 		} else ordner = "1";
 		
 		con = this;
@@ -65,11 +60,17 @@ public class ENS extends ListActivity implements UpDateUI {
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(42);
-		
+				
 		adapter = new ENSAdapter(this, ENSArray);
 		setlist(adapter);
-		refresh();
+	    refresh();	    	
 	}
+	
+	  public Object onRetainNonConfigurationInstance() {
+		    Task.cancel(true);		
+		    dialog.dismiss();			
+			return null;
+	  }
 
 	private void setlist(ENSAdapter a) {
 
@@ -96,10 +97,8 @@ public class ENS extends ListActivity implements UpDateUI {
 					int position, long id) {
 
 				String i = "-1";
-				if (position < offset) {
-					i = "1";
-					i = ENSArray.get(position).getENS_id();
-					//Request.doToast(""+i, getApplicationContext());
+				i = ENSArray.get(position).getENS_id();
+				if ( ENSArray.get(position).getTyp() == 99) {
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
 					Intent newIntent = new Intent(getApplicationContext(),
@@ -202,7 +201,7 @@ public class ENS extends ListActivity implements UpDateUI {
 
 			ENSArray.addAll(ENSa);
 
-			return (ArrayList<ENSObject>)ENSArray.clone();
+			return (ArrayList<ENSObject>)ENSArray;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -223,7 +222,6 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 
 	public void refresh() {
-		// TODO Auto-generated method stub
 		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
 		try {
 			
@@ -237,7 +235,8 @@ public class ENS extends ListActivity implements UpDateUI {
 				HTTPs[1] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
 								+ typ + "&api=2");
-				new TaskRequest(this).execute(HTTPs);
+				Task = new TaskRequest(this);
+				Task.execute(HTTPs);
 				page += 1;
 		} else {
 			HttpGet[] HTTPs = new HttpGet[1];
@@ -245,7 +244,8 @@ public class ENS extends ListActivity implements UpDateUI {
 				HTTPs[0] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
 								+ ordner + "&ordner_typ=" + typ + "&seite="+page+"&api=2");
-				new TaskRequest(this).execute(HTTPs);
+				Task = new TaskRequest(this);
+				Task.execute(HTTPs);
 				page += 1;
 		}
 			

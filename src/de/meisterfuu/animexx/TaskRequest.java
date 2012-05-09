@@ -3,15 +3,23 @@ package de.meisterfuu.animexx;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import android.os.AsyncTask;
 
 public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
-	public UpDateUI GUI;
+	private UpDateUI GUI;
+	public boolean finished = false;
 
 	public TaskRequest(UpDateUI GUI) {
 		super();
-		this.GUI = GUI;
+		attach(GUI);
+	}
+	
+	public void detach() {
+		GUI=null;
+	}
+	    
+	public void attach(UpDateUI GUI) {
+	    this.GUI=GUI;
 	}
 
 	protected String[] doInBackground(HttpRequestBase... requests) {
@@ -32,6 +40,7 @@ public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
 	}
 
 	protected void onPostExecute(String[] result) {
+		finished = true;
 		if (result[0].equals("Error")) {
 			GUI.DoError();
 		} else {
