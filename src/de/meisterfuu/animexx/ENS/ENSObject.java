@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import de.meisterfuu.animexx.other.UserObject;
 
 public class ENSObject {
-	private String Betreff, Signatur, ENS_id, Time;
+	private String Betreff, Signatur, ENS_id, Time, Referenz, AnVon;
 	private String Text = "";
-	private int Flags, Referenz, Konversation, id, Ordner, Typ;
+	private int Flags, Konversation, id, Ordner, Typ;
 	private UserObject von;
 	private ArrayList<UserObject> an = new ArrayList<UserObject>();
 
@@ -24,7 +24,23 @@ public class ENSObject {
 	}
 	
 	public UserObject[] getAnArray(){
-		return this.an.toArray(null);
+		return (UserObject[]) this.an.toArray();
+	}
+	
+	public String getAnString(){
+		String s = "";
+		for(UserObject i: this.an){
+			 s = i.getUsername()+", ";
+		}
+		return s;
+	}
+	
+	public String getAnIDString(){
+		String s = "";
+		for(UserObject i: this.an){
+			 s = i.getId()+", ";
+		}
+		return s;
 	}
 
 	public String getText() {
@@ -75,11 +91,11 @@ public class ENSObject {
 		Flags = flags;
 	}
 
-	public int getReferenz() {
+	public String getReferenz() {
 		return Referenz;
 	}
 
-	public void setReferenz(int referenz) {
+	public void setReferenz(String referenz) {
 		Referenz = referenz;
 	}
 
@@ -121,6 +137,14 @@ public class ENSObject {
 
 	public void setVon(UserObject von) {
 		this.von = von;
+	}
+
+	public String getAnVon() {
+		return AnVon;
+	}
+
+	public void setAnVon(String anVon) {
+		AnVon = anVon;
 	}
 
 
