@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -109,9 +110,15 @@ public class ENS extends ListActivity implements UpDateUI {
 					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
+					ENSsql SQL = new ENSsql(con);
+					SQL.open();
+					ENSObject t = SQL.getSingleENS(i);
+					Log.i("SQL!!!!!", t.getText());
+					if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
 					newIntent.putExtras(bundle);
+					SQL.close();
 					startActivity(newIntent);
 				}
 
@@ -169,6 +176,7 @@ public class ENS extends ListActivity implements UpDateUI {
 						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
 						ENSa.get(i).setTyp(99);
 						ENSa.get(i).setOrdner(folder);
+						ENSa.get(i).setAnVon(typ);
 					}
 				}
 			}
@@ -194,6 +202,7 @@ public class ENS extends ListActivity implements UpDateUI {
 					tempENS.setENS_id(ENSlist.getJSONObject(i).getString("id"));
 					tempENS.setTyp(ENSlist.getJSONObject(i).getInt("typ"));
 					tempENS.setOrdner(folder);
+					tempENS.setAnVon(typ);
 					
 					ENSa.add(tempENS);
 				}
@@ -201,7 +210,7 @@ public class ENS extends ListActivity implements UpDateUI {
 
 			ENSArray.addAll(ENSa);
 
-			return (ArrayList<ENSObject>)ENSArray;
+			return (ArrayList<ENSObject>)ENSa;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -212,7 +221,18 @@ public class ENS extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		adapter.refill(getENSlist(s, Integer.parseInt(ordner)));
+		ArrayList<ENSObject> z = getENSlist(s, Integer.parseInt(ordner));
+		adapter.refill();
+		ENSsql SQL = new ENSsql(this);
+		SQL.open();
+		SQL.clearFolder();
+		for(int i = 0; i < z.size(); i++){
+			if(ENSArray.get(i).isFolder() == false){
+				Log.i("SQL", ""+SQL.updateENS(ENSArray.get(i)));
+			} else
+				SQL.createFolder(ENSArray.get(i));
+		}
+		SQL.close();
 	}
 
 	public void DoError() {

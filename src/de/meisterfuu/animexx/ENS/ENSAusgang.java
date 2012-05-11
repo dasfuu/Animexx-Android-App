@@ -187,7 +187,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 			ENSArray.addAll(ENSa);
 
-			return (ArrayList<ENSObject>)ENSArray.clone();
+			return (ArrayList<ENSObject>)ENSa;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -197,7 +197,8 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		adapter.refill(getENSlist(s, Integer.parseInt(ordner)));
+		getENSlist(s, Integer.parseInt(ordner));
+		adapter.refill();
 	}
 
 	public void DoError() {

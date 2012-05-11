@@ -21,7 +21,7 @@ public class ENSSingle extends Activity {
 	TextView Nachricht;
 	Button Answer;
 	WebView ENS;
-	String[] msg;
+	ENSObject msg;
 	String id2;
 	Context con;
 
@@ -41,6 +41,13 @@ public class ENSSingle extends Activity {
 		Bundle bundle = this.getIntent().getExtras();
 		id2 = bundle.getString("id");
 
+		if(bundle.containsKey("sql")){
+			ENSsql SQL = new ENSsql(this);
+			SQL.open();
+			msg = SQL.getSingleENS(id2);
+			updateUI();
+			SQL.close();
+		}else
 		if (id2 != "-1") {
 			final ENSSingle temp = this;
 			final ProgressDialog dialog = ProgressDialog.show(temp, "",
@@ -50,34 +57,44 @@ public class ENSSingle extends Activity {
 					try {
 						msg = Request.GetENS(id2);
 					} catch (Exception e) {
-						msg = new String[] { "Fehler!", "",
-								"Daten konnten nicht abgerufen werden.", "" };
+						msg = new ENSObject();
+						msg.setText("Fehler beim abrufen!");
 					}
 					temp.runOnUiThread(new Runnable() {
 						public void run() {
 							dialog.dismiss();
 							updateUI();
+							saveENS();
 						}
+
 					});
 				}
 			}).start();
 		}
 
 	}
+	
 
+	private void saveENS() {
+		ENSsql SQL = new ENSsql(this);
+		SQL.open();
+		SQL.updateENS(msg);
+		SQL.close();	
+	}
+	
 	public void updateUI() {
 
-		Betreff.setText(msg[0]);
-		Absender.setText("Von: " + msg[1]);
+		Betreff.setText(msg.getBetreff());
+		Absender.setText("Von: " + msg.getVon().getUsername());
 		Nachricht.setText("Nachricht:");
-		ENS.loadDataWithBaseURL("fake://fake.de", msg[2], "text/html", "UTF-8",
+		ENS.loadDataWithBaseURL("fake://fake.de", msg.getText(), "text/html", "UTF-8",
 				null);
 		Answer.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Bundle bundle2 = new Bundle();
 				bundle2.putString("relativ", id2);
-				bundle2.putString("betreff", msg[0]);
-				bundle2.putString("an", msg[1]);
+				bundle2.putString("betreff", msg.getBetreff());
+				bundle2.putString("an", msg.getVon().getUsername());
 				Intent newIntent = new Intent(getApplicationContext(),
 						ENSAnswer.class);
 				newIntent.putExtras(bundle2);
@@ -87,7 +104,7 @@ public class ENSSingle extends Activity {
 		Absender.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				UserPopUp Menu = new UserPopUp(con, msg[1], msg[3]);
+				UserPopUp Menu = new UserPopUp(con, msg.getVon());
 				Menu.PopUp();
 			}
 		});

@@ -4,6 +4,7 @@ import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.GB.GBAnswer;
 import de.meisterfuu.animexx.GB.GBViewList;
+import de.meisterfuu.animexx.other.UserObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +21,12 @@ public class UserPopUp {
 	AlertDialog alert;
 	AlertDialog.Builder builder;
 
+	public UserPopUp(Context context, UserObject User){
+		this.username = User.getUsername();
+		this.userid = User.getId();
+		this.con = context;
+	}
+	
 	public UserPopUp(Context context, String username, String userid) {
 
 		this.username = username;

@@ -2,6 +2,9 @@ package de.meisterfuu.animexx.ENS;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import de.meisterfuu.animexx.other.UserObject;
 
 public class ENSObject {
@@ -10,9 +13,49 @@ public class ENSObject {
 	private int Flags, Konversation, id, Ordner, Typ;
 	private UserObject von;
 	private ArrayList<UserObject> an = new ArrayList<UserObject>();
+	public boolean IsEmpty = false;
 
 	public ENSObject() {
 		
+	}
+	
+	public boolean isFolder(){
+		if(Typ == 99) return true;
+		return false;
+	}
+	
+	public ENSObject parseJSON(JSONObject JSON){
+		try {
+			this.setBetreff(JSON.getString("betreff"));
+			this.setTime(JSON.getString("datum_server"));
+			this.setText(JSON.getString("text_html"));
+			UserObject von = new UserObject();
+			von.ParseJSON(JSON.getJSONObject("von"));
+			this.setVon(von);
+			
+			for(int z = 0; z < JSON.getJSONArray("an").length(); z++){
+				UserObject an = new UserObject();
+				an.ParseJSON(JSON.getJSONArray("an").getJSONObject(z));
+				this.addAnUser(an);
+			}
+			
+			this.setFlags(JSON.getInt("an_flags"));
+			this.setENS_id(JSON.getString("id"));
+	
+			this.setTyp(JSON.getInt("typ"));
+			if(JSON.has("von_ordner")){
+				this.setOrdner(JSON.getInt("von_ordner"));
+				this.setAnVon("von");
+			} else {
+				this.setOrdner(JSON.getInt("an_ordner"));
+				this.setAnVon("an");	
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this;
 	}
 	
 	public void addAnUser(UserObject user){
@@ -32,6 +75,7 @@ public class ENSObject {
 		for(UserObject i: this.an){
 			 s = i.getUsername()+", ";
 		}
+		s = s.substring(0, s.length()-3);
 		return s;
 	}
 	
@@ -40,6 +84,7 @@ public class ENSObject {
 		for(UserObject i: this.an){
 			 s = i.getId()+", ";
 		}
+		s = s.substring(0, s.length()-3);
 		return s;
 	}
 

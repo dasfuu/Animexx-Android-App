@@ -33,7 +33,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_AN_ID = "an_id";
 	
 	private static final String DATABASE_NAME = "animexx.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 4;
 
 	/*
 	 * 	private String Betreff, Signatur, ENS_id, Time, Referenz;
@@ -49,7 +49,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_ID	+ " integer primary key autoincrement, " 
 			+ COLUMN_ENS_ID + " text not null, "
 			+ COLUMN_BETREFF + " text not null, "
-			+ COLUMN_TEXT + " text not null, "
+			+ COLUMN_TEXT + " text, "
 			+ COLUMN_TIME + " text not null, "
 			+ COLUMN_AN_VON + " text not null, "
 			+ COLUMN_VON + " text not null, "
@@ -58,7 +58,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 			+ COLUMN_AN_ID + " text not null, "
 			+ COLUMN_ORDNER + " integer not null, "
 			+ COLUMN_SIGNATUR + " text, "
-			+ COLUMN_FLAGS + " integer not null, "		
+			+ COLUMN_FLAGS + " integer, "		
 			+ COLUMN_KONVERSATION + " integer, "	
 			+ COLUMN_TYP + " integer, "	
 			+ COLUMN_REFERENZ_ENS_ID + " text "	
@@ -69,7 +69,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 			+ "( " 
 			+ COLUMN_ID	+ " integer primary key autoincrement, " 
 			+ COLUMN_F_ID + " text not null, "
-			+ COLUMN_TEXT + " text not null, "
+			+ COLUMN_BETREFF + " text not null, "
 			+ COLUMN_AN_VON + " text not null "
 			+ ");";
 

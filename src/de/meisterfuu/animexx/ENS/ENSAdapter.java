@@ -27,8 +27,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 		this.names = names;
 	}
 	
-	public void refill(ArrayList<ENSObject> newData) {
-	    names = newData;
+	public void refill() {
 		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
 	    notifyDataSetChanged();
 	}

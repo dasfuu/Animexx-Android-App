@@ -23,6 +23,8 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.meisterfuu.animexx.ENS.ENSObject;
+
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
@@ -61,20 +63,16 @@ public class Request {
 
 	}
 
-	public static String[] GetENS(String id) throws Exception {
-
+	public static ENSObject GetENS(String id) throws Exception {
+		
 		String jsonOutput = "";
 		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/ens_open/?ens_id="
 				+ id + "&text_format=html&api=2");
 		JSONObject jsonResponse = new JSONObject(jsonOutput);
 		JSONObject m = (JSONObject) jsonResponse.get("return");
-		String[] ens = new String[4];
-		ens[0] = m.getString("betreff");
-		ens[2] = m.getString("text_html");
-		ens[1] = m.getJSONObject("von").getString("username");
-		ens[3] = m.getJSONObject("von").getString("id");
-
-		return ens;
+		ENSObject temp = new ENSObject();
+		temp.parseJSON(m);
+		return temp;
 	}
 	
 	
