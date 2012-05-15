@@ -39,7 +39,12 @@ public class ENSObject {
 				this.addAnUser(an);
 			}
 			
-			this.setFlags(JSON.getInt("an_flags"));
+			if(JSON.has("an_flags")){
+				this.setFlags(JSON.getInt("an_flags"));
+			} else {
+				this.setFlags(JSON.getInt("von_flags"));	
+			}
+
 			this.setENS_id(JSON.getString("id"));
 	
 			this.setTyp(JSON.getInt("typ"));

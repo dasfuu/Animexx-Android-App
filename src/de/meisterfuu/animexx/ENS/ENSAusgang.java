@@ -14,14 +14,12 @@ import de.meisterfuu.animexx.other.UserObject;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -38,7 +36,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	String ordner;
 	int offset;
 	ProgressDialog dialog;
-	Context con;
+	final Context con = this;
 	int page;
 	int mPrevTotalItemCount;
 	ENSAdapter adapter;
@@ -54,14 +52,8 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			Bundle bundle = this.getIntent().getExtras();
 			ordner = bundle.getString("folder");
 			offset = 0;
-		} else ordner = "2";
-		
-		con = this;
+		} else ordner = "2";		
 
-		NotificationManager mManager;
-		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		mManager.cancel(42);
-				
 		adapter = new ENSAdapter(this, ENSArray);
 		setlist(adapter);
 	    refresh();	    	
@@ -80,7 +72,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				if (position >= offset) {
 					ENSPopUp Menu = new ENSPopUp(con, ENSArray.get(position).getVon().getUsername(),
 							ENSArray.get(position).getVon().getId(), ENSArray.get(position).getENS_id(),
-							ENSArray.get(position).getBetreff(), typ, 1);
+							ENSArray.get(position).getBetreff(), typ, 2);
 					Menu.PopUp();
 				}
 
@@ -98,22 +90,18 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
 					Intent newIntent = new Intent(getApplicationContext(),
-							ENS.class);
+							ENSAusgang.class);
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				} else {
 					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
-					ENSsql SQL = new ENSsql(con);
-					SQL.open();
-					ENSObject t = SQL.getSingleENS(i);
-					Log.i("SQL!!!!!", t.getText()+"s");
-					if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
+					//if(t != null) if(t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
 					newIntent.putExtras(bundle);
-					SQL.close();
+
 					startActivity(newIntent);
 				}
 

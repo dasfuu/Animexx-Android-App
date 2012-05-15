@@ -33,7 +33,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_AN_ID = "an_id";
 	
 	private static final String DATABASE_NAME = "animexx.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 
 	/*
 	 * 	private String Betreff, Signatur, ENS_id, Time, Referenz;

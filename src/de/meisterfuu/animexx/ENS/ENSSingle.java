@@ -2,6 +2,7 @@ package de.meisterfuu.animexx.ENS;
 
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.other.UserObject;
 import de.meisterfuu.animexx.profil.UserPopUp;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -41,13 +42,18 @@ public class ENSSingle extends Activity {
 		Bundle bundle = this.getIntent().getExtras();
 		id2 = bundle.getString("id");
 
-		if(bundle.containsKey("sql")){
+		
 			ENSsql SQL = new ENSsql(this);
 			SQL.open();
 			msg = SQL.getSingleENS(id2);
-			updateUI();
 			SQL.close();
-		}else
+			updateUI();
+			if(msg != null && msg.getText() != "" && msg.getText() != null){
+				return;
+			}
+			
+			
+
 		if (id2 != "-1") {
 			final ENSSingle temp = this;
 			final ProgressDialog dialog = ProgressDialog.show(temp, "",
@@ -56,15 +62,21 @@ public class ENSSingle extends Activity {
 				public void run() {
 					try {
 						msg = Request.GetENS(id2);
+						saveENS();
 					} catch (Exception e) {
 						msg = new ENSObject();
 						msg.setText("Fehler beim abrufen!");
+						UserObject o = new UserObject();
+						o.setUsername("");
+						o.setId("0");
+						o.setSteckbriefFreigabe(false);
+						msg.setVon(o);
+						msg.setBetreff("Ups :/");
 					}
 					temp.runOnUiThread(new Runnable() {
 						public void run() {
 							dialog.dismiss();
 							updateUI();
-							saveENS();
 						}
 
 					});

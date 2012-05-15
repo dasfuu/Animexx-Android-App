@@ -21,7 +21,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -40,7 +39,7 @@ public class ENS extends ListActivity implements UpDateUI {
 	String ordner;
 	int offset;
 	ProgressDialog dialog;
-	Context con;
+	final Context con = this;
 	int page;
 	int mPrevTotalItemCount;
 	ENSAdapter adapter;
@@ -58,7 +57,6 @@ public class ENS extends ListActivity implements UpDateUI {
 			offset = 0;
 		} else ordner = "1";
 		
-		con = this;
 
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -107,15 +105,10 @@ public class ENS extends ListActivity implements UpDateUI {
 					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
-					ENSsql SQL = new ENSsql(con);
-					SQL.open();
-					ENSObject t = SQL.getSingleENS(i);
-					Log.i("SQL!!!!!", t.getText()+"s");
-					if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
+					//if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
 					newIntent.putExtras(bundle);
-					SQL.close();
 					startActivity(newIntent);
 				}
 
@@ -235,7 +228,6 @@ public class ENS extends ListActivity implements UpDateUI {
 				SQL.close();
 			}
 		}).start();
-		
 
 	}
 

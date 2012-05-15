@@ -156,8 +156,8 @@ public class ENSsql {
 		}
 		
 		cursor.close();
-		if (ENS.size() != 0)
-		return ENS.get(0);
+		if (ENS.size() != 0) return ENS.get(0);
+		
 		return null;
 	}
 
