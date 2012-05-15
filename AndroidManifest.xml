@@ -38,24 +38,24 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Menu" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Menu" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".about" android:screenOrientation="portrait"></activity>  
         <activity android:name=".Debug" android:screenOrientation="portrait"></activity>  
         <activity android:name=".ENS.ENS" android:configChanges="orientation|keyboardHidden"></activity>
-        <activity android:name=".ENS.ENSAusgang" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ENS.ENSSingle" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ENS.bla" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ENS.ENSAnswer" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ENS.ENSMenu" android:screenOrientation="portrait"></activity>
-        <activity android:name=".profil.UserSteckbrief" android:screenOrientation="portrait"></activity>
-        <activity android:name=".GB.GBViewList" android:screenOrientation="portrait"></activity>
-        <activity android:name=".other.KaroTalerAlert" android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"></activity>
-        <activity android:name=".GB.GBViewSingle" android:screenOrientation="portrait"></activity>
-        <activity android:name=".GB.GBAnswer" android:screenOrientation="portrait"></activity>
-        <activity android:name=".other.Settings" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Home.ContactsActivityList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENSAusgang" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".ENS.ENSSingle" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".ENS.bla" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".ENS.ENSAnswer" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".ENS.ENSMenu" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".profil.UserSteckbrief" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".GB.GBViewList" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".other.KaroTalerAlert" android:configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.Translucent"></activity>
+        <activity android:name=".GB.GBViewSingle" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".GB.GBAnswer" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".other.Settings" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".Home.ContactsActivityList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TableView"></activity>
-        <activity android:name=".other.SharePictureENS" android:screenOrientation="portrait">
+        <activity android:name=".other.SharePictureENS" android:configChanges="orientation|keyboardHidden">
         <intent-filter>
 				<action android:name="android.intent.action.SEND" />
 				<category android:name="android.intent.category.DEFAULT" />
