@@ -17,6 +17,7 @@ import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -44,6 +45,7 @@ public class ENS extends ListActivity implements UpDateUI {
 	int mPrevTotalItemCount;
 	ENSAdapter adapter;
 	TaskRequest Task = null;
+	boolean error = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,8 +70,8 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 	
 	  public Object onRetainNonConfigurationInstance() {
-		    Task.cancel(true);		
-		    dialog.dismiss();			
+		    //Task.cancel(true);		
+		    //dialog.dismiss();			
 			return null;
 	  }
 
@@ -113,7 +115,7 @@ public class ENS extends ListActivity implements UpDateUI {
 					ENSsql SQL = new ENSsql(con);
 					SQL.open();
 					ENSObject t = SQL.getSingleENS(i);
-					Log.i("SQL!!!!!", t.getText());
+					Log.i("SQL!!!!!", t.getText()+"s");
 					if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
@@ -130,7 +132,7 @@ public class ENS extends ListActivity implements UpDateUI {
 				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				    if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
 				        mPrevTotalItemCount = totalItemCount;
-				        refresh();
+				        if(!error)refresh();
 				    }
 				}
 
@@ -227,18 +229,38 @@ public class ENS extends ListActivity implements UpDateUI {
 		SQL.open();
 		SQL.clearFolder();
 		for(int i = 0; i < z.size(); i++){
-			if(ENSArray.get(i).isFolder() == false){
-				Log.i("SQL", ""+SQL.updateENS(ENSArray.get(i)));
+			if(z.get(i).isFolder() == false){
+				Log.i("SQL", ""+SQL.updateENS(z.get(i), false));
 			} else
-				SQL.createFolder(ENSArray.get(i));
+				SQL.createFolder(z.get(i));
 		}
 		SQL.close();
 	}
 
 	public void DoError() {
 		dialog.dismiss();
-		Request.doToast("Fehler", this);
+		error = true;
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle("Fehler");
+		alertDialog.setMessage("ENS konnten nicht abgerufen werden. Offlinedaten werden angezeigt.");
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		   public void onClick(DialogInterface dialog, int which) {
+		      // here you can add functions
+		   }
+		});
+		alertDialog.show();
+		ENSsql SQL = new ENSsql(this);
+		SQL.open();
+		if(ordner == "1"){
+			ENSArray.addAll(SQL.getAllFolder());
+			ENSArray.addAll(SQL.getAllENS(ordner));
+		} else{
+			ENSArray.addAll(SQL.getAllENS(ordner));
+		}
+		
 
+		SQL.close();
+		adapter.refill();
 	}
 
 	public void refresh() {

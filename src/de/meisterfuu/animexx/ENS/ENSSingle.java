@@ -78,7 +78,7 @@ public class ENSSingle extends Activity {
 	private void saveENS() {
 		ENSsql SQL = new ENSsql(this);
 		SQL.open();
-		SQL.updateENS(msg);
+		SQL.updateENS(msg,true);
 		SQL.close();	
 	}
 	

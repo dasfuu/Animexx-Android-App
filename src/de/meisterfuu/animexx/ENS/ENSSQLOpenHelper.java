@@ -81,6 +81,8 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase database) {
 		database.execSQL(DATABASE_CREATE);
 		database.execSQL(DATABASE_CREATE_FOLDER);
+		//Log.i("SQL_HELPER", "Datenbank ist leer: "+database.query(ENSSQLOpenHelper.TABLE_ENS, null, null, null, null, null, null).isAfterLast());
+				
 	}
 
 

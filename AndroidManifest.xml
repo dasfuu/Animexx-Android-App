@@ -41,7 +41,7 @@
         <activity android:name=".Menu" android:screenOrientation="portrait"></activity>
         <activity android:name=".about" android:screenOrientation="portrait"></activity>  
         <activity android:name=".Debug" android:screenOrientation="portrait"></activity>  
-        <activity android:name=".ENS.ENS" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ENS.ENS" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSAusgang" android:screenOrientation="portrait"></activity>
         <activity android:name=".ENS.ENSSingle" android:screenOrientation="portrait"></activity>
         <activity android:name=".ENS.bla" android:screenOrientation="portrait"></activity>

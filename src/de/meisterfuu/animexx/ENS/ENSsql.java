@@ -10,6 +10,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class ENSsql {
 
@@ -51,19 +52,22 @@ public class ENSsql {
 		db_helper.close();
 	}
 
-	public long updateENS(ENSObject ENS) {
+	public long updateENS(ENSObject ENS, boolean text) {
 		
 		ContentValues values = new ContentValues();
 		values.put(ENSSQLOpenHelper.COLUMN_ENS_ID, ENS.getENS_id());
 		values.put(ENSSQLOpenHelper.COLUMN_BETREFF, ENS.getBetreff());
+		
+		if(text){
 		values.put(ENSSQLOpenHelper.COLUMN_TEXT, ENS.getText());
+		values.put(ENSSQLOpenHelper.COLUMN_SIGNATUR, ENS.getSignatur());
+		}
 		values.put(ENSSQLOpenHelper.COLUMN_TIME, ENS.getTime());
 		values.put(ENSSQLOpenHelper.COLUMN_AN_VON, ENS.getAnVon());
 		values.put(ENSSQLOpenHelper.COLUMN_ORDNER, ENS.getOrdner());
 		values.put(ENSSQLOpenHelper.COLUMN_FLAGS, ENS.getFlags());
 		values.put(ENSSQLOpenHelper.COLUMN_KONVERSATION, ENS.getKonversation());
 		values.put(ENSSQLOpenHelper.COLUMN_REFERENZ_ENS_ID, ENS.getReferenz());
-		values.put(ENSSQLOpenHelper.COLUMN_SIGNATUR, ENS.getSignatur());
 		values.put(ENSSQLOpenHelper.COLUMN_TYP, ENS.getTyp());
 		
 		values.put(ENSSQLOpenHelper.COLUMN_AN, ENS.getAnUser(0).getUsername());
@@ -74,11 +78,14 @@ public class ENSsql {
 		
 		//db.insert(table, nullColumnHack, values)		
 		//return db.update(ENSSQLOpenHelper.TABLE_ENS, null,	values);
+		long  a;
 
-		if(db.update(ENSSQLOpenHelper.TABLE_ENS, values, ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{ENS.getENS_id().trim()}) == 0){
-			return db.insert(ENSSQLOpenHelper.TABLE_ENS, null,	values);
-		} else return 1;
-
+		a = db.update(ENSSQLOpenHelper.TABLE_ENS, values, ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{ENS.getENS_id()});
+		if (a == 0) {
+			a = db.insert(ENSSQLOpenHelper.TABLE_ENS, null,	values);
+		}
+		Log.i("SQL","updateENS: "+a);
+		return a;
 	}
 	
 	public long createFolder(ENSObject ENS) {
@@ -102,11 +109,11 @@ public class ENSsql {
 		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, null, null);
 	}
 
-	public List<ENSObject> getAllENS() {
-		List<ENSObject> ENS = new ArrayList<ENSObject>();
+	public ArrayList<ENSObject> getAllENS(String folder) {
+		ArrayList<ENSObject> ENS = new ArrayList<ENSObject>();
 
 		Cursor cursor = db.query(ENSSQLOpenHelper.TABLE_ENS,
-				null, null, null, null, null, null);
+				null, ENSSQLOpenHelper.COLUMN_ORDNER+"=?", new String[]{folder}, null, null, ENSSQLOpenHelper.COLUMN_TIME+" DESC");
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -119,8 +126,8 @@ public class ENSsql {
 		return ENS;
 	}
 	
-	public List<ENSObject> getAllFolder() {
-		List<ENSObject> ENS = new ArrayList<ENSObject>();
+	public ArrayList<ENSObject> getAllFolder() {
+		ArrayList<ENSObject> ENS = new ArrayList<ENSObject>();
 
 		Cursor cursor = db.query(ENSSQLOpenHelper.TABLE_ORDNER,
 				null, null, null, null, null, null);
@@ -156,13 +163,13 @@ public class ENSsql {
 
 	private ENSObject cursorToENS(Cursor cursor) {
 		ENSObject ENS = new ENSObject();
-		if(cursor.getString(3) != null || cursor.getString(3).equals("") == false || cursor.getString(3).equals("NULL")){
+		//if(cursor.getString(3) != null || cursor.getString(3).equals("") == false || cursor.getString(3).equals("NULL")){
 			ENS.setText(cursor.getString(3));
 			ENS.setSignatur(cursor.getString(11));	
-		} else {
-			ENS.setText("");
-			ENS.setSignatur("");	
-		}
+		//} else {
+		//	ENS.setText("");
+		//	ENS.setSignatur("");	
+		//}
 		ENS.setENS_id(cursor.getString(1));
 		ENS.setBetreff(cursor.getString(2));		
 		ENS.setTime(cursor.getString(4));
