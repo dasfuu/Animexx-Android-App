@@ -14,14 +14,18 @@ import de.meisterfuu.animexx.other.UserObject;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -29,38 +33,45 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 	String typ;
 	AlertDialog alertDialog;
-	//JSONArray ENSlist, FolderList;
+
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
-	//ENSObject[] temp;
 	String ordner;
-	Integer offset = 0;
+	int offset;
 	ProgressDialog dialog;
 	Context con;
-	int max,maxf;
-	int page = 0;
-	int mPrevTotalItemCount = 0;
-	Boolean loading;
+	int page;
+	int mPrevTotalItemCount;
 	ENSAdapter adapter;
-
+	TaskRequest Task = null;
+	boolean error = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		typ = "von";
-		con = this;
+				
 		if (this.getIntent().hasExtra("folder")) {
 			Bundle bundle = this.getIntent().getExtras();
 			ordner = bundle.getString("folder");
-		} else ordner ="2";
+			offset = 0;
+		} else ordner = "2";
+		
+		con = this;
 
-
+		NotificationManager mManager;
+		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager.cancel(42);
+				
 		adapter = new ENSAdapter(this, ENSArray);
 		setlist(adapter);
-		refresh();
+	    refresh();	    	
 	}
+	
 
 	private void setlist(ENSAdapter a) {
 
 		setListAdapter(a);
+
 		ListView lv = getListView();
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -82,23 +93,27 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					int position, long id) {
 
 				String i = "-1";
-				if (position < offset) {
-					i = "2";
-					i = ENSArray.get(position).getENS_id();
-					// Request.doToast(""+i, getApplicationContext());
+				i = ENSArray.get(position).getENS_id();
+				if ( ENSArray.get(position).getTyp() == 99) {
 					Bundle bundle = new Bundle();
 					bundle.putString("folder", i);
 					Intent newIntent = new Intent(getApplicationContext(),
-							ENSAusgang.class);
+							ENS.class);
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				} else {
 					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
 					bundle.putString("id", i);
+					ENSsql SQL = new ENSsql(con);
+					SQL.open();
+					ENSObject t = SQL.getSingleENS(i);
+					Log.i("SQL!!!!!", t.getText()+"s");
+					if(t != null && t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
 					newIntent.putExtras(bundle);
+					SQL.close();
 					startActivity(newIntent);
 				}
 
@@ -107,18 +122,18 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		});
 		
 		lv.setOnScrollListener(new OnScrollListener() {
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-			    if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
-			        mPrevTotalItemCount = totalItemCount;
-			        refresh();
-			    }
-			}
+				public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				    if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
+				        mPrevTotalItemCount = totalItemCount;
+				        if(!error)refresh();
+				    }
+				}
 
-			public void onScrollStateChanged(AbsListView view,
-					int scrollState) {
-				//Useless Forced Method -.-
-			}								
-	});
+				public void onScrollStateChanged(AbsListView view,
+						int scrollState) {
+					//Useless Forced Method -.-
+				}								
+		});
 	}
 
 	@SuppressWarnings("unchecked")
@@ -132,7 +147,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 			if (JSON.length > 1) {
 				jsonResponse = new JSONObject(JSON[1]);
-				FolderList = jsonResponse.getJSONObject("return").getJSONArray("von");
+				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");
 				//max = FolderList.getJSONObject(0).getInt("gesamt");
 				offset = FolderList.length() - 2;
 			} else {
@@ -141,6 +156,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			
 			if(ENSlist.length() <= 0) return (ArrayList<ENSObject>)ENSArray.clone();
 
+			//ENSObject[] ENSa;
 			final ArrayList<ENSObject> ENSa = new ArrayList<ENSObject>();
 			if ((ENSlist.length() + offset) <= 0) {
 				Request.doToast("Ordner leer!", getApplicationContext());
@@ -155,6 +171,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
 						ENSa.get(i).setTyp(99);
 						ENSa.get(i).setOrdner(folder);
+						ENSa.get(i).setAnVon(typ);
 					}
 				}
 			}
@@ -176,10 +193,11 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 						tempENS.addAnUser(an);
 					}
 					
-					tempENS.setFlags(2);
+					tempENS.setFlags(ENSlist.getJSONObject(i).getInt("von_flags"));
 					tempENS.setENS_id(ENSlist.getJSONObject(i).getString("id"));
 					tempENS.setTyp(ENSlist.getJSONObject(i).getInt("typ"));
 					tempENS.setOrdner(folder);
+					tempENS.setAnVon(typ);
 					
 					ENSa.add(tempENS);
 				}
@@ -195,20 +213,55 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		return new ArrayList<ENSObject>();
 	}
 
+
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		getENSlist(s, Integer.parseInt(ordner));
+		final ArrayList<ENSObject> z = getENSlist(s, Integer.parseInt(ordner));
 		adapter.refill();
+		
+		new Thread(new Runnable() {
+			public void run() {
+				ENSsql SQL = new ENSsql(con);
+				SQL.open();
+				SQL.clearFolder();
+				for(int i = 0; i < z.size(); i++){
+					if(z.get(i).isFolder() == false){
+						SQL.updateENS(z.get(i), false);
+					} else
+						SQL.createFolder(z.get(i));
+				}
+				SQL.close();
+			}
+		}).start();
 	}
 
 	public void DoError() {
 		dialog.dismiss();
-		Request.doToast("Fehler", this);
+		error = true;
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle("Fehler");
+		alertDialog.setMessage("ENS konnten nicht abgerufen werden. Offlinedaten werden angezeigt.");
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		   public void onClick(DialogInterface dialog, int which) {
+		      //
+		   }
+		});
+		alertDialog.show();
+		ENSsql SQL = new ENSsql(this);
+		SQL.open();
+		if(ordner == "2"){
+			ENSArray.addAll(SQL.getAllFolder());
+			ENSArray.addAll(SQL.getAllENS(ordner));
+		} else{
+			ENSArray.addAll(SQL.getAllENS(ordner));
+		}
+		
 
+		SQL.close();
+		adapter.refill();
 	}
 
 	public void refresh() {
-		// TODO Auto-generated method stub
 		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
 		try {
 			
@@ -222,7 +275,8 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				HTTPs[1] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="
 								+ typ + "&api=2");
-				new TaskRequest(this).execute(HTTPs);
+				Task = new TaskRequest(this);
+				Task.execute(HTTPs);
 				page += 1;
 		} else {
 			HttpGet[] HTTPs = new HttpGet[1];
@@ -230,7 +284,8 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				HTTPs[0] = Request
 						.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
 								+ ordner + "&ordner_typ=" + typ + "&seite="+page+"&api=2");
-				new TaskRequest(this).execute(HTTPs);
+				Task = new TaskRequest(this);
+				Task.execute(HTTPs);
 				page += 1;
 		}
 			
@@ -243,4 +298,5 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	public void onNewIntent(Intent intent){
 		refresh();
 	}
+
 }

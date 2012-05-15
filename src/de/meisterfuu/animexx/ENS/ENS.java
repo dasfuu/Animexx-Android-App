@@ -69,11 +69,6 @@ public class ENS extends ListActivity implements UpDateUI {
 	    refresh();	    	
 	}
 	
-	  public Object onRetainNonConfigurationInstance() {
-		    //Task.cancel(true);		
-		    //dialog.dismiss();			
-			return null;
-	  }
 
 	private void setlist(ENSAdapter a) {
 
@@ -223,18 +218,25 @@ public class ENS extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		ArrayList<ENSObject> z = getENSlist(s, Integer.parseInt(ordner));
+		final ArrayList<ENSObject> z = getENSlist(s, Integer.parseInt(ordner));
 		adapter.refill();
-		ENSsql SQL = new ENSsql(this);
-		SQL.open();
-		SQL.clearFolder();
-		for(int i = 0; i < z.size(); i++){
-			if(z.get(i).isFolder() == false){
-				Log.i("SQL", ""+SQL.updateENS(z.get(i), false));
-			} else
-				SQL.createFolder(z.get(i));
-		}
-		SQL.close();
+		
+		new Thread(new Runnable() {
+			public void run() {
+				ENSsql SQL = new ENSsql(con);
+				SQL.open();
+				SQL.clearFolder();
+				for(int i = 0; i < z.size(); i++){
+					if(z.get(i).isFolder() == false){
+						SQL.updateENS(z.get(i), false);
+					} else
+						SQL.createFolder(z.get(i));
+				}
+				SQL.close();
+			}
+		}).start();
+		
+
 	}
 
 	public void DoError() {
@@ -245,7 +247,7 @@ public class ENS extends ListActivity implements UpDateUI {
 		alertDialog.setMessage("ENS konnten nicht abgerufen werden. Offlinedaten werden angezeigt.");
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 		   public void onClick(DialogInterface dialog, int which) {
-		      // here you can add functions
+		      //
 		   }
 		});
 		alertDialog.show();
