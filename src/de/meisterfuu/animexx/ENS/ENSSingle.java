@@ -23,7 +23,7 @@ public class ENSSingle extends Activity {
 	Button Answer;
 	WebView ENS;
 	ENSObject msg;
-	String id2;
+	Long id2;
 	Context con;
 
 	@Override
@@ -40,7 +40,7 @@ public class ENSSingle extends Activity {
 		Answer = (Button) findViewById(R.id.BtAnswer);
 
 		Bundle bundle = this.getIntent().getExtras();
-		id2 = bundle.getString("id");
+		id2 = bundle.getLong("id");
 
 		
 			ENSsql SQL = new ENSsql(this);
@@ -54,7 +54,7 @@ public class ENSSingle extends Activity {
 			
 			
 
-		if (id2 != "-1") {
+		if (id2 != -1) {
 			final ENSSingle temp = this;
 			final ProgressDialog dialog = ProgressDialog.show(temp, "",
 					"Loading. Please wait...", true);
@@ -104,7 +104,7 @@ public class ENSSingle extends Activity {
 		Answer.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Bundle bundle2 = new Bundle();
-				bundle2.putString("relativ", id2);
+				bundle2.putLong("relativ", id2);
 				bundle2.putString("betreff", msg.getBetreff());
 				bundle2.putString("an", msg.getVon().getUsername());
 				Intent newIntent = new Intent(getApplicationContext(),

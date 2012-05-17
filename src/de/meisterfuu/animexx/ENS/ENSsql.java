@@ -80,7 +80,7 @@ public class ENSsql {
 		//return db.update(ENSSQLOpenHelper.TABLE_ENS, null,	values);
 		long  a;
 
-		a = db.update(ENSSQLOpenHelper.TABLE_ENS, values, ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{ENS.getENS_id()});
+		a = db.update(ENSSQLOpenHelper.TABLE_ENS, values, ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{Long.toString(ENS.getENS_id())});
 		if (a == 0) {
 			a = db.insert(ENSSQLOpenHelper.TABLE_ENS, null,	values);
 		}
@@ -100,7 +100,7 @@ public class ENSsql {
 	}
 
 	
-	public void deleteENS(String ENS_id) {
+	public void deleteENS(Long ENS_id) {
 		db.delete(ENSSQLOpenHelper.TABLE_ENS, ENSSQLOpenHelper.COLUMN_ID
 				+ " = " + ENS_id, null);
 	}
@@ -109,11 +109,11 @@ public class ENSsql {
 		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, null, null);
 	}
 
-	public ArrayList<ENSObject> getAllENS(String folder) {
+	public ArrayList<ENSObject> getAllENS(long folder) {
 		ArrayList<ENSObject> ENS = new ArrayList<ENSObject>();
 
 		Cursor cursor = db.query(ENSSQLOpenHelper.TABLE_ENS,
-				null, ENSSQLOpenHelper.COLUMN_ORDNER+"=?", new String[]{folder}, null, null, ENSSQLOpenHelper.COLUMN_TIME+" DESC");
+				null, ENSSQLOpenHelper.COLUMN_ORDNER+"=?", new String[]{Long.toString(folder)}, null, null, ENSSQLOpenHelper.COLUMN_TIME+" DESC");
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -143,11 +143,11 @@ public class ENSsql {
 		return ENS;
 	}
 	
-	public ENSObject getSingleENS(String ENS_ID){
+	public ENSObject getSingleENS(Long ENS_ID){
 		List<ENSObject> ENS = new ArrayList<ENSObject>();
 
 		Cursor cursor = db.query(ENSSQLOpenHelper.TABLE_ENS, null,
-				ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{ENS_ID}, null, null, null);
+				ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{Long.toString(ENS_ID)}, null, null, null);
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			ENSObject temp = cursorToENS(cursor);
@@ -170,7 +170,7 @@ public class ENSsql {
 		//	ENS.setText("");
 		//	ENS.setSignatur("");	
 		//}
-		ENS.setENS_id(cursor.getString(1));
+		ENS.setENS_id(cursor.getLong(1));
 		ENS.setBetreff(cursor.getString(2));		
 		ENS.setTime(cursor.getString(4));
 		ENS.setAnVon(cursor.getString(5));
@@ -178,7 +178,7 @@ public class ENSsql {
 		ENS.setFlags(cursor.getInt(12));
 		ENS.setKonversation(cursor.getInt(13));
 		ENS.setTyp(cursor.getInt(14));
-		ENS.setReferenz(cursor.getString(15));
+		ENS.setReferenz(cursor.getLong(15));
 		
 		UserObject temp = new UserObject();
 		temp.setId(cursor.getString(8));
@@ -196,7 +196,7 @@ public class ENSsql {
 	private ENSObject cursorToFolder(Cursor cursor) {
 		ENSObject ENS = new ENSObject();
 		ENS.setBetreff(cursor.getString(2));
-		ENS.setENS_id(cursor.getString(1));
+		ENS.setENS_id(cursor.getLong(1));
 		ENS.setTyp(99);
 		ENS.setOrdner(cursor.getInt(3));
 	

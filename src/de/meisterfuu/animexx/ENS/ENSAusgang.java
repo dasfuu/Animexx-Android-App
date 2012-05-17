@@ -33,7 +33,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	AlertDialog alertDialog;
 
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
-	String ordner;
+	long ordner;
 	int offset;
 	ProgressDialog dialog;
 	final Context con = this;
@@ -50,9 +50,9 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				
 		if (this.getIntent().hasExtra("folder")) {
 			Bundle bundle = this.getIntent().getExtras();
-			ordner = bundle.getString("folder");
+			ordner = bundle.getLong("folder");
 			offset = 0;
-		} else ordner = "2";		
+		} else ordner = 2;		
 
 		adapter = new ENSAdapter(this, ENSArray);
 		setlist(adapter);
@@ -84,11 +84,11 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				String i = "-1";
+				Long i = -1L;
 				i = ENSArray.get(position).getENS_id();
 				if ( ENSArray.get(position).getTyp() == 99) {
 					Bundle bundle = new Bundle();
-					bundle.putString("folder", i);
+					bundle.putLong("folder", i);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSAusgang.class);
 					newIntent.putExtras(bundle);
@@ -96,7 +96,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				} else {
 					i = ENSArray.get(position).getENS_id();
 					Bundle bundle = new Bundle();
-					bundle.putString("id", i);
+					bundle.putLong("id", i);
 					//if(t != null) if(t.getText().equalsIgnoreCase("") == false) bundle.putBoolean("sql", true);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSSingle.class);
@@ -125,7 +125,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	}
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<ENSObject> getENSlist(String[] JSON, int folder) {
+	private ArrayList<ENSObject> getENSlist(String[] JSON, long folder) {
 
 		try {
 			JSONArray ENSlist, FolderList = null;
@@ -156,7 +156,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					for (int i = 0; i < FolderList.length() - 2; i++) {	
 						ENSa.add(i, new ENSObject());
 						ENSa.get(i).setBetreff(FolderList.getJSONObject(i+2).getString("name"));
-						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getString("ordner_id"));
+						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getLong("ordner_id"));
 						ENSa.get(i).setTyp(99);
 						ENSa.get(i).setOrdner(folder);
 						ENSa.get(i).setAnVon(typ);
@@ -182,7 +182,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 					}
 					
 					tempENS.setFlags(ENSlist.getJSONObject(i).getInt("von_flags"));
-					tempENS.setENS_id(ENSlist.getJSONObject(i).getString("id"));
+					tempENS.setENS_id(ENSlist.getJSONObject(i).getLong("id"));
 					tempENS.setTyp(ENSlist.getJSONObject(i).getInt("typ"));
 					tempENS.setOrdner(folder);
 					tempENS.setAnVon(typ);
@@ -204,7 +204,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(String[] s) {
 		dialog.dismiss();
-		final ArrayList<ENSObject> z = getENSlist(s, Integer.parseInt(ordner));
+		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		adapter.refill();
 		
 		new Thread(new Runnable() {
@@ -237,7 +237,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		alertDialog.show();
 		ENSsql SQL = new ENSsql(this);
 		SQL.open();
-		if(ordner == "2"){
+		if(ordner == 2){
 			ENSArray.addAll(SQL.getAllFolder());
 			ENSArray.addAll(SQL.getAllENS(ordner));
 		} else{
@@ -254,7 +254,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		try {
 			
 		
-		if (ordner == "2" && page == 0) {
+		if (ordner == 2 && page == 0) {
 			HttpGet[] HTTPs = new HttpGet[2];
 
 				HTTPs[0] = Request

@@ -19,7 +19,7 @@ public class ENSAnswer extends Activity {
 	Button Send;
 	String xBetreff = "";
 	String xAn = "";
-	String xRelativ = "-1";
+	long xRelativ = -1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class ENSAnswer extends Activity {
 		}
 		
 		if (this.getIntent().hasExtra("relativ")) {
-			xRelativ = this.getIntent().getStringExtra("relativ");
+			xRelativ = this.getIntent().getLongExtra("relativ", -1);
 		}
 		
-		if(xRelativ != "-1") xBetreff = Helper.BetreffRe(xBetreff);
+		if(xRelativ != -1) xBetreff = Helper.BetreffRe(xBetreff);
 				
 		if (this.getIntent().hasExtra("msg")) {
 			Nachricht.setText(this.getIntent().getStringExtra("msg"));
@@ -76,7 +76,7 @@ public class ENSAnswer extends Activity {
 		final String betreff2 = "" + Betreff.getText();
 		final String an2 = "" + An.getText();
 		final String msg2 = "" + Nachricht.getText();
-		final String relativ = xRelativ;
+		final long relativ = xRelativ;
 		final ENSAnswer temp = this;
 		final ProgressDialog dialog = ProgressDialog.show(temp, "",
 				"Sende ENS...", true);

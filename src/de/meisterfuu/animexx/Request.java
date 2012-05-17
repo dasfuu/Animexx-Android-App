@@ -63,7 +63,7 @@ public class Request {
 
 	}
 
-	public static ENSObject GetENS(String id) throws Exception {
+	public static ENSObject GetENS(long id) throws Exception {
 		
 		String jsonOutput = "";
 		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/ens_open/?ens_id="
@@ -76,7 +76,7 @@ public class Request {
 	}
 	
 	
-	public static boolean RemoveENS(String id, String anvon){
+	public static boolean RemoveENS(Long id, String anvon){
 		try{
 		JSONObject jsonResponse = new JSONObject(makeSecuredReq("https://ws.animexx.de/json/ens/ens_move/?ens_ids[]="
 				+ id + "&vonan="+ anvon +"&zielordner=3&api=2"));
@@ -159,7 +159,7 @@ public class Request {
 	}
 
 	public static boolean sendENS(String Betreff, String Text, String Signatur,
-			int[] an, String referenz_id) throws Exception {
+			int[] an, long referenz_id) throws Exception {
 		String url = "https://ws.animexx.de/json/ens/ens_senden/?api=2";
 		HttpPost request = new HttpPost(url);
 
@@ -169,7 +169,7 @@ public class Request {
 		s += "&sig=" + Signatur;
 		for (int i = 0; i < an.length; i++)
 			s += "&an_users[]=" + an[i];
-		if (referenz_id != "-1") {
+		if (referenz_id != -1) {
 			s += "&referenz_typ=reply";
 			s += "&referenz_id=" + referenz_id;
 		}
@@ -348,7 +348,7 @@ public class Request {
 		an[0] = Integer.parseInt(Request.config.getString("id", "-1"));
 		Log.i("Animexx", "ENSNotify");
 		try {
-			Request.sendENS(betreff, text, "Android Notify", an, "");
+			Request.sendENS(betreff, text, "Android Notify", an, -1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

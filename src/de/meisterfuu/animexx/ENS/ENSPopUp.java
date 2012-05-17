@@ -16,7 +16,7 @@ public class ENSPopUp {
 			"Wegwerfen" };
 	String username;
 	String userid;
-	String ENSid;
+	Long ENSid;
 	String Betreff;
 	String title = username;
 	String anvon;
@@ -26,13 +26,13 @@ public class ENSPopUp {
 	AlertDialog.Builder builder;
 	
 	public ENSPopUp(Context context, String username, String userid,
-			String ENSid, String Betreff, String anvon, int List) {
+			Long ENSid, String Betreff, String anvon, int List) {
 		this(context, username, userid, ENSid, Betreff, anvon);
 		this.List = List;
 	}
 
 	public ENSPopUp(Context context, String username, String userid,
-			String ENSid, String Betreff, String anvon) {
+			Long ENSid, String Betreff, String anvon) {
 
 		this.username = username;
 		this.userid = userid;
@@ -81,7 +81,7 @@ public class ENSPopUp {
 
 	private void openENS() {
 		Bundle bundle = new Bundle();
-		bundle.putString("id", ENSid);
+		bundle.putLong("id", ENSid);
 		Intent newIntent = new Intent(con.getApplicationContext(),
 				ENSSingle.class);
 		newIntent.putExtras(bundle);
@@ -91,7 +91,7 @@ public class ENSPopUp {
 	private void openAnswer() {
 		Bundle bundle2 = new Bundle();
 		bundle2.putString("betreff", Betreff);
-		bundle2.putString("relativ", ENSid);
+		bundle2.putLong("relativ", ENSid);
 		bundle2.putString("an", username);
 		Intent newIntent = new Intent(con.getApplicationContext(),
 				ENSAnswer.class);

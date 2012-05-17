@@ -16,7 +16,7 @@ public class ENSNotify extends BroadcastReceiver {
 		Log.i("Animexx", "ENSNotify");
 		try {
 			Request.sendENS(intent.getStringExtra("betreff"),
-					intent.getStringExtra("text"), "Android Notify", an, "");
+					intent.getStringExtra("text"), "Android Notify", an, -1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

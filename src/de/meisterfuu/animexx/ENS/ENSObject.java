@@ -8,9 +8,10 @@ import org.json.JSONObject;
 import de.meisterfuu.animexx.other.UserObject;
 
 public class ENSObject {
-	private String Betreff, Signatur, ENS_id, Time, Referenz, AnVon;
+	private String Betreff, Signatur, Time, AnVon;
 	private String Text = "";
-	private int Flags, Konversation, id, Ordner, Typ;
+	private int Flags, Konversation, id, Typ;
+	private long ENS_id, Referenz, Ordner;
 	private UserObject von;
 	private ArrayList<UserObject> an = new ArrayList<UserObject>();
 	public boolean IsEmpty = false;
@@ -45,7 +46,7 @@ public class ENSObject {
 				this.setFlags(JSON.getInt("von_flags"));	
 			}
 
-			this.setENS_id(JSON.getString("id"));
+			this.setENS_id(JSON.getLong("id"));
 	
 			this.setTyp(JSON.getInt("typ"));
 			if(JSON.has("von_ordner")){
@@ -117,11 +118,11 @@ public class ENSObject {
 		Signatur = signatur;
 	}
 
-	public String getENS_id() {
+	public long getENS_id() {
 		return ENS_id;
 	}
 
-	public void setENS_id(String eNS_id) {
+	public void setENS_id(long eNS_id) {
 		ENS_id = eNS_id;
 	}
 
@@ -141,11 +142,11 @@ public class ENSObject {
 		Flags = flags;
 	}
 
-	public String getReferenz() {
+	public long getReferenz() {
 		return Referenz;
 	}
 
-	public void setReferenz(String referenz) {
+	public void setReferenz(long referenz) {
 		Referenz = referenz;
 	}
 
@@ -165,12 +166,12 @@ public class ENSObject {
 		this.id = id;
 	}
 
-	public int getOrdner() {
+	public long getOrdner() {
 		return Ordner;
 	}
 
-	public void setOrdner(int ordner) {
-		Ordner = ordner;
+	public void setOrdner(long folder) {
+		Ordner = folder;
 	}
 
 	public int getTyp() {
