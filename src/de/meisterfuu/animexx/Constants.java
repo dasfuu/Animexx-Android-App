@@ -17,7 +17,7 @@ public class Constants {
 
 	// Other
 	public static final String LOADING = "Daten werden abgerufen...";
-	public static final String VERSION = "v1.5.2";
+	public static final String VERSION = "v1.5.3";
 
 	// SQLLite
 	public final static String DB_NAME = "Animaxx";

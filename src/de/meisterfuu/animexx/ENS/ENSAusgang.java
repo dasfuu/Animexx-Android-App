@@ -135,7 +135,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 			if (JSON.length > 1) {
 				jsonResponse = new JSONObject(JSON[1]);
-				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");
+				FolderList = jsonResponse.getJSONObject("return").getJSONArray("von");
 				//max = FolderList.getJSONObject(0).getInt("gesamt");
 				offset = FolderList.length() - 2;
 			} else {

@@ -37,7 +37,7 @@ public class AnimexxActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (isOAuthSuccessful()) {
+		if (isOAuthSuccessful()) { 
 			console.setText("OAuth successful!");
 			Log.i("OAuth", "OAuth nicht gescheitert");
 			if (Request.config.getString("id", "none").equals("none"))
