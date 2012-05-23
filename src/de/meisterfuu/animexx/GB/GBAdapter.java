@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.other.LoadImage;
@@ -17,6 +18,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 	static class ViewHolder {
 		public TextView text;
 		public LoadImage image;
+		public ImageView user;
 		public TextView info;
 	}
 
@@ -35,6 +37,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text = (TextView) rowView.findViewById(R.id.GBtxt);
 			viewHolder.image = (LoadImage) rowView.findViewById(R.id.gbimage);
+			viewHolder.user = (ImageView) rowView.findViewById(R.id.imguser);
 			viewHolder.info = (TextView) rowView.findViewById(R.id.GBinfo);
 			rowView.setTag(viewHolder);
 		}
@@ -47,12 +50,25 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		holder.info.setText(s.getVon().getUsername()+" am "+s.getTime());
 		
 		if(!s.getVon().getId().equals("none")){
-			holder.info.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					UserPopUp Menu = new UserPopUp(context, s.getVon().getUsername(), s.getVon().getId());
-					Menu.PopUp();
-				}
-			});
+			
+				holder.info.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						UserPopUp Menu = new UserPopUp(context, s.getVon().getUsername(), s.getVon().getId());
+						Menu.PopUp();
+					}
+				});
+				
+				holder.user.setImageResource(android.R.drawable.ic_menu_info_details);
+				holder.user.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						UserPopUp Menu = new UserPopUp(context, s.getVon().getUsername(), s.getVon().getId());
+						Menu.PopUp();
+					}
+				});
+		} else {
+			holder.info.setOnClickListener(null);			
+			holder.user.setImageResource(0);
+			holder.user.setOnClickListener(null);
 		}
 		
 		return rowView;
