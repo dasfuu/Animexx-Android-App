@@ -164,6 +164,7 @@ public class ENS extends ListActivity implements UpDateUI {
 						ENSa.add(i, new ENSObject());
 						ENSa.get(i).setBetreff(FolderList.getJSONObject(i+2).getString("name"));
 						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getLong("ordner_id"));
+						ENSa.get(i).setSignatur(FolderList.getJSONObject(i+2).getString("ungelesen"));
 						ENSa.get(i).setTyp(99);
 						ENSa.get(i).setOrdner(folder);
 						ENSa.get(i).setAnVon(typ);

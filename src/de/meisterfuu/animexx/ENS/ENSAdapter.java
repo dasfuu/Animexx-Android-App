@@ -19,6 +19,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	static class ViewHolder {
 		public TextView text, txinfo;
 		public ImageView image;
+		public ImageView more;
 	}
 
 	public ENSAdapter(Activity context, ArrayList<ENSObject> names) {
@@ -42,15 +43,16 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 			viewHolder.text = (TextView) rowView.findViewById(R.id.txt);
 			viewHolder.txinfo = (TextView) rowView.findViewById(R.id.txinfo);
 			viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
+			viewHolder.more = (ImageView) rowView.findViewById(R.id.imgmore);
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		ENSObject s = names.get(position);
+		final ENSObject s = names.get(position);
 		holder.text.setText(s.getBetreff());
 		if (s.getTyp() == 99) {
 			holder.image.setImageResource(R.drawable.folder);
-			holder.txinfo.setText("  ");
+			if(s.getAnVon().equals("an")) holder.txinfo.setText(s.getSignatur()+" ungelesene ENS"); else holder.txinfo.setText(" ");
 		} else {
 			holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
 			String flag = Integer.toBinaryString(s.getFlags());
@@ -62,6 +64,22 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 			}
 			if (flag.length() >= 2 && flag.charAt(flag.length() - 2) == '1')
 				holder.image.setImageResource(R.drawable.mail);
+		}
+		
+		if(!s.isFolder()){
+
+			
+			holder.more.setImageResource(android.R.drawable.ic_menu_more);
+			holder.more.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					ENSPopUp Menu = new ENSPopUp(context, s.getVon().getUsername(),
+							s.getVon().getId(), s.getENS_id(),
+							s.getBetreff(), s.getAnVon(), 1);
+					Menu.PopUp();
+				}
+			});
+		} else {
+			holder.more.setImageResource(0);
 		}
 
 		return rowView;

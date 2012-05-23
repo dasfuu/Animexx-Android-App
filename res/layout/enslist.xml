@@ -14,7 +14,7 @@
         android:layout_marginTop="4px"
         android:src="@drawable/ic_launcher" >
     </ImageView>
-
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:padding="10dp"
             android:text="@+id/label"
             android:textSize="16sp" />
-
+
         <TextView
             android:id="@+id/txinfo"
             android:layout_width="wrap_content"
@@ -37,7 +37,12 @@
             android:padding="10dp"
             android:text="@+id/label"
             android:textSize="11sp" />
-
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imgmore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      />
 
 </LinearLayout>
