@@ -53,6 +53,7 @@
         <activity android:name=".GB.GBViewSingle" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".GB.GBAnswer" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".other.Settings" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".other.ContactList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".Home.ContactsActivityList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TableView"></activity>
         <activity android:name=".other.SharePictureENS" android:configChanges="orientation|keyboardHidden">

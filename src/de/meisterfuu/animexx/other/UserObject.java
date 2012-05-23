@@ -5,10 +5,11 @@ import org.json.JSONObject;
 
 public class UserObject {
 
-	private String id, username;
+	private String id, username, picture;
 	private boolean SteckbriefFreigabe;
 	
 	public void ParseJSON(JSONObject user){
+		setPicture(null);
 		//Fehler durch abgemeldete User abfangen
 		try {
 			setId(user.getString("id"));
@@ -25,6 +26,7 @@ public class UserObject {
 		setId("none");
 		setUsername("Abgemeldet");
 		setSteckbriefFreigabe(false);
+		setPicture(null);
 	}
 
 	public String getId() {
@@ -49,6 +51,14 @@ public class UserObject {
 
 	public void setSteckbriefFreigabe(boolean steckbriefFreigabe) {
 		SteckbriefFreigabe = steckbriefFreigabe;
+	}
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
 	}
 	
 	

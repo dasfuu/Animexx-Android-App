@@ -3,6 +3,7 @@ package de.meisterfuu.animexx;
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.ContactsActivityList;
+import de.meisterfuu.animexx.other.ContactList;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,7 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class Menu extends Activity {
 	// private SharedPreferences config;
 	static final String[] List = new String[] { "ENS", "News",
-			"Kontaktaktivitäten", "Gästebuch", "Einstellungen", "About"};
+			"Kontaktaktivitäten", "Gästebuch", "Kontakte", "Einstellungen", "About"};
 	ListView listView;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,9 +69,13 @@ public class Menu extends Activity {
 					break;
 				case 4:
 					startActivity(new Intent().setClass(
-							getApplicationContext(), Settings.class));
+							getApplicationContext(), ContactList.class));
 					break;
 				case 5:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), Settings.class));
+					break;
+				case 6:
 					startActivity(new Intent().setClass(
 							getApplicationContext(), about.class));
 					break;
