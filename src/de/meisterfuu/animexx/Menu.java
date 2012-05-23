@@ -79,6 +79,11 @@ public class Menu extends Activity {
 					startActivity(new Intent().setClass(
 							getApplicationContext(), about.class));
 					break;
+				/*
+				 *   case 7:
+				 *   startActivity(new Intent().setClass(getApplicationContext(), Debug.class));
+				 *   break;
+				 */				
 				default:
 					Request.doToast("Gibts noch nicht :P",
 							getApplicationContext());
