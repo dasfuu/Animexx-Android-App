@@ -100,6 +100,7 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 					Bundle bundle2 = new Bundle();
 					bundle2.putString("betreff", "");
 					bundle2.putString("an", username);
+					bundle2.putString("anid", userid);
 					Intent newIntent = new Intent(getApplicationContext(),
 							ENSAnswer.class);
 					newIntent.putExtras(bundle2);

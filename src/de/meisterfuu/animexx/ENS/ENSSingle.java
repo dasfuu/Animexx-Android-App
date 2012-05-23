@@ -107,6 +107,7 @@ public class ENSSingle extends Activity {
 				bundle2.putLong("relativ", id2);
 				bundle2.putString("betreff", msg.getBetreff());
 				bundle2.putString("an", msg.getVon().getUsername());
+				bundle2.putString("anid", msg.getVon().getId());
 				Intent newIntent = new Intent(getApplicationContext(),
 						ENSAnswer.class);
 				newIntent.putExtras(bundle2);

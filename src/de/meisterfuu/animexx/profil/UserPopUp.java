@@ -81,6 +81,7 @@ public class UserPopUp {
 		Bundle bundle2 = new Bundle();
 		bundle2.putString("betreff", "");
 		bundle2.putString("an", username);
+		bundle2.putString("anid", userid);
 		Intent newIntent = new Intent(con.getApplicationContext(),
 				ENSAnswer.class);
 		newIntent.putExtras(bundle2);

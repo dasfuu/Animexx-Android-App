@@ -93,6 +93,7 @@ public class ENSPopUp {
 		bundle2.putString("betreff", Betreff);
 		bundle2.putLong("relativ", ENSid);
 		bundle2.putString("an", username);
+		bundle2.putString("anid", userid);
 		Intent newIntent = new Intent(con.getApplicationContext(),
 				ENSAnswer.class);
 		newIntent.putExtras(bundle2);

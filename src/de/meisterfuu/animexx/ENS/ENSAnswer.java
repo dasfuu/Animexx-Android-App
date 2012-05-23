@@ -19,6 +19,7 @@ public class ENSAnswer extends Activity {
 	Button Send;
 	String xBetreff = "";
 	String xAn = "";
+	String xAnID;
 	long xRelativ = -1;
 
 	@Override
@@ -37,6 +38,11 @@ public class ENSAnswer extends Activity {
 
 		if (this.getIntent().hasExtra("an")) {
 			xAn = this.getIntent().getStringExtra("an");
+		}
+		
+		if (this.getIntent().hasExtra("anid")) {
+			xAnID = this.getIntent().getStringExtra("anid");
+			An.setKeyListener(null);
 		}
 		
 		if (this.getIntent().hasExtra("relativ")) {
@@ -76,6 +82,7 @@ public class ENSAnswer extends Activity {
 		final String betreff2 = "" + Betreff.getText();
 		final String an2 = "" + An.getText();
 		final String msg2 = "" + Nachricht.getText();
+		final String AnID = xAnID;
 		final long relativ = xRelativ;
 		final ENSAnswer temp = this;
 		final ProgressDialog dialog = ProgressDialog.show(temp, "",
@@ -84,7 +91,12 @@ public class ENSAnswer extends Activity {
 			public void run() {
 				final booleanobject x = new booleanobject();
 				try {
-					int[] s = Request.GetUser(new String[] { an2 });
+					int[] s;
+					if(AnID == null){
+						s = Request.GetUser(new String[] { an2 });
+					} else {
+						s = new int[]{Integer.parseInt(AnID)};
+					}
 					x.bool = Request.sendENS(betreff2, msg2, "", s, relativ);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
