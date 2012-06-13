@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="21"
-    android:versionName="1.5.4" >
+    android:versionCode="22"
+    android:versionName="1.5.5" >
 
     <uses-sdk android:minSdkVersion="8"  android:targetSdkVersion="8"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -41,6 +41,7 @@
         <activity android:name=".Menu" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".about" android:screenOrientation="portrait"></activity>  
         <activity android:name=".Debug" android:screenOrientation="portrait"></activity>  
+        <activity android:name=".other.Feedback" android:screenOrientation="portrait"></activity>  
         <activity android:name=".ENS.ENS" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSAusgang" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSSingle" android:configChanges="orientation|keyboardHidden"></activity>

@@ -17,11 +17,6 @@ public class Constants {
 
 	// Other
 	public static final String LOADING = "Daten werden abgerufen...";
-	public static final String VERSION = "v1.5.4";
-
-	// SQLLite
-	public final static String DB_NAME = "Animaxx";
-	public final static String DB_TABLE = "ENS";
-	public final static String ENS_TABLE_CREATE = " ( \"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, ENS_id INTEGER, betreff TEXT, von TEXT, time INTEGER, text TEXT, signatur TEXT, flag INTEGER, typ INTEGER, conversation_id INTEGER, ordner INTEGER, referenz INTEGER)";
+	public static final String VERSION = "v1.5.5";
 
 }

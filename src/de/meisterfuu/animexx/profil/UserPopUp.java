@@ -25,6 +25,7 @@ public class UserPopUp {
 		this.username = User.getUsername();
 		this.userid = User.getId();
 		this.con = context;
+		build();
 	}
 	
 	public UserPopUp(Context context, String username, String userid) {
@@ -32,7 +33,11 @@ public class UserPopUp {
 		this.username = username;
 		this.userid = userid;
 		this.con = context;
-
+		build();
+	}
+	
+	private void build(){
+		
 		builder = new AlertDialog.Builder(con);
 		builder.setTitle(username);
 
@@ -60,7 +65,7 @@ public class UserPopUp {
 		});
 		alert = builder.create();
 		alert.setOwnerActivity((Activity) con);
-
+		
 	}
 
 	public void PopUp() {
