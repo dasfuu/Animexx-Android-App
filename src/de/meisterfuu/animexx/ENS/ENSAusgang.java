@@ -158,7 +158,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 						ENSa.get(i).setBetreff(FolderList.getJSONObject(i+2).getString("name"));
 						ENSa.get(i).setENS_id(FolderList.getJSONObject(i+2).getLong("ordner_id"));
 						ENSa.get(i).setTyp(99);
-						ENSa.get(i).setOrdner(folder);
+						ENSa.get(i).setOrdner(2);
 						ENSa.get(i).setAnVon(typ);
 					}
 				}
@@ -238,7 +238,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		ENSsql SQL = new ENSsql(this);
 		SQL.open();
 		if(ordner == 2){
-			ENSArray.addAll(SQL.getAllFolder());
+			ENSArray.addAll(SQL.getAllFolder("von"));
 			ENSArray.addAll(SQL.getAllENS(ordner));
 		} else{
 			ENSArray.addAll(SQL.getAllENS(ordner));

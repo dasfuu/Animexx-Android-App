@@ -16,7 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ENSMenu extends ListActivity {
 
 	static String[] List = new String[] { "Posteingang", "Postausgang",
-			"Neue ENS", "ENS Pushing..." };
+			"Neue ENS", "ENS Pushing...", "Sync" };
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +61,10 @@ public class ENSMenu extends ListActivity {
 					break;
 				case 3:
 					c2dm();
+					break;
+				case 4:
+					startActivity(new Intent().setClass(
+							getApplicationContext(), ENSSync.class));
 					break;
 				default:
 					Request.doToast("Gibts noch nicht :P",

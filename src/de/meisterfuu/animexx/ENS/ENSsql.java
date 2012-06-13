@@ -118,7 +118,11 @@ public class ENSsql {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			ENSObject temp = cursorToENS(cursor);
-			ENS.add(temp);
+			
+			if(temp != null && temp.getText() != "" && temp.getText() != null){
+				ENS.add(temp);
+			}
+			
 			cursor.moveToNext();
 		}
 		
@@ -126,7 +130,7 @@ public class ENSsql {
 		return ENS;
 	}
 	
-	public ArrayList<ENSObject> getAllFolder() {
+	public ArrayList<ENSObject> getAllFolder(String AnVon) {
 		ArrayList<ENSObject> ENS = new ArrayList<ENSObject>();
 
 		Cursor cursor = db.query(ENSSQLOpenHelper.TABLE_ORDNER,
@@ -135,7 +139,7 @@ public class ENSsql {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			ENSObject temp = cursorToFolder(cursor);
-			ENS.add(temp);
+			if(temp.getAnVon().equalsIgnoreCase(AnVon)) ENS.add(temp);
 			cursor.moveToNext();
 		}
 		
@@ -199,6 +203,9 @@ public class ENSsql {
 		ENS.setENS_id(cursor.getLong(1));
 		ENS.setTyp(99);
 		ENS.setOrdner(cursor.getInt(3));
+		if(ENS.getOrdner() == 1) ENS.setAnVon("an");
+		else ENS.setAnVon("von");
+		ENS.setSignatur("0");
 	
 		
 		return ENS;
