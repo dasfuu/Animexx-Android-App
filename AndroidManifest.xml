@@ -17,6 +17,7 @@
     <!-- Send the registration id to the server -->
     <uses-permission android:name="android.permission.INTERNET" />
     <permission android:protectionLevel="dangerous" android:label="@string/enspermsissionl" android:name="de.meisterfuu.animexx.permission.ENS_NOTIFY" android:icon="@drawable/logo" android:description="@string/enspermission" android:permissionGroup="android.permission-group.MESSAGES"></permission>
+    <uses-permission android:name="android.permission.VIBRATE"/>
 	    
     <application
         android:icon="@drawable/ic_launcher"

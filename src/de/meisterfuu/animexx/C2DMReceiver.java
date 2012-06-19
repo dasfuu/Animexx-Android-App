@@ -106,6 +106,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		// notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.sound = Uri.parse(Request.config.getString("ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));
+		if(Request.config.getBoolean("vibration", true)) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
@@ -129,6 +132,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
+		if(Request.config.getBoolean("vibration", true)) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
@@ -151,6 +157,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
+		if(Request.config.getBoolean("vibration", true)) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
