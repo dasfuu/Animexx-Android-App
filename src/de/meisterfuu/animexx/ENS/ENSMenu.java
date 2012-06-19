@@ -16,7 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ENSMenu extends ListActivity {
 
 	static String[] List = new String[] { "Posteingang", "Postausgang",
-			"Neue ENS", "ENS Pushing...", "Sync" };
+			"Neue ENS", "ENS Pushing..." };
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
