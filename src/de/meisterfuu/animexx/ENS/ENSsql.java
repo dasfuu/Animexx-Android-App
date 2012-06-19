@@ -106,6 +106,11 @@ public class ENSsql {
 				+ " = " + ENS_id, null);
 	}
 	
+	public void clearFolder(String typ) {
+		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, ENSSQLOpenHelper.COLUMN_AN_VON
+				+ " = " + typ, null);
+	}
+	
 	public void clearFolder() {
 		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, null, null);
 	}

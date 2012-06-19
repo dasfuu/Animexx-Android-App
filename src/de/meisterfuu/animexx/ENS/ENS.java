@@ -222,7 +222,7 @@ public class ENS extends ListActivity implements UpDateUI {
 			public void run() {
 				ENSsql SQL = new ENSsql(con);
 				SQL.open();
-				if((folder == 1 || folder == 2) && error == false)SQL.clearFolder();
+				if((folder == 1 || folder == 2) && error == false)SQL.clearFolder("1");
 				for(int i = 0; i < z.size(); i++){
 					if(z.get(i).isFolder() == false){
 						SQL.updateENS(z.get(i), false);
