@@ -1,6 +1,9 @@
 package de.meisterfuu.animexx.GB;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +16,7 @@ import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class GBAdapter extends ArrayAdapter<GBObject> {
 	private final Activity context;
-	private final GBObject[] names;
+	private final ArrayList<GBObject> names;
 
 	static class ViewHolder {
 		public TextView text;
@@ -22,10 +25,15 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		public TextView info;
 	}
 
-	public GBAdapter(Activity context, GBObject[] names) {
+	public GBAdapter(Activity context, ArrayList<GBObject> names) {
 		super(context, R.layout.gblist, names);
 		this.context = context;
 		this.names = names;
+	}
+	
+	public void refill() {
+		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
+	    notifyDataSetChanged();
 	}
 
 	@Override
@@ -43,7 +51,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
-		final GBObject s = names[position];
+		final GBObject s = names.get(position);
 
 		holder.image.setImageDrawable(s.getAvatar());
 		holder.text.setText(s.getEinleitung());
