@@ -10,10 +10,10 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	public static final String TABLE_ENS = "ENS";
 	
 	public static final String TABLE_ORDNER = "FOLDER";
-	public static final String COLUMN_F_ID = "ENS_id";
+	public static final String COLUMN_F_ID = "_id";
 	
-	public static final String COLUMN_ID = "_id";
-	public static final String COLUMN_ENS_ID = "ENS_id";
+
+	public static final String COLUMN_ENS_ID = "_id";
 	public static final String COLUMN_BETREFF = "betreff";
 	public static final String COLUMN_TEXT = "content";
 	public static final String COLUMN_TIME = "time";
@@ -33,7 +33,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_AN_ID = "an_id";
 	
 	private static final String DATABASE_NAME = "animexx.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 7;
 
 	/*
 	 * 	private String Betreff, Signatur, ENS_id, Time, Referenz;
@@ -46,8 +46,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_CREATE = "create table "
 			+ TABLE_ENS 
 			+ "( " 
-			+ COLUMN_ID	+ " integer primary key autoincrement, " 
-			+ COLUMN_ENS_ID + " text not null, "
+			+ COLUMN_ENS_ID + " integer primary key, "
 			+ COLUMN_BETREFF + " text not null, "
 			+ COLUMN_TEXT + " text, "
 			+ COLUMN_TIME + " text not null, "
@@ -67,8 +66,7 @@ public class ENSSQLOpenHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_CREATE_FOLDER = "create table "
 			+ TABLE_ORDNER 
 			+ "( " 
-			+ COLUMN_ID	+ " integer primary key autoincrement, " 
-			+ COLUMN_F_ID + " text not null, "
+			+ COLUMN_F_ID + " integer primary key, "
 			+ COLUMN_BETREFF + " text not null, "
 			+ COLUMN_AN_VON + " text not null "
 			+ ");";

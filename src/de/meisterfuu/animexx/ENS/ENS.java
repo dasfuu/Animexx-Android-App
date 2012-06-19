@@ -12,6 +12,7 @@ import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 import de.meisterfuu.animexx.other.UserObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
@@ -19,6 +20,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -210,16 +212,17 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 
 
-	public void UpDateUi(String[] s) {
+	public void UpDateUi(final String[] s) {
 		dialog.dismiss();
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		adapter.refill();
+		final long  folder = ordner;
 		
 		new Thread(new Runnable() {
 			public void run() {
 				ENSsql SQL = new ENSsql(con);
 				SQL.open();
-				SQL.clearFolder();
+				if((folder == 1 || folder == 2) && error == false)SQL.clearFolder();
 				for(int i = 0; i < z.size(); i++){
 					if(z.get(i).isFolder() == false){
 						SQL.updateENS(z.get(i), false);
@@ -236,8 +239,7 @@ public class ENS extends ListActivity implements UpDateUI {
 		dialog.dismiss();
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		alertDialog.setTitle("Fehler");
-		alertDialog.setMessage("ENS konnten nicht abgerufen werden. Offlinedaten werden angezeigt.");
+		alertDialog.setMessage("Offlinedaten werden angezeigt.");
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 		   public void onClick(DialogInterface dialog, int which) {
 		      //
@@ -259,7 +261,17 @@ public class ENS extends ListActivity implements UpDateUI {
 	}
 
 	public void refresh() {
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
+		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
+		        new OnCancelListener() {
+            public void onCancel(DialogInterface pd) {
+            	if(page <= 1){
+            		Task.cancel(true);
+            		DoError();
+            	}
+            	else ((Activity) con).finish();
+            }
+        });   
+		
 		try {
 			
 		

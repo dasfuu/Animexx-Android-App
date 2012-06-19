@@ -170,13 +170,8 @@ public class ENSSync extends Activity {
 					ENSa.add(tempENS);
 			}
 
-			ENSArray.addAll(ENSa);
-			
-			if(ENSlist.length() < 100) {
-				next();
-			}
-			
-			return ENSArray;
+			ENSArray.addAll(ENSa);	
+			return ENSa;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -191,7 +186,7 @@ public class ENSSync extends Activity {
 		if(i < OrdnerArray.size()){
 			ordner = OrdnerArray.get(i).getENS_id();
 			typ = OrdnerArray.get(i).getAnVon();
-			page = 1;
+			page = 0;
 			if(ordner == 3)next();
 		} else {
 			DoError();
@@ -202,7 +197,7 @@ public class ENSSync extends Activity {
 		
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		
-		final int yo = z.size();
+		final int yo = ENSArray.size();
 		con.runOnUiThread(new Runnable() {
 			public void run() {
 				dialog.setMessage(yo+" ENS geladen.");
@@ -219,6 +214,10 @@ public class ENSSync extends Activity {
 		for(int i = 0; i < z.size(); i++) SQL.updateENS(z.get(i), false);
 		SQL.close();
 		Log.i("Sync","SQL End");
+		
+		if(z.size() < 100) {
+			next();
+		}
 
 		if(!stop) refreshENS();
 

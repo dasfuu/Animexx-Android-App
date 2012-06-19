@@ -83,8 +83,9 @@ public class ENSsql {
 		a = db.update(ENSSQLOpenHelper.TABLE_ENS, values, ENSSQLOpenHelper.COLUMN_ENS_ID+"=?", new String[]{Long.toString(ENS.getENS_id())});
 		if (a == 0) {
 			a = db.insert(ENSSQLOpenHelper.TABLE_ENS, null,	values);
-		}
-		Log.i("SQL","updateENS: "+a);
+			Log.i("SQL","InsertENS: "+a);
+		} else Log.i("SQL","updateENS: "+a);
+		
 		return a;
 	}
 	
@@ -101,7 +102,7 @@ public class ENSsql {
 
 	
 	public void deleteENS(Long ENS_id) {
-		db.delete(ENSSQLOpenHelper.TABLE_ENS, ENSSQLOpenHelper.COLUMN_ID
+		db.delete(ENSSQLOpenHelper.TABLE_ENS, ENSSQLOpenHelper.COLUMN_ENS_ID
 				+ " = " + ENS_id, null);
 	}
 	
@@ -119,9 +120,9 @@ public class ENSsql {
 		while (!cursor.isAfterLast()) {
 			ENSObject temp = cursorToENS(cursor);
 			
-			if(temp != null && temp.getText() != "" && temp.getText() != null){
+			if(temp != null && temp.getText() != "" && temp.getText() != null)
 				ENS.add(temp);
-			}
+			
 			
 			cursor.moveToNext();
 		}
@@ -168,30 +169,30 @@ public class ENSsql {
 	private ENSObject cursorToENS(Cursor cursor) {
 		ENSObject ENS = new ENSObject();
 		//if(cursor.getString(3) != null || cursor.getString(3).equals("") == false || cursor.getString(3).equals("NULL")){
-			ENS.setText(cursor.getString(3));
-			ENS.setSignatur(cursor.getString(11));	
+			ENS.setText(cursor.getString(2));
+			ENS.setSignatur(cursor.getString(10));	
 		//} else {
 		//	ENS.setText("");
 		//	ENS.setSignatur("");	
 		//}
-		ENS.setENS_id(cursor.getLong(1));
-		ENS.setBetreff(cursor.getString(2));		
-		ENS.setTime(cursor.getString(4));
-		ENS.setAnVon(cursor.getString(5));
-		ENS.setOrdner(cursor.getInt(10));		
-		ENS.setFlags(cursor.getInt(12));
-		ENS.setKonversation(cursor.getInt(13));
-		ENS.setTyp(cursor.getInt(14));
-		ENS.setReferenz(cursor.getLong(15));
+		ENS.setENS_id(cursor.getLong(0));
+		ENS.setBetreff(cursor.getString(1));		
+		ENS.setTime(cursor.getString(3));
+		ENS.setAnVon(cursor.getString(4));
+		ENS.setOrdner(cursor.getInt(9));		
+		ENS.setFlags(cursor.getInt(11));
+		ENS.setKonversation(cursor.getInt(12));
+		ENS.setTyp(cursor.getInt(13));
+		ENS.setReferenz(cursor.getLong(14));
 		
 		UserObject temp = new UserObject();
-		temp.setId(cursor.getString(8));
-		temp.setUsername(cursor.getString(6));		
+		temp.setId(cursor.getString(7));
+		temp.setUsername(cursor.getString(5));		
 		ENS.setVon(temp);
 		
 		temp = new UserObject();
-		temp.setId(cursor.getString(9));
-		temp.setUsername(cursor.getString(7));
+		temp.setId(cursor.getString(8));
+		temp.setUsername(cursor.getString(6));
 		ENS.addAnUser(temp);
 		
 		return ENS;
@@ -199,10 +200,10 @@ public class ENSsql {
 	
 	private ENSObject cursorToFolder(Cursor cursor) {
 		ENSObject ENS = new ENSObject();
-		ENS.setBetreff(cursor.getString(2));
-		ENS.setENS_id(cursor.getLong(1));
+		ENS.setBetreff(cursor.getString(1));
+		ENS.setENS_id(cursor.getLong(0));
 		ENS.setTyp(99);
-		ENS.setOrdner(cursor.getInt(3));
+		ENS.setOrdner(cursor.getInt(2));
 		if(ENS.getOrdner() == 1) ENS.setAnVon("an");
 		else ENS.setAnVon("von");
 		ENS.setSignatur("0");

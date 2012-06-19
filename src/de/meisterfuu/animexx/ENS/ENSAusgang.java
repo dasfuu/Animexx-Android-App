@@ -12,12 +12,14 @@ import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 import de.meisterfuu.animexx.other.UserObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -227,8 +229,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		dialog.dismiss();
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		alertDialog.setTitle("Fehler");
-		alertDialog.setMessage("ENS konnten nicht abgerufen werden. Offlinedaten werden angezeigt.");
+		alertDialog.setMessage("Offlinedaten werden angezeigt.");
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 		   public void onClick(DialogInterface dialog, int which) {
 		      //
@@ -250,7 +251,17 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	}
 
 	public void refresh() {
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true);
+		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
+		        new OnCancelListener() {
+            public void onCancel(DialogInterface pd) {
+            	if(page <= 1){
+            		Task.cancel(true);
+            		DoError();
+            	}
+            	else ((Activity) con).finish();
+            }
+        }); 
+		
 		try {
 			
 		
