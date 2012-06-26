@@ -3,11 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+
     <Button
         android:id="@+id/btfeedback"
-        android:layout_width="match_parent"
+        style="@style/AnimexxStyle"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:text="@string/Send" />
 
     <EditText

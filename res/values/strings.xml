@@ -5,7 +5,7 @@
     <string name="app_name">Animexx</string>
     <string name="Anmelden">Anmelden</string>
     <string name="OAuthStatus">OAuth Status</string>
-    <string name="Betreff">Betreff</string>
+    <string name="Betreff">Betreff:</string>
     <string name="ENSAn">An:</string>
     <string name="Nachricht">Nachricht:</string>
     <string name="Send">Absenden</string>

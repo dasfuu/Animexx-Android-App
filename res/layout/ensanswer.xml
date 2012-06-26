@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
+
     <TextView
         android:id="@+id/TxSBetreff"
         android:layout_width="wrap_content"
@@ -30,11 +30,14 @@
         android:id="@+id/edAn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+
     <Button
         android:id="@+id/BtSend"
-        android:layout_width="match_parent"
+        style="@style/AnimexxStyle"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:text="@string/Send" />
 
     <TextView

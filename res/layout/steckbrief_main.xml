@@ -168,14 +168,18 @@
 
 		        <Button
 		            android:id="@+id/btGB"
-		            android:layout_width="174dp"
-		            android:layout_height="wrap_content"
+			        android:layout_width="218dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center"
+			        android:layout_margin="10dp"
 		            android:text="@string/Guestbook" />
 
 		        <Button
 		            android:id="@+id/btENS"
-		            android:layout_width="174dp"
-		            android:layout_height="wrap_content"
+			        android:layout_width="218dp"
+			        android:layout_height="wrap_content"
+			        android:layout_gravity="center"
+			        android:layout_margin="10dp"
 		            android:text="@string/SendENS" />
 
 		    </LinearLayout>
