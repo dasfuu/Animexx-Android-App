@@ -48,6 +48,34 @@ public class Menu extends Activity {
 		setClick(Home, ContactsActivityList.class);
 		setClick(Settings, Settings.class);
 		
+		
+		final Menu temp = this;
+		imgCoin.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+					
+				new Thread(new Runnable() {
+					public void run() {
+							
+							try {
+								Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_abholen/?api=2");
+								temp.taler = false;
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							
+							temp.runOnUiThread(new Runnable() {
+								public void run() {
+									temp.time = 0;
+									setIcons();
+								}
+							});
+								
+							
+						}
+					}).start();
+				
+			}
+		});
 
 	}
 	
@@ -81,7 +109,7 @@ public class Menu extends Activity {
 		
 		long i = System.currentTimeMillis() - time;
 		Log.i("Animexx","last check "+i+"ms ago");
-		if((i > 30000L) || time == 0)
+		if((i > 30000L) || time == 0){
 			new Thread(new Runnable() {
 				public void run() {
 					
@@ -102,7 +130,8 @@ public class Menu extends Activity {
 				}
 			}).start();
 		
-		time = System.currentTimeMillis();
+			time = System.currentTimeMillis();
+		}
 	}
 	
 	private boolean KarotalerCheck(){
@@ -128,7 +157,7 @@ public class Menu extends Activity {
 	
 	private void setIcons(){
 		if(taler){
-			imgCoin.setVisibility(View.VISIBLE);
+			imgCoin.setVisibility(View.VISIBLE);			
 		} else {
 			imgCoin.setVisibility(View.GONE);
 		}

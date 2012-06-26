@@ -22,7 +22,7 @@ public class KaroTalerAlert extends Activity {
 	private void Alert(final Context c, int amount, int gesamt){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
-		builder.setMessage("Du hast "+gesamt+" Karotaler und kannst "+amount+" neue abholen. Abholen?")
+		builder.setMessage("Möchtest du "+amount+" Karotaler abholen?")
 		       .setCancelable(false)
 		       .setPositiveButton("Ja", new DialogInterface.OnClickListener() {
 		           public void onClick(DialogInterface dialog, int id) {
