@@ -216,9 +216,9 @@ public class ENS extends ListActivity implements UpDateUI {
 		dialog.dismiss();
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		adapter.refill();
-		//final long  folder = ordner;
+		final long  folder = ordner;
 		
-		/*
+		
 		new Thread(new Runnable() {
 			public void run() {
 				ENSsql SQL = new ENSsql(con);
@@ -226,14 +226,14 @@ public class ENS extends ListActivity implements UpDateUI {
 				if((folder == 1 || folder == 2) && error == false)SQL.clearFolder("1");
 				for(int i = 0; i < z.size(); i++){
 					if(z.get(i).isFolder() == false){
-						SQL.updateENS(z.get(i), false);
+						//SQL.updateENS(z.get(i), false);
 					} else
 						SQL.createFolder(z.get(i));
 				}
 				SQL.close();
 			}
 		}).start();
-		*/
+		
 	}
 
 	public void DoError() {
