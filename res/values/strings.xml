@@ -29,5 +29,7 @@
     <string name="SettingsPushLabel">"Push: "</string>
     <string name="SettingsSound">Ton: </string>
     <string name="SettingsSoundENS">"ENS Ton: "</string>
+    <string name="empty"></string>
+    <string name="feedback">Feedback</string>
 
 </resources>

@@ -31,6 +31,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -326,18 +327,22 @@ public class Request {
 		return false;
 	}
 
-	public static boolean checkpush() {
+	public static boolean checkpush(Context con) {
 		try {
+			config = PreferenceManager.getDefaultSharedPreferences(con);
 			String jsonOutput = makeSecuredReq("https://ws.animexx.de/json/cloud2device/registration_id_get/?api=2");
 			String jsonResponse = new JSONObject(jsonOutput)
 					.getJSONObject("return").getJSONArray("registration_ids")
 					.getString(0);
 			Log.i("C2DM-2", jsonResponse);
 			Log.i("C2DM-3", config.getString("c2dm", "x"));
-			if (jsonResponse.equals(config.getString("c2dm", "x")))
+			if (jsonResponse.equals(config.getString("c2dm", "x"))){
+				Log.i("C2DM", "TRUE");
 				return true;
-			else
+			} else {
+				Log.i("C2DM", "FALSE");
 				return false;
+			}
 		} catch (Exception e) {
 			return false;
 		}

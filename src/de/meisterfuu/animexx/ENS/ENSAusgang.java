@@ -209,6 +209,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		adapter.refill();
 		
+		/*
 		new Thread(new Runnable() {
 			public void run() {
 				ENSsql SQL = new ENSsql(con);
@@ -223,6 +224,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 				SQL.close();
 			}
 		}).start();
+		*/
 	}
 
 	public void DoError() {

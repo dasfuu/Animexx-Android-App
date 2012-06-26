@@ -1,5 +1,7 @@
 package de.meisterfuu.animexx.ENS;
 
+import java.util.List;
+
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.UserObject;
@@ -8,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,9 +41,21 @@ public class ENSSingle extends Activity {
 		Nachricht = (TextView) findViewById(R.id.TxENS);
 		ENS = (WebView) findViewById(R.id.WebENS);
 		Answer = (Button) findViewById(R.id.BtAnswer);
+		
+		if(this.getIntent().getData() != null){
+			Uri data = getIntent().getData();
+			List<String> params = data.getPathSegments();
+			id2 = Long.parseLong(params.get(0));
+		} else if(this.getIntent().hasExtra("id")) {
+			Bundle bundle = this.getIntent().getExtras();
+			id2 = bundle.getLong("id");
+		} else {
+			Request.doToast("Error", con);
+			finish();
+		}
 
-		Bundle bundle = this.getIntent().getExtras();
-		id2 = bundle.getLong("id");
+
+
 
 		
 			ENSsql SQL = new ENSsql(this);

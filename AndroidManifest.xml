@@ -14,7 +14,6 @@
     <!-- This app has permission to register and receive message -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <!-- Send the registration id to the server -->
     <uses-permission android:name="android.permission.INTERNET" />
     <permission android:protectionLevel="dangerous" android:label="@string/enspermsissionl" android:name="de.meisterfuu.animexx.permission.ENS_NOTIFY" android:icon="@drawable/logo" android:description="@string/enspermission" android:permissionGroup="android.permission-group.MESSAGES"></permission>
     <uses-permission android:name="android.permission.VIBRATE"/>
@@ -48,7 +47,14 @@
         <activity android:name=".other.Feedback" android:screenOrientation="portrait"></activity>  
         <activity android:name=".ENS.ENS" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSAusgang" android:configChanges="orientation|keyboardHidden"></activity>
-        <activity android:name=".ENS.ENSSingle" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".ENS.ENSSingle" android:configChanges="orientation|keyboardHidden">
+            <intent-filter>
+            <data android:scheme="animexx" android:host="ViewENS" /> 
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" /> 
+            </intent-filter>
+        </activity>
         <activity android:name=".ENS.bla" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSAnswer" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".ENS.ENSMenu" android:configChanges="orientation|keyboardHidden"></activity>

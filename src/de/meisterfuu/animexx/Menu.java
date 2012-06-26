@@ -1,41 +1,63 @@
 package de.meisterfuu.animexx;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.ContactsActivityList;
 import de.meisterfuu.animexx.other.ContactList;
-import de.meisterfuu.animexx.other.Feedback;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class Menu extends Activity {
-	// private SharedPreferences config;
-	static final String[] List = new String[] { "ENS", "News",
-			"Kontaktaktivitäten", "Gästebuch", "Kontakte", "Einstellungen", "Feedback", "About"};
-	ListView listView;
+
+
+	ImageButton ENS,Guestbook,Contacts,About,Home,Settings;
+	ImageView imgCoin, imgPush;
+	boolean taler, push;
+	long time = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.menu2);
-		listView = (ListView) findViewById(R.id.mylist);
-		setlist();
-		//Intent intent2 = new Intent();
-		//intent2.setAction("de.meisterfuu.animexx.karotaler");
-		//intent2.putExtra("action", "stats" ); 
-		//intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		//sendBroadcast(intent2);
+		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
+		setContentView(R.layout.main_menu);
+		
+		ENS = (ImageButton) findViewById(R.id.btens);
+		Guestbook = (ImageButton) findViewById(R.id.btguestbook);
+		Contacts = (ImageButton) findViewById(R.id.btcontacts);
+		About = (ImageButton) findViewById(R.id.btabout);
+		Home = (ImageButton) findViewById(R.id.bthome);
+		Settings = (ImageButton) findViewById(R.id.btsettings);
+		
+		imgCoin = (ImageView) findViewById(R.id.img_coin);
+		imgPush = (ImageView) findViewById(R.id.img_push);
+		
+		setClick(ENS, ENSMenu.class);
+		setClick(Guestbook, GBViewList.class);
+		setClick(Contacts, ContactList.class);
+		setClick(About, about.class);
+		setClick(Home, ContactsActivityList.class);
+		setClick(Settings, Settings.class);
+		
+
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
+	
+	private void setClick(ImageButton b, final Class<?> c){
+		b.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent().setClass(getApplicationContext(), c));
+			}
+		});
 	}
 
 
@@ -47,56 +69,79 @@ public class Menu extends Activity {
 		startActivity(startMain);
 		return;
 	}
-
-	private void setlist() {
-		listView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu, List));
-		listView.setTextFilterEnabled(true);
-		listView.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-
-				switch (position) {
-				case 0:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), ENSMenu.class));
-					break;
-				case 2:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), ContactsActivityList.class));
-					break;
-				case 3:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), GBViewList.class));
-					break;
-				case 4:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), ContactList.class));
-					break;
-				case 5:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), Settings.class));
-					break;
-				case 6:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), Feedback.class));
-					break;
-				case 7:
-					startActivity(new Intent().setClass(
-							getApplicationContext(), about.class));
-					break;
-				/*
-				 *   case 7:
-				 *   startActivity(new Intent().setClass(getApplicationContext(), Debug.class));
-				 *   break;
-				 */				
-				default:
-					Request.doToast("Gibts noch nicht :P",
-							getApplicationContext());
-					break;
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		taler = false;
+		push = false;
+		
+		final Menu temp = this;
+		
+		long i = System.currentTimeMillis() - time;
+		Log.i("Animexx","last check "+i+"ms ago");
+		if((i > 30000L) || time == 0)
+			new Thread(new Runnable() {
+				public void run() {
+					
+					temp.push = Request.checkpush(temp);	
+						temp.runOnUiThread(new Runnable() {
+							public void run() {
+								setIcons();
+							}
+						});
+						
+					temp.taler = KarotalerCheck();
+						temp.runOnUiThread(new Runnable() {
+							public void run() {
+								setIcons();
+							}
+						});
+					
 				}
-
-			}
-		});
+			}).start();
+		
+		time = System.currentTimeMillis();
 	}
+	
+	private boolean KarotalerCheck(){
+		try {
+			int abholbar = 0;
+			JSONObject a = new JSONObject(Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_statistik/?api=2"));
+			JSONArray ab = a.getJSONObject("return").getJSONArray("kt_abholbar");
+			if(ab.length() > 0){
+				abholbar = ab.getJSONObject(0).getInt("kt");
+			} else {
+				abholbar = 0;
+			}
+			
+			return (abholbar > 0);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	private void setIcons(){
+		if(taler){
+			imgCoin.setVisibility(View.VISIBLE);
+		} else {
+			imgCoin.setVisibility(View.GONE);
+		}
+		
+		if(push){
+			imgPush.setVisibility(View.VISIBLE);
+		} else {
+			imgPush.setVisibility(View.GONE);
+		}
+		
+	}
+
+
+
 
 }

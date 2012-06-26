@@ -24,7 +24,7 @@ public class ENSMenu extends ListActivity {
 		final ENSMenu temp = this;
 		new Thread(new Runnable() {
 			public void run() {
-				if (Request.checkpush() == true)
+				if (Request.checkpush(temp) == true)
 					List[3] = "ENS Pushing On (Ausschalten)";
 				else
 					List[3] = "ENS Pushing Off (Einschalten)";
@@ -79,7 +79,7 @@ public class ENSMenu extends ListActivity {
 		final ENSMenu temp = this;
 		new Thread(new Runnable() {
 			public void run() {
-				if (Request.checkpush() == true)
+				if (Request.checkpush(temp) == true)
 					List[3] = "ENS Pushing On (Ausschalten)";
 				else
 					List[3] = "ENS Pushing Off (Einschalten)";
