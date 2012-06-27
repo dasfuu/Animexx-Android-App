@@ -35,6 +35,8 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
 	    notifyDataSetChanged();
 	}
+	
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

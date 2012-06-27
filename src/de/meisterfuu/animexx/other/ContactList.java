@@ -1,5 +1,7 @@
 package de.meisterfuu.animexx.other;
 
+import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,24 +10,34 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class ContactList extends ListActivity {
 
 	
-	UserObject[] List;
+	ArrayList<UserObject> List;
 	Context con;
 	int action = 0;
+	private EditText filterText = null;
+	CTAdapter adapter;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
+		
+		setContentView(R.layout.contact_list_header);
+		filterText = (EditText) findViewById(R.id.search_box);
+		filterText.addTextChangedListener(filterTextWatcher);
 		
 		con = this;
 		
@@ -40,11 +52,11 @@ public class ContactList extends ListActivity {
 					Constants.LOADING, true);
 			new Thread(new Runnable() {
 				public void run() {
-					final CTAdapter a;
-					a = new CTAdapter(tempAPP, getContactlist());
+					
+					adapter = new CTAdapter(tempAPP, getContactlist());
 					tempAPP.runOnUiThread(new Runnable() {
 						public void run() {
-							setlist(a);
+							setlist(adapter);
 							dialog.dismiss();
 						}
 					});
@@ -53,6 +65,23 @@ public class ContactList extends ListActivity {
 		
 	}
 
+	
+	private TextWatcher filterTextWatcher = new TextWatcher() {
+
+	    public void afterTextChanged(Editable s) {
+	    }
+
+	    public void beforeTextChanged(CharSequence s, int start, int count,
+	            int after) {
+	    }
+
+	    public void onTextChanged(CharSequence s, int start, int before,
+	            int count) {
+	        adapter.filterUser(s);
+	    }
+
+	};
+	
 	private void setlist(CTAdapter a) {
 		setListAdapter(a);
 		
@@ -63,7 +92,7 @@ public class ContactList extends ListActivity {
 					int pos, long id) {
 				
 				if(action == 0){
-					UserPopUp Menu = new UserPopUp(con, List[pos].getUsername(), List[pos].getId());
+					UserPopUp Menu = new UserPopUp(con, List.get(pos).getUsername(), List.get(pos).getId());
 					Menu.PopUp();				
 				}
 
@@ -71,24 +100,23 @@ public class ContactList extends ListActivity {
 		});
 	}
 
-	private UserObject[] getContactlist() {
+	private  ArrayList<UserObject> getContactlist() {
 		try {
 			JSONObject jsonResponse = new JSONObject(
 			Request.makeSecuredReq("https://ws.animexx.de/json/kontakte/get_kontakte/?api=2"));
 			JSONArray Userlist = jsonResponse.getJSONArray("return");
-			UserObject[] temp = new UserObject[(Userlist.length())];
+			ArrayList<UserObject> temp = new  ArrayList<UserObject>(Userlist.length());
 
 			if (Userlist.length() != 0) {
-				for (int i = 0; i < Userlist.length(); i++) {
-					
-					JSONObject tp = Userlist.getJSONObject(i);			
-					temp[i] = new UserObject();					
-					temp[i].ParseJSON(tp);
-
+				for (int i = 0; i < Userlist.length(); i++) {					
+					JSONObject tp = Userlist.getJSONObject(i);		
+					UserObject tempu = new UserObject();
+					tempu.ParseJSON(tp);
+					temp.add(tempu);					
 				}
 			} else {
 				//Keine Kontakte :(
-				return new UserObject[] {};
+				return temp;
 			}
 			
 			List = temp;
@@ -97,7 +125,7 @@ public class ContactList extends ListActivity {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new UserObject[] {};
+		return null;
 	}
 
 }

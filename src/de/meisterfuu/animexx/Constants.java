@@ -17,6 +17,6 @@ public class Constants {
 
 	// Other
 	public static final String LOADING = "Daten werden abgerufen...";
-	public static final String VERSION = "v1.5.7.2";
+	public static final String VERSION = "v1.5.7.3";
 
 }
