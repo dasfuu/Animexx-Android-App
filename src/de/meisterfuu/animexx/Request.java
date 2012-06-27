@@ -52,16 +52,20 @@ public class Request {
 		edit.commit();
 	}
 
-	public static int GetUnread() throws Exception {
-
-		String jsonOutput = "";
-		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/anzahl_ungelesen/?api=2");
-		JSONObject jsonResponse = new JSONObject(jsonOutput);
-		JSONObject m = (JSONObject) jsonResponse.get("return");
-		int anzahl = m.getInt("ungelesen");
-		Log.i("Animexx", anzahl + " ungelesene ENS");
-		return anzahl;
-
+	public static int GetUnread() {
+		
+		try{
+			String jsonOutput = "";
+			jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/anzahl_ungelesen/?api=2");
+			JSONObject jsonResponse = new JSONObject(jsonOutput);
+			JSONObject m = (JSONObject) jsonResponse.get("return");
+			int anzahl = m.getInt("ungelesen");
+			Log.i("Animexx", anzahl + " ungelesene ENS");
+			return anzahl;
+		} catch (Exception e) {
+			return 0;
+		}
+		
 	}
 
 	public static ENSObject GetENS(long id) throws Exception {

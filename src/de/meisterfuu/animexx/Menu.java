@@ -22,8 +22,8 @@ public class Menu extends Activity {
 
 
 	ImageButton ENS,Guestbook,Contacts,About,Home,Settings;
-	ImageView imgCoin, imgPush;
-	boolean taler, push;
+	ImageView imgCoin, imgPush, imgunreadENS;
+	boolean taler, push, unread;
 	long time = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class Menu extends Activity {
 		
 		imgCoin = (ImageView) findViewById(R.id.img_coin);
 		imgPush = (ImageView) findViewById(R.id.img_push);
+		imgunreadENS = (ImageView) findViewById(R.id.img_unreadENS);
 		
 		setClick(ENS, ENSMenu.class);
 		setClick(Guestbook, GBViewList.class);
@@ -104,6 +105,7 @@ public class Menu extends Activity {
 		
 		taler = false;
 		push = false;
+		unread = false;
 		
 		final Menu temp = this;
 		
@@ -114,6 +116,13 @@ public class Menu extends Activity {
 				public void run() {
 					
 					temp.push = Request.checkpush(temp);	
+						temp.runOnUiThread(new Runnable() {
+							public void run() {
+								setIcons();
+							}
+						});
+						
+					temp.unread = (Request.GetUnread() > 0);	
 						temp.runOnUiThread(new Runnable() {
 							public void run() {
 								setIcons();
@@ -166,6 +175,12 @@ public class Menu extends Activity {
 			imgPush.setVisibility(View.VISIBLE);
 		} else {
 			imgPush.setVisibility(View.GONE);
+		}
+		
+		if(unread){
+			imgunreadENS.setVisibility(View.VISIBLE);
+		} else {
+			imgunreadENS.setVisibility(View.GONE);
 		}
 		
 	}
