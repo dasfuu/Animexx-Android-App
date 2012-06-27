@@ -30,8 +30,11 @@
 
     <Button
         android:id="@+id/BtAnswer"
-        android:layout_width="match_parent"
+        style="@style/AnimexxStyle"
+        android:layout_width="218dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:text="@string/Answer" />
 
     </LinearLayout>
