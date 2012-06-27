@@ -32,6 +32,7 @@ public class Feedback extends Activity {
 					//Request.ENSNotify("Feedback", s);
 					Request.sendENS("App-Feedback", s, "Feedback "+Constants.VERSION, new int[]{586283}, -1);
 					Log.i("Feedback", "Feedback gesendet");
+					Request.doToast("Feedback gesendet!", con);
 					con.finish();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
