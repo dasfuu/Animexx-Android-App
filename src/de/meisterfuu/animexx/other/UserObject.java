@@ -3,7 +3,7 @@ package de.meisterfuu.animexx.other;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class UserObject {
+public class UserObject implements Comparable<Object> {
 
 	private String id, username, picture;
 	private boolean SteckbriefFreigabe;
@@ -59,6 +59,12 @@ public class UserObject {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public int compareTo(Object o2) {
+
+		return this.getUsername().compareTo(((UserObject) o2).getUsername());
+			
 	}
 	
 	

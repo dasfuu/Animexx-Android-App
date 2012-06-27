@@ -1,6 +1,7 @@
 package de.meisterfuu.animexx.other;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,6 +120,7 @@ public class ContactList extends ListActivity {
 				return temp;
 			}
 			
+			Collections.sort( temp );
 			List = temp;
 			return List;
 			
