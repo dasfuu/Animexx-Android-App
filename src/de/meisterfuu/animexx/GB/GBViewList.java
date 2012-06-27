@@ -114,11 +114,11 @@ public class GBViewList extends ListActivity implements UpDateUI {
 
 	private ArrayList<GBObject> getENSlist(String JSON) {
 		
-		
+			ArrayList<GBObject> GBa = new ArrayList<GBObject>();
 			try{
 				JSONObject jsonResponse = new JSONObject(JSON);
 				JSONArray GBlist = jsonResponse.getJSONObject("return").getJSONArray("eintraege");
-				ArrayList<GBObject> GBa = new ArrayList<GBObject>(GBlist.length());
+				GBa = new ArrayList<GBObject>(GBlist.length());
 		
 				if (GBlist.length() != 0) {
 					for (int i = 0; i < GBlist.length(); i++) {
@@ -126,7 +126,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 						GBObject GB = new GBObject();
 						
 						UserObject von = new UserObject();
-						von.ParseJSON(tp.getJSONObject("von"));
+						if(!tp.isNull("von")) von.ParseJSON(tp.getJSONObject("von"));
 						GB.setVon(von);
 						
 						GB.setText(tp.getString("text_html"));
@@ -147,7 +147,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return null;
+			return GBa;
 	
 	}
 
