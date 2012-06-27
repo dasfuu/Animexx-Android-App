@@ -42,9 +42,14 @@ public class ENSSingle extends Activity {
 		ENS = (WebView) findViewById(R.id.WebENS);
 		Answer = (Button) findViewById(R.id.BtAnswer);
 		
-		if(this.getIntent().getData() != null){
-			Uri data = getIntent().getData();
-			List<String> params = data.getPathSegments();
+		Uri data = getIntent().getData();
+		List<String> params = null;
+		try{
+			params = data.getPathSegments();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		if(params != null && params.size() > 0){					
 			id2 = Long.parseLong(params.get(0));
 		} else if(this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -52,6 +57,7 @@ public class ENSSingle extends Activity {
 		} else {
 			Request.doToast("Error", con);
 			finish();
+			return;
 		}
 
 
@@ -62,8 +68,8 @@ public class ENSSingle extends Activity {
 			SQL.open();
 			msg = SQL.getSingleENS(id2);
 			SQL.close();
-			updateUI();
 			if(msg != null && msg.getText() != "" && msg.getText() != null){
+				updateUI();
 				return;
 			}
 			
