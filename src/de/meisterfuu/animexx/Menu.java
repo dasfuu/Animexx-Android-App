@@ -3,6 +3,7 @@ package de.meisterfuu.animexx;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.meisterfuu.animexx.ENS.ENS;
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.ContactsActivityList;
@@ -74,6 +75,15 @@ public class Menu extends Activity {
 							
 						}
 					}).start();
+				
+			}
+		});
+		
+		imgunreadENS.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+					
+				startActivity(new Intent().setClass(
+						getApplicationContext(), ENS.class));
 				
 			}
 		});
