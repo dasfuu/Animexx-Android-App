@@ -67,6 +67,7 @@
         <activity android:name=".other.ContactList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".Home.ContactsActivityList" android:configChanges="orientation|keyboardHidden"></activity>        
         <activity android:name=".RPG.RPGViewList" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".RPG.RPGViewPostList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TableView"></activity>
         <activity android:name=".other.SharePictureENS" android:configChanges="orientation|keyboardHidden">
         <intent-filter>
