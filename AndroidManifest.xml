@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="27"
-    android:versionName="1.5.7.3" >
+    android:versionCode="28"
+    android:versionName="1.5.8" >
 
     <uses-sdk android:minSdkVersion="8"  android:targetSdkVersion="8"/>
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -65,7 +65,8 @@
         <activity android:name=".GB.GBAnswer" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".other.Settings" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".other.ContactList" android:configChanges="orientation|keyboardHidden"></activity>
-        <activity android:name=".Home.ContactsActivityList" android:configChanges="orientation|keyboardHidden"></activity>
+        <activity android:name=".Home.ContactsActivityList" android:configChanges="orientation|keyboardHidden"></activity>        
+        <activity android:name=".RPG.RPGViewList" android:configChanges="orientation|keyboardHidden"></activity>
         <activity android:name=".TableView"></activity>
         <activity android:name=".other.SharePictureENS" android:configChanges="orientation|keyboardHidden">
         <intent-filter>

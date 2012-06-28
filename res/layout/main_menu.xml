@@ -32,8 +32,9 @@
             android:id="@+id/img_unreadENS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
-            android:scaleType="centerInside"
             android:src="@drawable/email_open"
             android:visibility="gone" />
 
@@ -42,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
+            android:layout_marginLeft="3dp"
             android:layout_weight="1"
-            android:scaleType="centerInside"
             android:src="@drawable/coins"
             android:visibility="gone" />
 
@@ -95,12 +96,12 @@
             android:src="@drawable/group" />
 
     </LinearLayout>
-
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center" >
-
+
         <ImageButton
             android:id="@+id/bthome"
             style="@style/ButtonImage"
@@ -108,20 +109,34 @@
             android:layout_height="66dp"
             android:scaleType="center"
             android:src="@drawable/house" />
-
+
         <ImageButton
             android:id="@+id/btsettings"
             style="@style/ButtonImage"
             android:layout_width="66dp"
             android:layout_height="66dp"
             android:src="@drawable/bullet_wrench" />
-
+
         <ImageButton
             android:id="@+id/btabout"
             style="@style/ButtonImage"
             android:layout_width="66dp"
             android:layout_height="66dp"
             android:src="@drawable/information" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <ImageButton
+            android:id="@+id/btrpg"
+            style="@style/ButtonImage"
+            android:layout_width="66dp"
+            android:layout_height="66dp"
+            android:scaleType="center"
+            android:src="@drawable/discussion" />
 
     </LinearLayout>
 

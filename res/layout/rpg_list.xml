@@ -2,19 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="6dp"
     android:gravity="center" >
-
+
     <ImageView
-        android:id="@+id/img"
-        android:layout_width="32px"
-        android:layout_height="32px"
-        android:layout_gravity="center_vertical|top"
-        android:layout_marginLeft="4px"
-        android:layout_marginRight="5px"
-        android:layout_marginTop="4px"
-        android:src="@drawable/ic_launcher" >
-
-    </ImageView>
+        android:id="@+id/RPGIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="top"
+        android:layout_margin="6dp"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/discussion" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -22,28 +20,24 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.97"
         android:orientation="vertical" >
-
+
         <TextView
-            android:id="@+id/txt"
+            android:id="@+id/RPGName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lines="1"
             android:padding="10dp"
             android:text="@+id/label"
             android:textSize="16sp" />
-
+
         <TextView
-            android:id="@+id/txinfo"
+            android:id="@+id/RPGInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@+id/label"
             android:textSize="11sp" />
+
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imgmore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-      />
 
 </LinearLayout>

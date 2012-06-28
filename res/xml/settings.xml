@@ -13,4 +13,7 @@
                 android:key="ringtonePrefENS" android:showDefault="true" android:ringtoneType="notification" android:showSilent="true" android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
                 <CheckBoxPreference android:title="Vibration" android:defaultValue="true" android:key="vibration" android:summaryOff="Drücken zum aktivieren! Bzzzz" android:summaryOn="Drücken zum deaktivieren! "/>
         </PreferenceCategory>
+        <PreferenceCategory android:title="RPG">
+            <CheckBoxPreference android:key="rpgfastanswer" android:title="Schnellantwort" android:defaultValue="true" android:summaryOn="Drücken zum deaktivieren! " android:summaryOff="Drücken zum aktivieren!"/>
+        </PreferenceCategory>
 </PreferenceScreen>

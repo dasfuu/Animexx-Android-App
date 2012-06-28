@@ -7,6 +7,7 @@ import de.meisterfuu.animexx.ENS.ENS;
 import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.ContactsActivityList;
+import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.other.ContactList;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
@@ -22,7 +23,7 @@ import android.widget.ImageView;
 public class Menu extends Activity {
 
 
-	ImageButton ENS,Guestbook,Contacts,About,Home,Settings;
+	ImageButton ENS,Guestbook,Contacts,About,Home,Settings, RPG;
 	ImageView imgCoin, imgPush, imgunreadENS;
 	boolean taler, push, unread;
 	long time = 0;
@@ -38,6 +39,7 @@ public class Menu extends Activity {
 		About = (ImageButton) findViewById(R.id.btabout);
 		Home = (ImageButton) findViewById(R.id.bthome);
 		Settings = (ImageButton) findViewById(R.id.btsettings);
+		RPG  = (ImageButton) findViewById(R.id.btrpg);
 		
 		imgCoin = (ImageView) findViewById(R.id.img_coin);
 		imgPush = (ImageView) findViewById(R.id.img_push);
@@ -49,6 +51,7 @@ public class Menu extends Activity {
 		setClick(About, about.class);
 		setClick(Home, ContactsActivityList.class);
 		setClick(Settings, Settings.class);
+		setClick(RPG, RPGViewList.class);
 		
 		
 		final Menu temp = this;
@@ -81,7 +84,7 @@ public class Menu extends Activity {
 		
 		imgunreadENS.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-					
+
 				startActivity(new Intent().setClass(
 						getApplicationContext(), ENS.class));
 				
