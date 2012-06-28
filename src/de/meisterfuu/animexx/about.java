@@ -1,7 +1,6 @@
 package de.meisterfuu.animexx;
 
 import de.meisterfuu.animexx.other.Feedback;
-import de.meisterfuu.animexx.profil.UserPopUp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
