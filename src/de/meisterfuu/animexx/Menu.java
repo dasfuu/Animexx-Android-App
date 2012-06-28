@@ -12,6 +12,7 @@ import de.meisterfuu.animexx.other.ContactList;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -24,7 +25,7 @@ public class Menu extends Activity {
 
 
 	ImageButton ENS,Guestbook,Contacts,About,Home,Settings, RPG;
-	ImageView imgCoin, imgPush, imgunreadENS;
+	ImageView imgCoin, imgPush, imgunreadENS, imglogo;
 	boolean taler, push, unread;
 	long time = 0;
 	
@@ -44,6 +45,7 @@ public class Menu extends Activity {
 		imgCoin = (ImageView) findViewById(R.id.img_coin);
 		imgPush = (ImageView) findViewById(R.id.img_push);
 		imgunreadENS = (ImageView) findViewById(R.id.img_unreadENS);
+		imglogo = (ImageView) findViewById(R.id.logo);
 		
 		setClick(ENS, ENSMenu.class);
 		setClick(Guestbook, GBViewList.class);
@@ -55,14 +57,15 @@ public class Menu extends Activity {
 		
 		
 		final Menu temp = this;
-		imgCoin.setOnClickListener(new OnClickListener() {
+		
+		OnClickListener Karotaler = new OnClickListener() {
 			public void onClick(View v) {
 					
 				new Thread(new Runnable() {
 					public void run() {
 							
 							try {
-								Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_abholen/?api=2");
+								if(taler) Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_abholen/?api=2");
 								temp.taler = false;
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -80,7 +83,11 @@ public class Menu extends Activity {
 					}).start();
 				
 			}
-		});
+		};
+		
+		imgCoin.setOnClickListener(Karotaler);
+		imglogo.setOnClickListener(Karotaler);
+		
 		
 		imgunreadENS.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -180,9 +187,11 @@ public class Menu extends Activity {
 	
 	private void setIcons(){
 		if(taler){
-			imgCoin.setVisibility(View.VISIBLE);			
+			imgCoin.setVisibility(View.VISIBLE);	
+			imglogo.setColorFilter(Color.YELLOW);
 		} else {
 			imgCoin.setVisibility(View.GONE);
+			imglogo.setColorFilter(Color.TRANSPARENT);
 		}
 		
 		if(push){
