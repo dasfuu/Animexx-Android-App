@@ -8,7 +8,8 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:scrollbars="none" />
 
     <EditText
         android:id="@+id/ed_answer"
@@ -17,9 +18,7 @@
         android:layout_marginBottom="0dp"
         android:ems="10"
         android:hint="Antworten..."
-        android:inputType="text"
-        android:maxLines="1"
-        android:singleLine="false" >
+        android:inputType="textMultiLine" >
 
         <requestFocus />
     </EditText>

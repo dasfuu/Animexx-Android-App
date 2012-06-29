@@ -70,7 +70,7 @@ public class UserPopUp {
 
 	public void PopUp() {
 
-		alert.show();
+		if(userid != "none")alert.show();
 	}
 
 	private void openGB() {

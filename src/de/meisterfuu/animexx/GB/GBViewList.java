@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
@@ -61,6 +62,8 @@ public class GBViewList extends ListActivity implements UpDateUI {
 		adapter = new GBAdapter(this, GBArray);
 		setlist(adapter);
 	    refresh();	    	
+	    
+	   
 	}
 	
 
@@ -158,6 +161,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 		final ArrayList<GBObject> z = getENSlist(s[0]);
 		GBArray.addAll(z);
 		adapter.refill();
+		Helper.Tutorial("Eintrag antippen, um ihn komplett zu lesen!", "gblist", con);
 		page++;
 	}
 

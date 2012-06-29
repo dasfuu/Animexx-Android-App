@@ -84,6 +84,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 				
 				Bundle bundle = new Bundle();
 				bundle.putLong("id", RPGArray.get(pos).getId());
+				bundle.putLong("count", RPGArray.get(pos).getPostCount());
 				Intent newIntent = new Intent(getApplicationContext(), RPGViewPostList.class);
 				newIntent.putExtras(bundle);
 				startActivity(newIntent);

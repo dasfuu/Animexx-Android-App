@@ -40,7 +40,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	private BroadcastReceiver receiver;
 	EditText edAnswer;
 	Button Send;
-	long id;
+	long id, count;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,7 +54,12 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
 			id = bundle.getLong("id");
-		} finish();
+		} else finish();
+		
+		if (this.getIntent().hasExtra("count")) {
+			Bundle bundle = this.getIntent().getExtras();
+			count = bundle.getLong("count");  
+		} else finish();
 		
 		  IntentFilter filter = new IntentFilter();
 		  filter.addAction("com.google.android.c2dm.intent.RECEIVE");
@@ -116,7 +121,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int pos, long id) {
 
-
+				refresh();
 				
 			}
 		});
@@ -137,6 +142,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 						RPG.parseJSON(tp);
 						RPGa.add(RPG);
 					}
+					
 				} else {
 					//Keine weiteren Posts
 					
@@ -156,6 +162,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	public void UpDateUi(final String[] s) {		
 
 		final ArrayList<RPGPostObject> z = getRPGlist(s[0]);
+		if (z.size() == 30) refresh();
 		RPGArray.addAll(z);
 		adapter.refill();
 	}
@@ -178,7 +185,9 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		try {			
 
 			HttpGet[] HTTPs = new HttpGet[1];
-			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/");
+			long counter = count-30;
+			if (counter < 0) counter = 0;
+			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/get_postings/?api=2&rpg="+id+"&limit=30&text_format=html&from_pos="+counter);
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
 		
