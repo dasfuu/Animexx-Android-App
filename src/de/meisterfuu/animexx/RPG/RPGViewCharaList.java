@@ -12,43 +12,48 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 
-public class RPGViewList extends ListActivity implements UpDateUI {
+public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
 	AlertDialog alertDialog;
-	ArrayList<RPGObject> RPGArray = new ArrayList<RPGObject>();
+	ArrayList<RPGCharaObject> RPGArray = new ArrayList<RPGCharaObject>();
 	ProgressDialog dialog;
 	final Context context = this;
-	RPGAdapter adapter;
+	RPGCharaAdapter adapter;
 	TaskRequest Task = null;
 	boolean error = false;
 	int mPrevTotalItemCount;
+	long id;
 
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
-		adapter = new RPGAdapter(this, RPGArray);
+
+		if (this.getIntent().hasExtra("id")) {
+			Bundle bundle = this.getIntent().getExtras();
+			id = bundle.getLong("id");
+		} else
+			finish();
+
+		adapter = new RPGCharaAdapter(this, RPGArray);
 		setlist(adapter);
 		refresh();
 	}
 
 
-	private void setlist(RPGAdapter a) {
+	private void setlist(RPGCharaAdapter a) {
 
 		setListAdapter(a);
 
@@ -58,26 +63,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
 
-				RPGPopUp Menu = new RPGPopUp(context, RPGArray.get(pos).getId(), RPGArray.get(pos).getName(), RPGArray.get(pos).getPostCount());
-				Menu.PopUp();
 				return true;
-			}
-		});
-
-		lv.setOnScrollListener(new OnScrollListener() {
-
-			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-				if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
-					mPrevTotalItemCount = totalItemCount;
-					if (!error) {
-						refresh();
-					}
-				}
-			}
-
-
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				// Useless Forced Method -.-
 			}
 		});
 
@@ -85,30 +71,23 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
-				Bundle bundle = new Bundle();
-				bundle.putLong("id", RPGArray.get(pos).getId());
-				bundle.putLong("count", RPGArray.get(pos).getPostCount());
-				Intent newIntent = new Intent(getApplicationContext(), RPGViewPostList.class);
-				newIntent.putExtras(bundle);
-				startActivity(newIntent);
-
 			}
 		});
 	}
 
 
-	private ArrayList<RPGObject> getRPGlist(String JSON) {
+	private ArrayList<RPGCharaObject> getRPGlist(String JSON) {
 
-		ArrayList<RPGObject> RPGa = new ArrayList<RPGObject>();
+		ArrayList<RPGCharaObject> RPGa = new ArrayList<RPGCharaObject>();
 		try {
 			JSONObject jsonResponse = new JSONObject(JSON);
 			JSONArray RPGlist = jsonResponse.getJSONArray("return");
-			RPGa = new ArrayList<RPGObject>(RPGlist.length());
+			RPGa = new ArrayList<RPGCharaObject>(RPGlist.length());
 
 			if (RPGlist.length() != 0) {
 				for (int i = 0; i < RPGlist.length(); i++) {
 					JSONObject tp = RPGlist.getJSONObject(i);
-					RPGObject RPG = new RPGObject();
+					RPGCharaObject RPG = new RPGCharaObject();
 					RPG.parseJSON(tp);
 					RPGa.add(RPG);
 				}
@@ -134,7 +113,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(final String[] s) {
 		dialog.dismiss();
-		final ArrayList<RPGObject> z = getRPGlist(s[0]);
+		final ArrayList<RPGCharaObject> z = getRPGlist(s[0]);
 		RPGArray.addAll(z);
 		adapter.refill();
 	}
@@ -168,7 +147,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 		try {
 
 			HttpGet[] HTTPs = new HttpGet[1];
-			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete=1&api=2&offset=" + RPGArray.size());
+			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/get_charaktere/?api=2&rpg=" + id);
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
 

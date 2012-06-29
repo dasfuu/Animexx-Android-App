@@ -13,22 +13,23 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 
-public class RPGViewPostList extends ListActivity implements UpDateUI {
+
+public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 
 	AlertDialog alertDialog;
 	ArrayList<RPGPostObject> RPGArray = new ArrayList<RPGPostObject>();
@@ -40,7 +41,8 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	private BroadcastReceiver receiver;
 	EditText edAnswer;
 	Button Send;
-	long id, count;
+	boolean error;
+	long id, count = 0;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,41 +58,17 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 			id = bundle.getLong("id");
 		} else finish();
 		
-		if (this.getIntent().hasExtra("count")) {
-			Bundle bundle = this.getIntent().getExtras();
-			count = bundle.getLong("count");  
-		} else finish();
 		
-		  IntentFilter filter = new IntentFilter();
-		  filter.addAction("com.google.android.c2dm.intent.RECEIVE");
-		  filter.addCategory("de.meisterfuu.animexx");
-
-		  receiver = new BroadcastReceiver() {	
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				Request.doToast("Neuer RPG Beitrag!", context);
-				refresh();	 			
-			}
-		  };
-
-		  registerReceiver(receiver, filter);
 				
 		adapter = new RPGPostAdapter(this, RPGArray);
 		setlist(adapter);
 		refresh();	 
 	    
-		Send.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				send();
-			}
-
-
-		});
+		Send.setVisibility(View.GONE);
+		edAnswer.setVisibility(View.GONE);
 	}	
 	
-	private void send() {
-		//Neuen Beitrag senden		
-	}
+	
 	
 	@Override
 	protected void onDestroy() {
@@ -105,7 +83,6 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		ListView lv = getListView();
 		
 		lv.setStackFromBottom(true);
-		lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
@@ -116,6 +93,19 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 			}
 		});
 
+		lv.setOnScrollListener(new OnScrollListener() {
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			    if (view.getAdapter() != null && ((firstVisibleItem + visibleItemCount) >= totalItemCount) && totalItemCount != mPrevTotalItemCount) {
+			        mPrevTotalItemCount = totalItemCount;
+			        if(!error)refresh();
+			    }
+			}
+
+			public void onScrollStateChanged(AbsListView view,
+					int scrollState) {
+				//Useless Forced Method -.-
+			}								
+		});
 		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -145,7 +135,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 					
 				} else {
 					//Keine weiteren Posts
-					
+					error = true;
 				}
 				
 				return RPGa;
@@ -162,14 +152,13 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	public void UpDateUi(final String[] s) {		
 
 		final ArrayList<RPGPostObject> z = getRPGlist(s[0]);
-		if (z.size() == 30) refresh();
 		RPGArray.addAll(z);
 		adapter.refill();
 	}
 
 	public void DoError() {
 
-
+		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
@@ -206,3 +195,4 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	
 	
 }
+

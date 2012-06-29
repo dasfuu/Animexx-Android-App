@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="6dp"
     android:gravity="center" >
-
+
     <ImageView
         android:id="@+id/RPGIcon"
         android:layout_width="30dp"
@@ -12,7 +12,7 @@
         android:layout_gravity="top"
         android:layout_margin="6dp"
         android:layout_marginLeft="6dp"
-        android:src="@drawable/discussion" />
+        android:src="@drawable/rpg" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"

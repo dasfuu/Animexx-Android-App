@@ -127,14 +127,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center" >
-
+
         <ImageButton
             android:id="@+id/btrpg"
             style="@style/ButtonImage"
             android:layout_width="66dp"
             android:layout_height="66dp"
             android:scaleType="center"
-            android:src="@drawable/discussion" />
+            android:src="@drawable/rpg" />
+
     </LinearLayout>
 
 </LinearLayout>
