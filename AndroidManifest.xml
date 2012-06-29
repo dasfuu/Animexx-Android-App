@@ -152,7 +152,15 @@
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity
+            android:name=".RPG.RPGViewCharaList"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
             android:name=".RPG.RPGViewPostList"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity
+            android:name=".RPG.RPGViewPostListStart"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity android:name=".TableView" >
