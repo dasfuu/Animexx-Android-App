@@ -9,42 +9,41 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        
-            <TextView
-                android:id="@+id/TxBetreff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Betreff"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/TxVon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Von"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/TxENS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Nachricht" />
-
-    <WebView
-        android:id="@+id/WebENS"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" />
-
-    <Button
-        android:id="@+id/BtAnswer"
-        style="@style/AnimexxStyle"
-        android:layout_width="218dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        android:text="@string/Answer" />
 
+        <TextView
+            android:id="@+id/TxBetreff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Betreff"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/TxVon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Von"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/TxENS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Nachricht" />
+
+        <WebView
+            android:id="@+id/WebENS"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" />
+
+        <Button
+            android:id="@+id/BtAnswer"
+            style="@style/AnimexxStyle"
+            android:layout_width="218dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:text="@string/Answer" />
     </LinearLayout>
 
 </ScrollView>

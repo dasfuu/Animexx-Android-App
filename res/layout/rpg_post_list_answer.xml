@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <!-- Pretty hint text, and maxLines -->
-
-    <!-- Set height to 0, and let the weight param expand it -->
-    <!-- Note the use of the default ID! This lets us use a 
-         ListActivity still! -->
-
-    <ListView android:id="@android:id/list"
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="1" 
-         />
-
+        android:layout_weight="1" />
+
     <EditText
         android:id="@+id/ed_answer"
         android:layout_width="fill_parent"
@@ -30,7 +23,7 @@
 
         <requestFocus />
     </EditText>
-
+
     <Button
         android:id="@+id/btsend"
         style="@style/AnimexxStyle"

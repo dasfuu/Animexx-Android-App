@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center" >
-
+
     <de.meisterfuu.animexx.other.LoadImage
         android:id="@+id/ctimage"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
-
     </de.meisterfuu.animexx.other.LoadImage>
 
     <LinearLayout
@@ -18,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.97"
         android:orientation="vertical" >
-
+
         <TextView
             android:id="@+id/ctusername"
             android:layout_width="wrap_content"
@@ -27,7 +26,6 @@
             android:padding="10dp"
             android:text="@+id/label"
             android:textSize="16sp" />
-
     </LinearLayout>
 
 </LinearLayout>
