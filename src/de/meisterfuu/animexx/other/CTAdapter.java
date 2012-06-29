@@ -13,7 +13,7 @@ import de.meisterfuu.animexx.other.LoadImage;
 
 public class CTAdapter extends ArrayAdapter<UserObject> {
 	private final Activity context;
-	private ArrayList<UserObject> names;
+	public ArrayList<UserObject> names;
 	private ArrayList<UserObject> all;
 
 	static class ViewHolder {

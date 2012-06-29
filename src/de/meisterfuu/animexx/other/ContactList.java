@@ -83,7 +83,7 @@ public class ContactList extends ListActivity {
 
 	};
 	
-	private void setlist(CTAdapter a) {
+	private void setlist(final CTAdapter a) {
 		setListAdapter(a);
 		
 		ListView lv = getListView();
@@ -93,7 +93,7 @@ public class ContactList extends ListActivity {
 					int pos, long id) {
 				
 				if(action == 0){
-					UserPopUp Menu = new UserPopUp(con, List.get(pos).getUsername(), List.get(pos).getId());
+					UserPopUp Menu = new UserPopUp(con, a.names.get(pos).getUsername(), a.names.get(pos).getId());
 					Menu.PopUp();				
 				}
 
