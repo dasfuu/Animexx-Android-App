@@ -1,6 +1,7 @@
 package de.meisterfuu.animexx.RPG;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
@@ -63,7 +64,6 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 		adapter = new RPGPostAdapter(this, RPGArray);
 		setlist(adapter);
 		refresh();	 
-	    
 		Send.setVisibility(View.GONE);
 		edAnswer.setVisibility(View.GONE);
 	}	
@@ -82,7 +82,6 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 
 		ListView lv = getListView();
 		
-		lv.setStackFromBottom(true);
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos,
@@ -130,7 +129,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 						JSONObject tp = RPGlist.getJSONObject(i);	
 						RPGPostObject RPG = new RPGPostObject();
 						RPG.parseJSON(tp);
-						RPGa.add(RPG);
+						if(!RPGArray.contains(RPG)) RPGa.add(RPG);
 					}
 					
 				} else {
@@ -153,6 +152,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 
 		final ArrayList<RPGPostObject> z = getRPGlist(s[0]);
 		RPGArray.addAll(z);
+		Collections.sort(RPGArray);
 		adapter.refill();
 	}
 

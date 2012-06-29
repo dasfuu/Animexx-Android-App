@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import de.meisterfuu.animexx.other.UserObject;
 
-public class RPGPostObject {
+public class RPGPostObject implements Comparable<Object> {
 
 	long id;
 	String Post;
@@ -39,9 +39,9 @@ public class RPGPostObject {
 		 * - avatar_url: null | string / null oder die URL auf den Avatar. Avatare sind max. 80x80 Pixel groﬂ
 		 * - avatar_id: int / ID des Avatars. 0, wenn kein Avatar verwendet wird.
 		 */
-		
+
 		try {
-			
+
 			this.setTime(o.optString("datum_server"));
 			this.setId(o.getLong("pos"));
 			this.setPost(o.getString("text_html"));
@@ -50,11 +50,11 @@ public class RPGPostObject {
 			UserObject u = new UserObject();
 			u.ParseJSON(o.getJSONObject("mitglied"));
 			this.setUser(u);
-			this.setIn_time(o.getInt("intime")==1);
-			this.setAction(o.getInt("aktion")==1);
+			this.setIn_time(o.getInt("intime") == 1);
+			this.setAction(o.getInt("aktion") == 1);
 			this.setAvatar_url(o.getString("avatar_url"));
 			this.setAvatar_id(o.getLong("avatar_id"));
-			
+
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,6 +71,12 @@ public class RPGPostObject {
 		this.setPost("Joooooo\n :D \n\n Mehr!");
 		Time = "Vor " + id + " Min";
 		this.in_time = in_time;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		return (this.getId() == ((RPGPostObject) obj).getId());
 	}
 
 
@@ -144,39 +150,41 @@ public class RPGPostObject {
 	}
 
 
-	
 	public String getAvatar_url() {
 		return avatar_url;
 	}
 
 
-	
 	public void setAvatar_url(String avatar_url) {
 		this.avatar_url = avatar_url;
 	}
 
 
-	
 	public long getAvatar_id() {
 		return avatar_id;
 	}
 
 
-	
 	public void setAvatar_id(long avatar_id) {
 		this.avatar_id = avatar_id;
 	}
 
 
-	
 	public long getChara_id() {
 		return Chara_id;
 	}
 
 
-	
 	public void setChara_id(long chara_id) {
 		Chara_id = chara_id;
+	}
+
+
+	public int compareTo(Object obj) {
+		// TODO Auto-generated method stub
+		if (this.getId() < ((RPGPostObject) obj).getId()) return -1;
+		if (this.getId() > ((RPGPostObject) obj).getId()) return 1;
+		return 0;
 	}
 
 }

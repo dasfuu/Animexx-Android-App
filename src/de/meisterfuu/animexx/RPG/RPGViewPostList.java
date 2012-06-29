@@ -140,7 +140,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 						JSONObject tp = RPGlist.getJSONObject(i);	
 						RPGPostObject RPG = new RPGPostObject();
 						RPG.parseJSON(tp);
-						RPGa.add(RPG);
+						if(!RPGArray.contains(RPG))RPGa.add(RPG);
 					}
 					
 				} else {

@@ -32,6 +32,7 @@ public class RPGCharaObject {
 		this.setAdmin(false);
 		this.setId(-1L);
 		this.setName("");
+		this.setFree(true);
 	}
 
 
@@ -40,7 +41,7 @@ public class RPGCharaObject {
 		try {
 			this.setId(o.getLong("id"));
 			this.setName(o.getString("name"));
-			if (o.has("user")) {
+			if (o.has("mitglied")) {
 				UserObject u = new UserObject();
 				u.ParseJSON(o.getJSONObject("mitglied"));
 				this.setUser(u);

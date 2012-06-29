@@ -23,6 +23,7 @@ import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.UserObject;
 
 public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
@@ -81,13 +82,26 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 		ArrayList<RPGCharaObject> RPGa = new ArrayList<RPGCharaObject>();
 		try {
 			JSONObject jsonResponse = new JSONObject(JSON);
-			JSONArray RPGlist = jsonResponse.getJSONArray("return");
-			RPGa = new ArrayList<RPGCharaObject>(RPGlist.length());
+			JSONObject temp = jsonResponse.getJSONObject("return");
+			RPGa = new ArrayList<RPGCharaObject>();
 
+			//ADD RPG-ADMIN
+			JSONObject tp = temp.getJSONObject("owner");
+			RPGCharaObject RPG = new RPGCharaObject();
+			RPG.setAdmin(true);
+			RPG.setName("RPG-Admin");
+			UserObject u = new UserObject();
+			u.ParseJSON(tp);
+			RPG.setUser(u);
+			RPG.setFree(false);
+			RPGa.add(RPG);
+			
+			JSONArray RPGlist = temp.getJSONArray("spieler");
+			
 			if (RPGlist.length() != 0) {
 				for (int i = 0; i < RPGlist.length(); i++) {
-					JSONObject tp = RPGlist.getJSONObject(i);
-					RPGCharaObject RPG = new RPGCharaObject();
+					tp = RPGlist.getJSONObject(i);
+					RPG = new RPGCharaObject();
 					RPG.parseJSON(tp);
 					RPGa.add(RPG);
 				}
@@ -96,10 +110,20 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 				error = true;
 			}
 
-			if (RPGlist.length() < 30) {
+			RPGlist = temp.getJSONArray("offen");
+
+			if (RPGlist.length() != 0) {
+				for (int i = 0; i < RPGlist.length(); i++) {
+					tp = RPGlist.getJSONObject(i);
+					RPG = new RPGCharaObject();
+					RPG.parseJSON(tp);
+					RPGa.add(RPG);
+				}
+			} else {
 				// Keine weiteren RPGs
 				error = true;
 			}
+
 
 			return RPGa;
 
