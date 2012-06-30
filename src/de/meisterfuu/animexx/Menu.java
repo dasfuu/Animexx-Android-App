@@ -124,9 +124,7 @@ public class Menu extends Activity {
 	public void onResume() {
 		super.onResume();
 		
-		taler = false;
-		push = false;
-		unread = false;
+
 		
 		final Menu temp = this;
 		
