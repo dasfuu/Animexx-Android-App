@@ -14,6 +14,6 @@
                 <CheckBoxPreference android:title="Vibration" android:defaultValue="true" android:key="vibration" android:summaryOff="Drücken zum aktivieren! Bzzzz" android:summaryOn="Drücken zum deaktivieren! "/>
         </PreferenceCategory>
         <PreferenceCategory android:title="RPG">
-            <CheckBoxPreference android:key="rpgfastanswer" android:title="Schnellantwort" android:defaultValue="true" android:summaryOn="Drücken zum deaktivieren! " android:summaryOff="Drücken zum aktivieren!"/>
+            <CheckBoxPreference android:key="rpgshowavatar" android:title="Avatare anzeigen" android:defaultValue="true" android:summaryOn="Drücke um die Avatare einzublenden!" android:summaryOff="Drücke um die Avatare auszublenden!"/>
         </PreferenceCategory>
 </PreferenceScreen>

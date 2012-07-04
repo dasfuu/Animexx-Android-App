@@ -10,23 +10,24 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:scrollbars="none" />
-
+
     <RelativeLayout
         android:id="@+id/RPGloading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/header_bg"
-        android:padding="5dp" >
+        android:padding="5dp"
+        android:visibility="gone" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/LoadingText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="Laden..."
             android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
         <ProgressBar
             android:id="@+id/progressBar1"
             android:layout_width="wrap_content"
@@ -38,31 +39,6 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/RPGQuickAnswer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/ed_answer"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Antworten..."
-            android:inputType="textMultiLine" />
-
-        <Button
-            android:id="@+id/btsend"
-            style="@style/AnimexxStyle"
-            android:layout_width="218dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="0dp"
-            android:text="@string/Send" />
-    </LinearLayout>
 
 </LinearLayout>
