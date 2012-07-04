@@ -41,7 +41,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	private ArrayList<RPGCharaObject> CharaArray = new ArrayList<RPGCharaObject>();
 	final Context context = this;
 
-	private long id, count, counter;
+	private long id, count, counter; 
 	
 
 	private BroadcastReceiver receiver;
