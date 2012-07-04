@@ -9,20 +9,19 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
-import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
@@ -31,20 +30,23 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 	AlertDialog alertDialog;
 	ArrayList<RPGObject> RPGArray = new ArrayList<RPGObject>();
-	ProgressDialog dialog;
 	final Context context = this;
 	RPGAdapter adapter;
 	TaskRequest Task = null;
 	boolean error = false;
 	int mPrevTotalItemCount;
+	RelativeLayout Loading;
 
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.listview_loading_bot);
+		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
+		Loading.setVisibility(View.GONE);
+		
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		adapter = new RPGAdapter(this, RPGArray);
 		setlist(adapter);
-		refresh();
 	}
 
 
@@ -58,7 +60,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
 
-				RPGPopUp Menu = new RPGPopUp(context, RPGArray.get(pos).getId(), RPGArray.get(pos).getName(), RPGArray.get(pos).getPostCount());
+				RPGPopUp Menu = new RPGPopUp(context, RPGArray.get(pos).getId(), RPGArray.get(pos).getName(), RPGArray.get(pos).getPostCount(), RPGArray.get(pos).isTofu());
 				Menu.PopUp();
 				return true;
 			}
@@ -88,6 +90,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 				Bundle bundle = new Bundle();
 				bundle.putLong("id", RPGArray.get(pos).getId());
 				bundle.putLong("count", RPGArray.get(pos).getPostCount());
+				bundle.putBoolean("tofu", RPGArray.get(pos).isTofu());
 				Intent newIntent = new Intent(getApplicationContext(), RPGViewPostList.class);
 				newIntent.putExtras(bundle);
 				startActivity(newIntent);
@@ -133,15 +136,15 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 
 	public void UpDateUi(final String[] s) {
-		dialog.dismiss();
-		final ArrayList<RPGObject> z = getRPGlist(s[0]);
+		Loading.setVisibility(View.GONE);
+		ArrayList<RPGObject> z = getRPGlist(s[0]);
 		RPGArray.addAll(z);
 		adapter.refill();
 	}
 
 
 	public void DoError() {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
@@ -157,16 +160,10 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 	public void refresh() {
 
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true, new OnCancelListener() {
-
-			public void onCancel(DialogInterface pd) {
-				Task.cancel(true);
-				((Activity) context).finish();
-			}
-		});
+		Loading.setVisibility(View.VISIBLE);
 
 		try {
-
+			
 			HttpGet[] HTTPs = new HttpGet[1];
 			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete=1&api=2&offset=" + RPGArray.size());
 			Task = new TaskRequest(this);
@@ -176,6 +173,13 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 			e.printStackTrace();
 		}
 
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		RPGArray.clear();
+		refresh();		
 	}
 
 }

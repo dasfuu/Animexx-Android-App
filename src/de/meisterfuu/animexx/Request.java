@@ -39,22 +39,23 @@ public class Request {
 
 	public static SharedPreferences config;
 
+
 	public static void FetchMe() throws Exception {
 		String jsonOutput = "";
 		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/mitglieder/ich/?api=2");
 		JSONObject jsonResponse = new JSONObject(jsonOutput);
 		String id = ((JSONObject) jsonResponse.get("return")).getString("id");
-		String username = ((JSONObject) jsonResponse.get("return"))
-				.getString("username");
+		String username = ((JSONObject) jsonResponse.get("return")).getString("username");
 		Editor edit = Request.config.edit();
 		edit.putString("id", id);
 		edit.putString("username", username);
 		edit.commit();
 	}
 
+
 	public static int GetUnread() {
-		
-		try{
+
+		try {
 			String jsonOutput = "";
 			jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/anzahl_ungelesen/?api=2");
 			JSONObject jsonResponse = new JSONObject(jsonOutput);
@@ -65,40 +66,42 @@ public class Request {
 		} catch (Exception e) {
 			return 0;
 		}
-		
+
 	}
 
+
 	public static ENSObject GetENS(long id) throws Exception {
-		
+
 		String jsonOutput = "";
-		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/ens_open/?ens_id="
-				+ id + "&text_format=html&api=2");
+		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/ens_open/?ens_id=" + id + "&text_format=html&api=2");
 		JSONObject jsonResponse = new JSONObject(jsonOutput);
 		JSONObject m = (JSONObject) jsonResponse.get("return");
 		ENSObject temp = new ENSObject();
 		temp.parseJSON(m);
 		return temp;
 	}
-	
-	
-	public static boolean RemoveENS(Long id, String anvon){
-		try{
-		JSONObject jsonResponse = new JSONObject(makeSecuredReq("https://ws.animexx.de/json/ens/ens_move/?ens_ids[]="
-				+ id + "&vonan="+ anvon +"&zielordner=3&api=2"));
-		if(jsonResponse.getBoolean("success") == true) return true; else return false;
-			
-		} catch(Exception e){
+
+
+	public static boolean RemoveENS(Long id, String anvon) {
+		try {
+			JSONObject jsonResponse = new JSONObject(makeSecuredReq("https://ws.animexx.de/json/ens/ens_move/?ens_ids[]=" + id + "&vonan=" + anvon + "&zielordner=3&api=2"));
+			if (jsonResponse.getBoolean("success") == true)
+				return true;
+			else
+				return false;
+
+		} catch (Exception e) {
 			return false;
 		}
 
 	}
 
+
 	public static int[] GetUser(String[] Names) throws Exception {
 
 		String jsonOutput = "";
 		String url;
-		if (Names.length == 0)
-			return null;
+		if (Names.length == 0) return null;
 		url = "https://ws.animexx.de/json/ens/an_check/?api=2";
 
 		String s = "";
@@ -114,8 +117,7 @@ public class Request {
 
 		JSONObject jsonResponse = new JSONObject(jsonOutput);
 		JSONObject m = (JSONObject) jsonResponse.get("return");
-		if (m.getJSONArray("errors").length() > 0)
-			return null;
+		if (m.getJSONArray("errors").length() > 0) return null;
 
 		JSONArray erg = m.getJSONArray("user_ids");
 		int[] ens = new int[erg.length()];
@@ -126,14 +128,15 @@ public class Request {
 		return ens;
 	}
 
+
 	public static OAuthConsumer getConsumer() {
 		String token = config.getString(OAuth.OAUTH_TOKEN, "");
 		String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, "");
-		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(
-				Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
+		OAuthConsumer consumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY, Constants.CONSUMER_SECRET);
 		consumer.setTokenWithSecret(token, secret);
 		return consumer;
 	}
+
 
 	public static String makeSecuredReq(String url) throws Exception {
 		// url = URLEncoder.encode(url, "ISO-8859-1");
@@ -156,6 +159,7 @@ public class Request {
 		 */
 	}
 
+
 	public static HttpGet getHTTP(String url) throws Exception {
 
 		HttpGet request = new HttpGet(url);
@@ -163,8 +167,8 @@ public class Request {
 
 	}
 
-	public static boolean sendENS(String Betreff, String Text, String Signatur,
-			int[] an, long referenz_id) throws Exception {
+
+	public static boolean sendENS(String Betreff, String Text, String Signatur, int[] an, long referenz_id) throws Exception {
 		String url = "https://ws.animexx.de/json/ens/ens_senden/?api=2";
 		HttpPost request = new HttpPost(url);
 
@@ -192,11 +196,10 @@ public class Request {
 		return m;
 	}
 
-	public static boolean sendENS(String Betreff, String Text, String Signatur,
-			String an, String referenz_id) {
+
+	public static boolean sendENS(String Betreff, String Text, String Signatur, String an, String referenz_id) {
 		try {
-			String url = "https://ws.animexx.de/json/ens/ens_senden/?api=2"
-					+ an;
+			String url = "https://ws.animexx.de/json/ens/ens_senden/?api=2" + an;
 			HttpPost request = new HttpPost(url);
 
 			String s = "";
@@ -219,15 +222,15 @@ public class Request {
 		}
 		return true;
 	}
-	
-	
+
+
 	public static HttpPost sendGB(String Text, String an) {
 		try {
-			String url = "https://ws.animexx.de/json/mitglieder/gaestebuch_schreiben/?api=2&user_id="+an;
+			String url = "https://ws.animexx.de/json/mitglieder/gaestebuch_schreiben/?api=2&user_id=" + an;
 			HttpPost request = new HttpPost(url);
-			 
+
 			String s = "text=" + OAuth.percentEncode(Text);
-			
+
 			StringEntity se = new StringEntity(s);
 			se.setContentType("application/x-www-form-urlencoded");
 			request.setEntity(se);
@@ -237,19 +240,59 @@ public class Request {
 			return null;
 		}
 	}
+	
+	
+	/*
+	  	- charakter, int / benötigt / Die ID des Charakters
+		- text, string / benötigt / Der Text
+		- avatar, int / optional / Die ID des Avatars. Kann nur bei Vertofuzierten RPGs angegeben werden. (wenn /get_meine_charaktere/ Avatare zurückgegeben hat)
+		- kursiv, int / optional / Falls angegeben und "1", dann wird das Posting kursiv.
+		- intime, int / optional / Falls angegeben und ungleich "1", dann wird es ein Out-Time-Posting. Standard: In-Time.
+	 */
+	
+	public static HttpPost sendRPGPost(String Text, long RPGid, boolean InTime, boolean Aktion, long CharaID, long AvatarID) {
+		try {
+			int Time = 0;
+			int Akt = 0;
+			if(Aktion) Akt = 1;
+			if(InTime) Time = 1;
+			
+			String url = "https://ws.animexx.de/json/rpg/erstelle_posting/?api=2&rpg=" + RPGid+"&charakter="+CharaID+"&kursiv="+Akt+"&intime="+Time;
+			if(AvatarID != -1) url += "&avatar="+AvatarID;
+			
+			HttpPost request = new HttpPost(url);
+
+			String s = "text=" + OAuth.percentEncode(Text);
+
+			StringEntity se = new StringEntity(s);
+			se.setContentType("application/x-www-form-urlencoded");
+			request.setEntity(se);
+
+			return request;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public static HttpPost sendRPGPost(String Text, long RPGid, boolean InTime, boolean Aktion, long CharaID) {
+		return sendRPGPost(Text, RPGid, InTime, Aktion, CharaID, -1);
+	}
+	
+	
+
 
 	public static String sendC2DM(String id, String collapse) throws Exception {
 		String url = "https://ws.animexx.de/json/cloud2device/registration_id_set/?api=2";
 		HttpPost request = new HttpPost(url);
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("registration_id", id));
-		nameValuePairs
-				.add(new BasicNameValuePair("collapse_by_type", collapse));
+		nameValuePairs.add(new BasicNameValuePair("collapse_by_type", collapse));
 		request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		Log.i("Animexx", "Requesting URL : " + url);
 		return SignSend(request);
 	}
+
 
 	public static String setC2DM() throws Exception {
 		String url = "https://ws.animexx.de/json/cloud2device/set_active_events/?api=2";
@@ -262,10 +305,9 @@ public class Request {
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventENS"));
-		nameValuePairs.add(new BasicNameValuePair("events[]",
-				"XXEventGeburtstag"));
-		nameValuePairs.add(new BasicNameValuePair("events[]",
-				"XXEventGaestebuch"));
+		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGeburtstag"));
+		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGaestebuch"));
+		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventRPGPosting"));		
 		request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		// StringEntity se = new StringEntity(s);
@@ -276,6 +318,7 @@ public class Request {
 		Log.i("Animexx", "Requesting URL : " + url);
 		return SignSend(request);
 	}
+
 
 	public static String delsendC2DM(String id) throws Exception {
 		String url = "https://ws.animexx.de/json/cloud2device/registration_id_del/?api=2";
@@ -288,6 +331,7 @@ public class Request {
 		return SignSend(request);
 	}
 
+
 	public static void doToast(String s, Context c) {
 		CharSequence text = s;
 		int duration = Toast.LENGTH_SHORT;
@@ -295,11 +339,11 @@ public class Request {
 		toast.show();
 	}
 
+
 	public static int GetNewUnread(int sec) throws Exception {
 
 		String jsonOutput = "";
-		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/anzahl_neue_ens/?sekunden="
-				+ sec + "&api=2");
+		jsonOutput = makeSecuredReq("https://ws.animexx.de/json/ens/anzahl_neue_ens/?sekunden=" + sec + "&api=2");
 		JSONObject jsonResponse = new JSONObject(jsonOutput);
 		JSONObject m = (JSONObject) jsonResponse.get("return");
 		int anzahl = m.getInt("ungelesen");
@@ -307,21 +351,18 @@ public class Request {
 		return anzahl;
 	}
 
+
 	public static boolean checkservice(Context z) {
 
-		final ActivityManager activityManager = (ActivityManager) z
-				.getSystemService("activity");
-		final List<RunningServiceInfo> services = activityManager
-				.getRunningServices(Integer.MAX_VALUE);
+		final ActivityManager activityManager = (ActivityManager) z.getSystemService("activity");
+		final List<RunningServiceInfo> services = activityManager.getRunningServices(Integer.MAX_VALUE);
 
 		for (int i = 0; i < services.size(); i++) {
 
-			if ("de.meisterfuu.animexx".equals(services.get(i).service
-					.getPackageName())) {
+			if ("de.meisterfuu.animexx".equals(services.get(i).service.getPackageName())) {
 				Log.d("Service", "packagename stimmt überein !!!");
 
-				if ("de.meisterfuu.animexx.ENS.ENSService".equals(services
-						.get(i).service.getClassName())) {
+				if ("de.meisterfuu.animexx.ENS.ENSService".equals(services.get(i).service.getClassName())) {
 					Log.d("Service", "getClassName stimmt überein !!!");
 
 					return true;
@@ -331,16 +372,15 @@ public class Request {
 		return false;
 	}
 
+
 	public static boolean checkpush(Context con) {
 		try {
 			config = PreferenceManager.getDefaultSharedPreferences(con);
 			String jsonOutput = makeSecuredReq("https://ws.animexx.de/json/cloud2device/registration_id_get/?api=2");
-			String jsonResponse = new JSONObject(jsonOutput)
-					.getJSONObject("return").getJSONArray("registration_ids")
-					.getString(0);
+			String jsonResponse = new JSONObject(jsonOutput).getJSONObject("return").getJSONArray("registration_ids").getString(0);
 			Log.i("C2DM-2", jsonResponse);
 			Log.i("C2DM-3", config.getString("c2dm", "x"));
-			if (jsonResponse.equals(config.getString("c2dm", "x"))){
+			if (jsonResponse.equals(config.getString("c2dm", "x"))) {
 				Log.i("C2DM", "TRUE");
 				return true;
 			} else {
@@ -351,6 +391,7 @@ public class Request {
 			return false;
 		}
 	}
+
 
 	public static void ENSNotify(String betreff, String text) {
 		int[] an = new int[1];
@@ -364,18 +405,17 @@ public class Request {
 		}
 	}
 
+
 	public static String SignSend(HttpRequestBase r) throws Exception {
 		OAuthConsumer consumer = getConsumer();
 		DefaultHttpClient httpclient = new DefaultHttpClient();
-		httpclient.getParams().setParameter(CoreProtocolPNames.USER_AGENT,
-				"Android App " + Constants.VERSION);
+		httpclient.getParams().setParameter(CoreProtocolPNames.USER_AGENT, "Android App " + Constants.VERSION);
 		consumer.sign(r);
 		Log.i("Animexx", "Request : " + r.getURI());
 		HttpResponse response = httpclient.execute(r);
 		Log.i("Animexx", "Statusline : " + response.getStatusLine());
 		InputStream data = response.getEntity().getContent();
-		BufferedReader bufferedReader = new BufferedReader(
-				new InputStreamReader(data));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(data));
 		String responeLine;
 		StringBuilder responseBuilder = new StringBuilder();
 		while ((responeLine = bufferedReader.readLine()) != null) {
@@ -386,9 +426,6 @@ public class Request {
 
 		return s;
 	}
-	
-	
-
 
 	// HttpPost request = new HttpPost(url);
 	// HttpParameters para = new HttpParameters();

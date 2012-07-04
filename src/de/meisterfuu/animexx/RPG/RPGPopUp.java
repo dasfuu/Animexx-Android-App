@@ -12,17 +12,19 @@ import de.meisterfuu.animexx.Request;
 public class RPGPopUp {
 	final CharSequence[] items = { "Posts", "Charaktere", "Von Anfang an lesen"};
 	long rpgid, count;
+	boolean tofu;
 	String title;
 	Context con;
 	AlertDialog alert;
 	AlertDialog.Builder builder;
 
 	
-	public RPGPopUp(Context context, long rpgid, String title , long count) {
+	public RPGPopUp(Context context, long rpgid, String title , long count, boolean tofu) {
 		this.title = title;
 		this.rpgid = rpgid;
 		this.con = context;
 		this.count = count;
+		this.tofu = tofu;
 		build();
 	}
 	
@@ -63,6 +65,7 @@ public class RPGPopUp {
 		Bundle bundle = new Bundle();
 		bundle.putLong("id", rpgid);
 		bundle.putLong("count", count);
+		bundle.putBoolean("tofu", tofu);
 		Intent newIntent = new Intent(con, RPGViewPostList.class);
 		newIntent.putExtras(bundle);
 		con.startActivity(newIntent);
@@ -79,6 +82,7 @@ public class RPGPopUp {
 	private void openRPGstart() {
 		Bundle bundle = new Bundle();
 		bundle.putLong("id", rpgid);
+		bundle.putBoolean("tofu", tofu);
 		Intent newIntent = new Intent(con, RPGViewPostListStart.class);
 		newIntent.putExtras(bundle);
 		con.startActivity(newIntent);

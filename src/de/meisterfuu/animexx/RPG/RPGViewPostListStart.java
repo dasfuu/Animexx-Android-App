@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -21,9 +20,11 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -39,11 +40,14 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 	RPGPostAdapter adapter;
 	TaskRequest Task = null;
 	int mPrevTotalItemCount;
-	private BroadcastReceiver receiver;
+	//private BroadcastReceiver receiver;
 	EditText edAnswer;
 	Button Send;
 	boolean error;
-	long id, count = 0;
+	long id;
+	long count = 1;
+	LinearLayout QuickAnswer;
+	RelativeLayout Loading;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +56,9 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 		setContentView(R.layout.rpg_post_list_answer);
 		edAnswer = (EditText) findViewById(R.id.ed_answer);
 		Send = (Button) findViewById(R.id.btsend);
+		
+		QuickAnswer = (LinearLayout) findViewById(R.id.RPGQuickAnswer);
+		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		
 		
 		if (this.getIntent().hasExtra("id")) {
@@ -64,8 +71,8 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 		adapter = new RPGPostAdapter(this, RPGArray);
 		setlist(adapter);
 		refresh();	 
-		Send.setVisibility(View.GONE);
-		edAnswer.setVisibility(View.GONE);
+		Loading.setVisibility(View.GONE);
+		QuickAnswer.setVisibility(View.GONE);
 	}	
 	
 	
@@ -73,7 +80,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 	@Override
 	protected void onDestroy() {
 	  super.onDestroy();
-	  unregisterReceiver(receiver);
+	  //unregisterReceiver(receiver);
 	}
 	
 	private void setlist(RPGPostAdapter a) {
@@ -129,7 +136,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 						JSONObject tp = RPGlist.getJSONObject(i);	
 						RPGPostObject RPG = new RPGPostObject();
 						RPG.parseJSON(tp);
-						if(!RPGArray.contains(RPG)) RPGa.add(RPG);
+						if ((RPG.getId() >= count) || RPGArray.isEmpty()) RPGa.add(RPG);
 					}
 					
 				} else {
@@ -151,14 +158,17 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 	public void UpDateUi(final String[] s) {		
 
 		final ArrayList<RPGPostObject> z = getRPGlist(s[0]);
+		Loading.setVisibility(View.GONE);
 		RPGArray.addAll(z);
 		Collections.sort(RPGArray);
 		adapter.refill();
+		count = RPGArray.get(RPGArray.size()-1).getId()+1;
 	}
 
 	public void DoError() {
-
+		
 		error = true;
+		Loading.setVisibility(View.GONE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
@@ -172,15 +182,14 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 	public void refresh() {
 			
 		try {			
-
+			Loading.setVisibility(View.VISIBLE);
 			HttpGet[] HTTPs = new HttpGet[1];
-			long counter = count-30;
-			if (counter < 0) counter = 0;
-			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/get_postings/?api=2&rpg="+id+"&limit=30&text_format=html&from_pos="+counter);
+			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/get_postings/?api=2&rpg="+id+"&limit=30&text_format=html&from_pos="+count);
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
 		
 		} catch (Exception e) {
+			DoError();
 			e.printStackTrace();
 		}
 		
