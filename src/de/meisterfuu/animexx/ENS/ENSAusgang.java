@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -37,7 +39,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
 	long ordner;
 	int offset;
-	ProgressDialog dialog;
+	RelativeLayout Loading;
 	final Context con = this;
 	int page;
 	int mPrevTotalItemCount;
@@ -47,6 +49,10 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.listview_loading_bot);
+		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
+		Loading.setVisibility(View.GONE);
+		
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		typ = "von";
 				
@@ -205,7 +211,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 
 
 	public void UpDateUi(String[] s) {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
 		adapter.refill();
 		
@@ -227,8 +233,22 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		
 	}
 
+	
+	@Override
+	public void onBackPressed() {
+		Task.cancel(true);
+		if (Loading.getVisibility() == Loading.VISIBLE) {
+			if (page == 1)
+				DoError();
+			else
+				finish();
+		} else
+			finish();
+		return;
+	}
+	
 	public void DoError() {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Offlinedaten werden angezeigt.");
@@ -253,16 +273,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	}
 
 	public void refresh() {
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
-		        new OnCancelListener() {
-            public void onCancel(DialogInterface pd) {
-            	if(page <= 1){
-            		Task.cancel(true);
-            		DoError();
-            	}
-            	else ((Activity) con).finish();
-            }
-        }); 
+		Loading.setVisibility(View.VISIBLE);
 		
 		try {
 			
@@ -293,6 +304,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 		
 		} catch (Exception e) {
 			e.printStackTrace();
+			DoError();
 		}
 	}
 	

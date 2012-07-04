@@ -6,8 +6,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Helper;
+import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
@@ -16,15 +16,14 @@ import de.meisterfuu.animexx.other.UserObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -37,7 +36,6 @@ public class GBViewList extends ListActivity implements UpDateUI {
 	AlertDialog alertDialog;
 
 	ArrayList<GBObject> GBArray = new ArrayList<GBObject>();
-	ProgressDialog dialog;
 	final Context con = this;
 	int page;
 	int mPrevTotalItemCount;
@@ -45,9 +43,14 @@ public class GBViewList extends ListActivity implements UpDateUI {
 	TaskRequest Task = null;
 	boolean error = false;
 	String id, username;
+	RelativeLayout Loading;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.listview_loading_bot);
+		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
+		Loading.setVisibility(View.GONE);
+		
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 				
 		if (this.getIntent().hasExtra("id")) {
@@ -157,7 +160,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 
 	public void UpDateUi(final String[] s) {
 		
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		final ArrayList<GBObject> z = getENSlist(s[0]);
 		GBArray.addAll(z);
 		adapter.refill();
@@ -166,7 +169,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 	}
 
 	public void DoError() {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
@@ -180,13 +183,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 
 	public void refresh() {
 		
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
-		        new OnCancelListener() {
-            public void onCancel(DialogInterface pd) {
-            	Task.cancel(true);  
-            	((Activity) con).finish();
-            }
-        });   
+		Loading.setVisibility(View.VISIBLE);
 		
 		try {			
 
