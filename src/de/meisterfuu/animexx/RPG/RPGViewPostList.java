@@ -28,6 +28,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SlidingDrawer;
+import de.meisterfuu.animexx.C2DMReceiver;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -278,6 +279,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 			QuickAnswer.animateClose();
 		} else {
 			unregisterReceiver(receiver);
+			C2DMReceiver.rpg = -1;
 			Task.cancel(true);
 			finish();
 			return;
@@ -463,4 +465,34 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		}).start();
 	}
 
+	
+	protected void onStart() {
+		super.onStart();
+		C2DMReceiver.rpg = (int) id;
+	}
+     
+     protected void onRestart() {
+     	super.onRestart();
+		C2DMReceiver.rpg = (int) id;
+	}
+
+     protected void onResume() {
+     	super.onResume();
+		C2DMReceiver.rpg = (int) id;
+	}
+
+     protected void onPause() {
+     	super.onPause();
+		C2DMReceiver.rpg = -1;
+	}
+
+     protected void onStop() {
+     	super.onStop();
+		C2DMReceiver.rpg = -1;
+	}
+
+     protected void onDestroy() {
+     	super.onDestroy();
+		C2DMReceiver.rpg = -1;
+	}
 }

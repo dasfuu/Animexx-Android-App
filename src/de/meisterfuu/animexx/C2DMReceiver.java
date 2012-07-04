@@ -3,6 +3,7 @@ package de.meisterfuu.animexx;
 import de.meisterfuu.animexx.ENS.ENS;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.ContactsActivityList;
+import de.meisterfuu.animexx.RPG.RPGViewList;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,6 +18,7 @@ import android.util.Log;
 public class C2DMReceiver extends BroadcastReceiver {
 
 	NotificationManager mManager;
+	public static int rpg = -1;
 
 
 	public void onReceive(Context context, Intent intent) {
@@ -46,7 +48,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventRPGPosting")) {
 			//
-			
+			if(!intent.getExtras().getString("id").equals(""+C2DMReceiver.rpg )) {
+				notifyRPG("Ein neues Posting im RPG \""+intent.getExtras().getString("title")+"\"", "Neuer RPG Eintrag", context);
+			}
 		} else {
 			notifyURL("Es ist etwas passiert, nur was?", "Event 42!", context, 666, "http://animexx.de");
 		}
@@ -163,6 +167,31 @@ public class C2DMReceiver extends BroadcastReceiver {
 		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
+	}
+	
+	private void notifyRPG(String s, String title, Context context) {
+		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		mManager.cancel(32);
+		int icon = R.drawable.notification_icon; 	// icon from resources
+		CharSequence tickerText = s; 				// ticker-text
+		long when = System.currentTimeMillis();		// notification time
+		CharSequence contentTitle = title; 			// message title
+		CharSequence contentText = s; 				// message text
+
+		Intent intent = new Intent(context, RPGViewList.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+		// the next two lines initialize the Notification, using the
+		// configurations above
+		Notification notification = new Notification(icon, tickerText, when);
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
+		if (Request.config.getBoolean("vibration", true)) {
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
+		notification.flags |= Notification.FLAG_AUTO_CANCEL;
+		mManager.notify(32, notification);
 	}
 
 	/*
