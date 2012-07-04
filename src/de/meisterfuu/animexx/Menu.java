@@ -12,7 +12,6 @@ import de.meisterfuu.animexx.other.ContactList;
 import de.meisterfuu.animexx.other.Settings;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -20,19 +19,28 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class Menu extends Activity {
 
 
 	ImageButton ENS,Guestbook,Contacts,About,Home,Settings, RPG;
 	ImageView imgCoin, imgPush, imgunreadENS, imglogo;
+	RelativeLayout BlauerBalken;
+	TextView bbMessage;
 	boolean taler, push, unread;
 	long time = 0;
+	final Menu temp = this;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		setContentView(R.layout.main_menu);
+
+		BlauerBalken = (RelativeLayout) findViewById(R.id.BlauerBalken);
+		bbMessage = (TextView) findViewById(R.id.bbMessage);
+		BlauerBalken.setVisibility(View.GONE);
 		
 		ENS = (ImageButton) findViewById(R.id.btens);
 		Guestbook = (ImageButton) findViewById(R.id.btguestbook);
@@ -56,37 +64,12 @@ public class Menu extends Activity {
 		setClick(RPG, RPGViewList.class);
 		
 		
-		final Menu temp = this;
 		
-		OnClickListener Karotaler = new OnClickListener() {
-			public void onClick(View v) {
-					
-				new Thread(new Runnable() {
-					public void run() {
-							
-							try {
-								if(taler) Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_abholen/?api=2");
-								temp.taler = false;
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							
-							temp.runOnUiThread(new Runnable() {
-								public void run() {
-									temp.time = 0;
-									setIcons();
-								}
-							});
-								
-							
-						}
-					}).start();
-				
-			}
-		};
+		
+
 		
 		imgCoin.setOnClickListener(Karotaler);
-		imglogo.setOnClickListener(Karotaler);
+
 		
 		
 		imgunreadENS.setOnClickListener(new OnClickListener() {
@@ -108,6 +91,33 @@ public class Menu extends Activity {
 			}
 		});
 	}
+	
+	OnClickListener Karotaler = new OnClickListener() {
+		public void onClick(View v) {
+				
+			new Thread(new Runnable() {
+				public void run() {
+						
+						try {
+							if(taler) Request.makeSecuredReq("https://ws.animexx.de/json/items/kt_abholen/?api=2");
+							temp.taler = false;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						temp.runOnUiThread(new Runnable() {
+							public void run() {
+								temp.time = 0;
+								setIcons();
+							}
+						});
+							
+						
+					}
+				}).start();
+			
+		}
+	};
 
 
 	@Override
@@ -186,10 +196,17 @@ public class Menu extends Activity {
 	private void setIcons(){
 		if(taler){
 			imgCoin.setVisibility(View.VISIBLE);	
-			imglogo.setColorFilter(Color.YELLOW);
+			//imglogo.setColorFilter(Color.YELLOW);
+			bbMessage.setText("Karotaler abholen");
+			BlauerBalken.setVisibility(View.VISIBLE);
+			BlauerBalken.setOnClickListener(Karotaler);
+			bbMessage.setOnClickListener(Karotaler);
 		} else {
 			imgCoin.setVisibility(View.GONE);
-			imglogo.setColorFilter(Color.TRANSPARENT);
+			BlauerBalken.setVisibility(View.GONE);
+			BlauerBalken.setOnClickListener(null);
+			bbMessage.setOnClickListener(null);
+			//imglogo.setColorFilter(Color.TRANSPARENT);
 		}
 		
 		if(push){
