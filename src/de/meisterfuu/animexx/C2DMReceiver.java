@@ -18,16 +18,16 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 	NotificationManager mManager;
 
+
 	public void onReceive(Context context, Intent intent) {
 		Request.config = PreferenceManager.getDefaultSharedPreferences(context);
-		if (intent.getAction().equals(
-				"com.google.android.c2dm.intent.REGISTRATION")) {
+		if (intent.getAction().equals("com.google.android.c2dm.intent.REGISTRATION")) {
 			handleRegistration(context, intent);
-		} else if (intent.getAction().equals(
-				"com.google.android.c2dm.intent.RECEIVE")) {
+		} else if (intent.getAction().equals("com.google.android.c2dm.intent.RECEIVE")) {
 			handleMessage(context, intent);
 		}
 	}
+
 
 	private void handleMessage(Context context, Intent intent) {
 
@@ -35,25 +35,24 @@ public class C2DMReceiver extends BroadcastReceiver {
 			String von = intent.getExtras().getString("from_username");
 			notifyENS("Neue ENS von " + von, "Neue ENS", context, 42);
 
-		} else if (intent.getExtras().getString("type")
-				.equalsIgnoreCase("XXEventGaestebuch")) {
+		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventGaestebuch")) {
 			String von = intent.getExtras().getString("from_username");
-			notifyGB("Neuer Gästebucheintrag von " + von, "Neuer GB Eintrag",
-					context, 43);
+			notifyGB("Neuer Gästebucheintrag von " + von, "Neuer GB Eintrag", context, 43);
 
-		} else if (intent.getExtras().getString("type")
-				.equalsIgnoreCase("XXEventGeburtstag")) {
+		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventGeburtstag")) {
 			String von = intent.getExtras().getString("from_username");
 			String url = intent.getExtras().getString("url");
-			notifyURL(von + " hat Geburtstag", "Ein Geburtstag!", context, 44,
-					url);
+			notifyURL(von + " hat Geburtstag", "Ein Geburtstag!", context, 44, url);
 
+		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventRPGPosting")) {
+			//
+			
 		} else {
-			notifyURL("Es ist etwas passiert, nur was?",
-					"Event 42!", context, 666, "http://animexx.de");
+			notifyURL("Es ist etwas passiert, nur was?", "Event 42!", context, 666, "http://animexx.de");
 		}
 
 	}
+
 
 	private void handleRegistration(Context context, Intent intent) {
 
@@ -87,6 +86,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 		}
 	}
 
+
 	private void notifyENS(String s, String title, Context context, int id) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
@@ -98,7 +98,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 		Intent intent = new Intent(context, ENS.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
@@ -106,15 +106,15 @@ public class C2DMReceiver extends BroadcastReceiver {
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		// notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.sound = Uri.parse(Request.config.getString("ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));
-		if(Request.config.getBoolean("vibration", true)) {
+		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
 
-	private void notifyURL(String s, String title, Context context, int id,
-			String URL) {
+
+	private void notifyURL(String s, String title, Context context, int id, String URL) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
 		int icon = R.drawable.notification_icon; 	// icon from resources
@@ -125,19 +125,20 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 		Intent intent = new Intent().setClass(context, ContactsActivityList.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
-		if(Request.config.getBoolean("vibration", true)) {
+		notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
+		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
+
 
 	private void notifyGB(String s, String title, Context context, int id) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -150,14 +151,14 @@ public class C2DMReceiver extends BroadcastReceiver {
 
 		Intent intent = new Intent(context, GBViewList.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0,	intent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		notification.sound = Uri.parse(Request.config.getString("ringtonePref",	"DEFAULT_NOTIFICATION_URI"));
-		if(Request.config.getBoolean("vibration", true)) {
+		notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
+		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -179,6 +180,9 @@ public class C2DMReceiver extends BroadcastReceiver {
 	 * "XXEventMagZirkelForumPosting", "XXEventMagEventVideo",
 	 * "XXEventMagFanVideo", "XXEventMagWebshop", "XXEventMagAudiobook",
 	 * "XXEventVerrealkontaktet", "XXEventSteckbriefVideoNeu"
+	 * -
+	 * "XXEventRPGAdminUebergabe", "XXEventRPGBewerbungAngenommen", "XXEventRPGBewerbungAbgelehnt", "XXEventRPGBewerbung", "XXEventRPGAbmeldung",
+	 * "XXEventRPGPosting"
 	 */
 
 }

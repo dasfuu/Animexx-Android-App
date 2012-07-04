@@ -1,5 +1,6 @@
 package de.meisterfuu.animexx.ENS;
 
+import de.meisterfuu.animexx.KEYS;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import android.app.ListActivity;
@@ -93,7 +94,7 @@ public class ENSMenu extends ListActivity {
 							registrationIntent.putExtra("app", PendingIntent
 									.getBroadcast(temp, 0, new Intent(), 0));
 							registrationIntent.putExtra("sender",
-									"info@animexx.de");
+									KEYS.GCM_SENDER_ID);
 							startService(registrationIntent);
 						} else {
 							Log.i("Check", "True");
