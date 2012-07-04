@@ -6,21 +6,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 import de.meisterfuu.animexx.other.UserObject;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -237,7 +233,7 @@ public class ENSAusgang extends ListActivity implements UpDateUI {
 	@Override
 	public void onBackPressed() {
 		Task.cancel(true);
-		if (Loading.getVisibility() == Loading.VISIBLE) {
+		if (Loading.getVisibility() == View.VISIBLE) {
 			if (page == 1)
 				DoError();
 			else
