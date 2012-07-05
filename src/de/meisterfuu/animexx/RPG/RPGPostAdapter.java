@@ -77,7 +77,7 @@ public class RPGPostAdapter extends BaseAdapter {
 		holder.name.setText(s.getChara() + " (" + s.getUser().getUsername() + ")");
 		holder.time.setText(Helper.DateToString(s.getTime(), true));
 		if (s.getAvatar_id() != 0)  {
-			if(Request.config.getBoolean("rpgshowavatar", true)) {
+			if(!Request.config.getBoolean("rpgshowavatar", true)) {
 				holder.Ava.setVisibility(View.GONE);
 			} else {
 				holder.Ava.loadUrl(s.getAvatar_url());

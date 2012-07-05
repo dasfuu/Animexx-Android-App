@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="20dp"
         android:scrollbars="none" >
-
     </ListView>
 
     <RelativeLayout
@@ -54,13 +53,13 @@
             android:layout_height="wrap_content"
             android:background="@drawable/slider"
             android:text="@string/Answer" />
-
+
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/animexx_color_gradient"
-            android:gravity="center_horizontal|top"
+            android:gravity="top"
             android:orientation="vertical" >
 
             <Button
@@ -72,7 +71,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:text="@string/Send" />
-
+
             <EditText
                 android:id="@+id/ed_answer"
                 android:layout_width="fill_parent"
@@ -81,12 +80,12 @@
                 android:gravity="top"
                 android:hint="Antworten..."
                 android:inputType="textLongMessage|textMultiLine" />
-
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:gravity="center"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal" >
 
                 <WebView

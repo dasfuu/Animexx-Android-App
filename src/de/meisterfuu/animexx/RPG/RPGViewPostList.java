@@ -18,6 +18,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -68,10 +70,24 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 
 		setContentView(R.layout.rpg_post_list_slide);
 
-		edAnswer = (EditText) findViewById(R.id.ed_answer);
+		edAnswer = (EditText) findViewById(R.id.ed_answer); 
 		Send = (Button) findViewById(R.id.btsend);
 		Chara = (Button) findViewById(R.id.btchara);
 		Ava = (WebView) findViewById(R.id.webAva);
+		
+		edAnswer.setOnFocusChangeListener(new OnFocusChangeListener(){
+
+			public void onFocusChange(View arg0, boolean gainFocus) {
+				if(!gainFocus) {
+					InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(edAnswer.getWindowToken(), 0);
+				}				
+			}			
+			
+		});
+		
+		InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(edAnswer.getWindowToken(), 0);
 
 		QuickAnswer = (SlidingDrawer) findViewById(R.id.RPGQuickAnswer);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);

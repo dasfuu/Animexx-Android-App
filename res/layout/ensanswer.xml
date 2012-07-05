@@ -46,12 +46,15 @@
         android:layout_height="wrap_content"
         android:text="@string/Nachricht"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
     <EditText
         android:id="@+id/edENS"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.44"
-        android:inputType="textMultiLine" />
+        android:layout_height="1dip"
+        android:layout_gravity="top"
+        android:layout_weight="2"
+        android:gravity="top"
+        android:hint="..."
+        android:inputType="textMultiLine|textImeMultiLine|textLongMessage" />
 
 </LinearLayout>
