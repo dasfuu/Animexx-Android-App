@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
@@ -30,7 +32,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SlidingDrawer;
-import de.meisterfuu.animexx.C2DMReceiver;
+import de.meisterfuu.animexx.GCMIntentService;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -66,6 +69,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setContentView(R.layout.rpg_post_list_slide);
@@ -102,6 +106,9 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
 			id = bundle.getLong("id");
+			NotificationManager mManager;
+			mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			mManager.cancel(32);
 		} else
 			finish();
 
@@ -247,6 +254,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 
 		RPGArray.addAll(z);
 		adapter.refill();
+		if(RPGArray.size() != 0)
 		counter = RPGArray.get(RPGArray.size()-1).getId()+1;
 		
 		if (z.size() == 30) refresh();
@@ -259,7 +267,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				// ((Activity) context).finish();
@@ -295,11 +303,19 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 			QuickAnswer.animateClose();
 		} else {
 			unregisterReceiver(receiver);
-			C2DMReceiver.rpg = -1;
+			GCMIntentService.rpg = -1;
 			Task.cancel(true);
 			finish();
 			return;
 		}
+	}
+	
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_MENU) {
+			QuickAnswer.animateToggle();
+			return true;
+		}
+		return super.onKeyUp(keyCode, event);
 	}
 
 
@@ -314,8 +330,10 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		ArrayAdapter<RPGCharaObject> Adapter = new ArrayAdapter<RPGCharaObject>(context, android.R.layout.simple_list_item_1, android.R.id.text1, Array);
 
 		modeList.setAdapter(Adapter);
+		modeList.setBackgroundResource(R.color.custom_theme_color);
 		builder.setView(modeList);
 		final Dialog dialog = builder.create();
+	
 
 		modeList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -354,7 +372,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 		
 		AvatarAdapter Adapter = new AvatarAdapter(this, AvatarArray);
 		List.setAdapter(Adapter);
-
+		List.setBackgroundResource(R.color.custom_theme_color);
 		builder.setView(List);
 		final Dialog dialog = builder.create();
 
@@ -445,7 +463,7 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	}
 	
 	private void sendData(){
-		
+				
 		final RPGViewPostList temp = this;
 		final ProgressDialog dialog = ProgressDialog.show(temp, "",
 				"Sende...", true);
@@ -459,8 +477,6 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 						public void run() {
 							dialog.dismiss();
 							edAnswer.setText("");
-							SendChara = null;
-							SendAvatarID = -1;
 							QuickAnswer.animateClose();
 							Request.doToast("Erfolgreich gesendet", temp);
 							//refresh();
@@ -484,31 +500,31 @@ public class RPGViewPostList extends ListActivity implements UpDateUI {
 	
 	protected void onStart() {
 		super.onStart();
-		C2DMReceiver.rpg = (int) id;
+		GCMIntentService.rpg = (int) id;
 	}
      
      protected void onRestart() {
      	super.onRestart();
-		C2DMReceiver.rpg = (int) id;
+     	GCMIntentService.rpg = (int) id;
 	}
 
      protected void onResume() {
      	super.onResume();
-		C2DMReceiver.rpg = (int) id;
+     	GCMIntentService.rpg = (int) id;
 	}
 
      protected void onPause() {
      	super.onPause();
-		C2DMReceiver.rpg = -1;
+     	GCMIntentService.rpg = -1;
 	}
 
      protected void onStop() {
      	super.onStop();
-		C2DMReceiver.rpg = -1;
+     	GCMIntentService.rpg = -1;
 	}
 
      protected void onDestroy() {
      	super.onDestroy();
-		C2DMReceiver.rpg = -1;
+     	GCMIntentService.rpg = -1;
 	}
 }

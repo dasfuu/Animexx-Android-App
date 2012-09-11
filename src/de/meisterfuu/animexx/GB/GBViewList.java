@@ -47,6 +47,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.listview_loading_bot);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
@@ -173,7 +174,7 @@ public class GBViewList extends ListActivity implements UpDateUI {
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 		   public void onClick(DialogInterface dialog, int which) {
 		      ((Activity) con).finish();
 		   }

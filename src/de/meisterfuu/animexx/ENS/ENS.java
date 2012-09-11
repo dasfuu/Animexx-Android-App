@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -49,6 +50,7 @@ public class ENS extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.listview_loading_bot);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
@@ -208,6 +210,7 @@ public class ENS extends ListActivity implements UpDateUI {
 			return (ArrayList<ENSObject>) ENSa;
 		} catch (Exception e) {
 			e.printStackTrace();
+			//Helper.sendStacTrace(e, con);	
 		}
 
 		return new ArrayList<ENSObject>();
@@ -258,7 +261,7 @@ public class ENS extends ListActivity implements UpDateUI {
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Offlinedaten werden angezeigt.");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				//

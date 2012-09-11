@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center" >
-
-    <de.meisterfuu.animexx.other.LoadImage
+
+    <ImageView
         android:id="@+id/gbimage"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" >
-    </de.meisterfuu.animexx.other.LoadImage>
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.97" />
 
     <LinearLayout
         android:id="@+id/linearLayout1"

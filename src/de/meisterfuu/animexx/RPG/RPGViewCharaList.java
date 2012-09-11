@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
@@ -40,6 +41,7 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
 		if (this.getIntent().hasExtra("id")) {
@@ -148,7 +150,7 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				((Activity) context).finish();

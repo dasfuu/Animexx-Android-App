@@ -11,16 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.other.LoadImage;
+import de.meisterfuu.animexx.other.ImageDownloader;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class GBAdapter extends ArrayAdapter<GBObject> {
 	private final Activity context;
 	private final ArrayList<GBObject> names;
+	public ImageDownloader ImageLoader = new ImageDownloader();
 
 	static class ViewHolder {
 		public TextView text;
-		public LoadImage image;
+		public ImageView image;
 		public ImageView user;
 		public TextView info;
 	}
@@ -46,7 +47,7 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 			rowView = inflater.inflate(R.layout.gblist, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text = (TextView) rowView.findViewById(R.id.GBtxt);
-			viewHolder.image = (LoadImage) rowView.findViewById(R.id.gbimage);
+			viewHolder.image = (ImageView) rowView.findViewById(R.id.gbimage);
 			viewHolder.user = (ImageView) rowView.findViewById(R.id.imguser);
 			viewHolder.info = (TextView) rowView.findViewById(R.id.GBinfo);
 			rowView.setTag(viewHolder);
@@ -54,8 +55,9 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		final GBObject s = names.get(position);
+		
+		ImageLoader.download(s.getAvatar(), holder.image);		
 
-		holder.image.setImageDrawable(s.getAvatar());
 		holder.text.setText(s.getEinleitung());
 		holder.info.setText(s.getVon().getUsername()+" am "+s.getTime());
 		

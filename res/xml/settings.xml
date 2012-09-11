@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
         <PreferenceCategory
-                android:title="Sound">
+                android:title="Benachrichtigung">
         <RingtonePreference
                 android:name="Ringtone Preference"
                 android:summary="Wähle einen Benachrichtigungston"
@@ -13,7 +13,15 @@
                 android:key="ringtonePrefENS" android:showDefault="true" android:ringtoneType="notification" android:showSilent="true" android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
                 <CheckBoxPreference android:title="Vibration" android:defaultValue="true" android:key="vibration" android:summaryOff="Drücken zum aktivieren! Bzzzz" android:summaryOn="Drücken zum deaktivieren! "/>
         </PreferenceCategory>
-        <PreferenceCategory android:title="RPG">
+        <PreferenceCategory android:title="Push">
+            <CheckBoxPreference android:summaryOn="Aktiv" android:title="Push" android:summaryOff="Nicht aktiv" android:key="push" android:defaultValue="true" />
+        </PreferenceCategory><PreferenceCategory android:title="RPG">
             <CheckBoxPreference android:key="rpgshowavatar" android:title="Avatare anzeigen" android:defaultValue="true" android:summaryOn="Drücke um die Avatare auszublenden!" android:summaryOff="Drücke um die Avatare einzublenden!"/>
+            <CheckBoxPreference android:summaryOff="Keine Benachrichtigung über neue RPG Einträge" android:title="Benachrichtigung" android:key="rpg_notify" android:summaryOn="Benachrichtigung über neue RPG Einträge aktiv" android:defaultValue="true"/>
+            <CheckBoxPreference android:summaryOn="Alle RPGs werden angezeigt" android:key="showRPGfinished" android:summaryOff="Nur laufende RPGs werden angezeigt" android:defaultValue="false" android:title="Beendete RPGs anzeigen"/>
         </PreferenceCategory>
+        <PreferenceCategory android:title="Account">
+            <Preference android:title="Logout" android:key="oAuthLogOut"/>
+        </PreferenceCategory>
+        
 </PreferenceScreen>

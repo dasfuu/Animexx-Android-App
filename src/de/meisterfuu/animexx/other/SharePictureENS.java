@@ -18,6 +18,7 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONObject;
 
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.KEYS;
 import de.meisterfuu.animexx.ENS.ENSAnswer;
 
@@ -39,7 +40,8 @@ public class SharePictureENS extends Activity{
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-
+		Helper.isLoggedIn(this);
+		
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		String action = intent.getAction();

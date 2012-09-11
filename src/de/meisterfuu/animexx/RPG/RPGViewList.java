@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -40,6 +41,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.listview_loading_bot);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
@@ -148,7 +150,7 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				((Activity) context).finish();
@@ -163,9 +165,12 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 		Loading.setVisibility(View.VISIBLE);
 
 		try {
-			
+			int finishedRPG = 0;
+			if(Request.config.getBoolean("showRPGfinished", false)) {
+				finishedRPG = 1;
+			}
 			HttpGet[] HTTPs = new HttpGet[1];
-			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete=1&api=2&offset=" + RPGArray.size());
+			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete="+finishedRPG+"&api=2&offset=" + RPGArray.size());
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
 

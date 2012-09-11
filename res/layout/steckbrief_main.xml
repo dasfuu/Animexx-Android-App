@@ -8,11 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
+
         <TextView
             android:id="@+id/username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/placeholder"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -22,14 +23,12 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
-
-            <de.meisterfuu.animexx.other.LoadImage
-                android:id="@+id/loadAvatar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" >
-            </de.meisterfuu.animexx.other.LoadImage>
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/loadAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp" />
 
         <LinearLayout
             android:id="@+id/LinearLayout01"
@@ -122,13 +121,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/EMail"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
             <TextView
                 android:id="@+id/txEMail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
                 android:text="@string/placeholder"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -142,13 +143,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Web"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
             <TextView
                 android:id="@+id/txWeb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autoLink="all"
                 android:text="@string/placeholder"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
 
         <LinearLayout

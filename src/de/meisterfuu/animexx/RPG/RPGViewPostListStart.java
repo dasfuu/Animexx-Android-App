@@ -25,6 +25,7 @@ import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -51,6 +52,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		setContentView(R.layout.rpg_post_list_answer);
@@ -162,6 +164,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 		RPGArray.addAll(z);
 		Collections.sort(RPGArray);
 		adapter.refill();
+		if(RPGArray.size() != 0)
 		count = RPGArray.get(RPGArray.size()-1).getId()+1;
 	}
 
@@ -171,7 +174,7 @@ public class RPGViewPostListStart extends ListActivity implements UpDateUI {
 		Loading.setVisibility(View.GONE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 		   public void onClick(DialogInterface dialog, int which) {
 		      ((Activity) context).finish();
 		   }

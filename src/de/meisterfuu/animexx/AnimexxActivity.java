@@ -1,8 +1,9 @@
 package de.meisterfuu.animexx;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import oauth.signpost.OAuth;
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class AnimexxActivity extends Activity {
 				startActivity(new Intent().setClass(v.getContext(), RequestTokenActivity.class));
 			}
 		});
+
 	}
 
 
@@ -40,20 +42,36 @@ public class AnimexxActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		if (isOAuthSuccessful()) {
-			
+
 			console.setText("OAuth successful!");
-			Log.i("OAuth", "OAuth nicht gescheitert");
-			
+			Log.i("OAuth", "OAuth successful");
+
 			if (Request.config.getString("id", "none").equals("none")) try {
 				Request.FetchMe();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			if (Request.config.getString("c2dm", "null") == "null") {
-				Intent registrationIntent = new Intent("com.google.android.c2dm.intent.REGISTER");
-				registrationIntent.putExtra("app", PendingIntent.getBroadcast(this, 0, new Intent(), 0));
-				registrationIntent.putExtra("sender", KEYS.GCM_SENDER_ID);
-				startService(registrationIntent);
+
+			if ((Request.config.getBoolean("push", true))) {
+				GCMRegistrar.checkDevice(this);
+				GCMRegistrar.checkManifest(this);
+				final String regId = GCMRegistrar.getRegistrationId(this);
+				if (regId.equals("")) {
+					Log.i("GCM", "Register");
+					GCMRegistrar.register(getApplicationContext(), KEYS.GCM_SENDER_ID);
+				} else {
+					Log.v("GCM", "Already registered");
+				}
+			} else {
+				GCMRegistrar.checkDevice(this);
+				GCMRegistrar.checkManifest(this);
+				final String regId = GCMRegistrar.getRegistrationId(this);
+				if (!regId.equals("")) {
+					Log.i("GCM", "Unregister");
+					Intent UnRegisterIntent = new Intent();
+					UnRegisterIntent.setAction("com.google.android.c2dm.intent.UNREGISTER");
+					this.sendBroadcast(UnRegisterIntent);
+				}
 			}
 
 			startActivity(new Intent().setClass(getApplicationContext(), Menu.class));

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.other.LoadImage;
 
 public class CTAdapter extends ArrayAdapter<UserObject> {
 	private final Activity context;
@@ -18,7 +17,6 @@ public class CTAdapter extends ArrayAdapter<UserObject> {
 
 	static class ViewHolder {
 		public TextView text;
-		public LoadImage image;
 	}
 
 	public CTAdapter(Activity context, ArrayList<UserObject> names) {
@@ -54,14 +52,12 @@ public class CTAdapter extends ArrayAdapter<UserObject> {
 			rowView = inflater.inflate(R.layout.contact_list, null);
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text = (TextView) rowView.findViewById(R.id.ctusername);
-			viewHolder.image = (LoadImage) rowView.findViewById(R.id.ctimage);
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		if(position < names.size()){
 			final UserObject s = names.get(position);
-			holder.image.setImageDrawable(s.getPicture());
 			holder.text.setText(s.getUsername());
 		}
 

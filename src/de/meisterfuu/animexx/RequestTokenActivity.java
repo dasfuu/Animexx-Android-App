@@ -13,21 +13,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.TextView;
 
 public class RequestTokenActivity extends Activity {
 
 	private OAuthConsumer consumer;
 	private OAuthProvider provider;
 	private SharedPreferences config;
+	private TextView LadeMessage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.login_animation);
+		LadeMessage = (TextView) findViewById(R.id.login_status);
+		
 		try {
 			consumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY,
 					Constants.CONSUMER_SECRET);
 			provider = new CommonsHttpOAuthProvider(Constants.REQUEST_URL,
 					Constants.ACCESS_URL, Constants.AUTHORIZE_URL);
+			LadeMessage.setText("Starte OAuth...");
 		} catch (Exception e) {
 			Log.e("OAuth", "Error creating consumer / provider", e);
 		}
@@ -43,6 +50,7 @@ public class RequestTokenActivity extends Activity {
 				&& uri.getScheme().equals(Constants.OAUTH_CALLBACK_SCHEME)) {
 			Log.i("OAuth", "Callback received : " + uri);
 			Log.i("OAuth", "Retrieving Access Token");
+			LadeMessage.setText("Login abgeschlossen! :)");
 			getAccessToken(uri);
 		}
 	}
@@ -50,6 +58,7 @@ public class RequestTokenActivity extends Activity {
 	private void getRequestToken() {
 		try {
 			Log.d("OAuth", "getRequestToken() called");
+			LadeMessage.setText("Auf Animexx Server warten...");
 			final RequestTokenActivity temp = this;
 			final booleanobject url = new booleanobject();
 			url.str = "false";
@@ -66,6 +75,7 @@ public class RequestTokenActivity extends Activity {
 					temp.runOnUiThread(new Runnable() {
 						public void run() {
 							if (url.str != "false") {
+								LadeMessage.setText("Browser starten...");
 								Intent intent = new Intent(Intent.ACTION_VIEW,
 										Uri.parse(url.str));
 								intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -73,7 +83,7 @@ public class RequestTokenActivity extends Activity {
 										| Intent.FLAG_FROM_BACKGROUND);
 								temp.startActivity(intent);
 							} else
-								temp.finish();
+								temp.LadeMessage.setText("Verbindung zum Animexx Server gescheitert!");
 						}
 					});
 				}
@@ -100,10 +110,11 @@ public class RequestTokenActivity extends Activity {
 
 			consumer.setTokenWithSecret(token, secret);
 			this.startActivity(new Intent(this, AnimexxActivity.class));
-
 			Log.i("OAuth", "Access Token Retrieved");
+			this.finish();
 
 		} catch (Exception e) {
+			LadeMessage.setText("Fehler beim verarbeiten des AccessTokens :(");
 			Log.e("OAuth", "Access Token Retrieval Error", e);
 		}
 	}

@@ -23,6 +23,8 @@ import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import de.meisterfuu.animexx.ENS.ENSObject;
 
 import android.app.ActivityManager;
@@ -31,7 +33,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class Request {
 			Log.i("Animexx", anzahl + " ungelesene ENS");
 			return anzahl;
 		} catch (Exception e) {
-			return 0;
+			return -1;
 		}
 
 	}
@@ -97,17 +98,17 @@ public class Request {
 	}
 
 
-	public static int[] GetUser(String[] Names) throws Exception {
+	public static int[] GetUser(ArrayList<String> Names) throws Exception {
 
 		String jsonOutput = "";
 		String url;
-		if (Names.length == 0) return null;
+		if (Names.size() == 0) return null;
 		url = "https://ws.animexx.de/json/ens/an_check/?api=2";
 
 		String s = "";
 		s += "dummy=dummy";
-		for (int i = 0; i < Names.length; i++)
-			s += "&users[]=" + Names[i];
+		for (int i = 0; i < Names.size(); i++)
+			s += "&users[]=" + Names.get(i);
 		StringEntity se = new StringEntity(s);
 		se.setContentType("application/x-www-form-urlencoded");
 		HttpPost request = new HttpPost(url);
@@ -303,7 +304,7 @@ public class Request {
 		// s += "&events[]=XXEventGeburtstag";
 		// s += "&events[]=XXEventGaestebuch";
 
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(4);
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventENS"));
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGeburtstag"));
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGaestebuch"));
@@ -375,16 +376,20 @@ public class Request {
 
 	public static boolean checkpush(Context con) {
 		try {
-			config = PreferenceManager.getDefaultSharedPreferences(con);
 			String jsonOutput = makeSecuredReq("https://ws.animexx.de/json/cloud2device/registration_id_get/?api=2");
 			String jsonResponse = new JSONObject(jsonOutput).getJSONObject("return").getJSONArray("registration_ids").getString(0);
-			Log.i("C2DM-2", jsonResponse);
-			Log.i("C2DM-3", config.getString("c2dm", "x"));
-			if (jsonResponse.equals(config.getString("c2dm", "x"))) {
-				Log.i("C2DM", "TRUE");
+			Log.i("GCM-Server", jsonResponse);
+			
+			GCMRegistrar.checkDevice(con);
+			GCMRegistrar.checkManifest(con);
+			final String regId = GCMRegistrar.getRegistrationId(con);
+			Log.i("GCM-Device", regId);
+			
+			if (jsonResponse.equals(regId)) {
+				Log.i("GCM", "Active");
 				return true;
 			} else {
-				Log.i("C2DM", "FALSE");
+				Log.i("GCM", "Inactive");
 				return false;
 			}
 		} catch (Exception e) {

@@ -2,6 +2,8 @@ package de.meisterfuu.animexx.GB;
 
 
 import org.apache.http.client.methods.HttpPost;
+
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
@@ -25,6 +27,7 @@ public class GBAnswer extends Activity  implements UpDateUI {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.gbanswer);
 
 		An = (TextView) findViewById(R.id.edGBAn);

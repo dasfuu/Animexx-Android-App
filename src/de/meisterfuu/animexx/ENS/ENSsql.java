@@ -3,6 +3,10 @@ package de.meisterfuu.animexx.ENS;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+
 import de.meisterfuu.animexx.other.UserObject;
 
 import android.content.ContentValues;
@@ -70,10 +74,18 @@ public class ENSsql {
 		values.put(ENSSQLOpenHelper.COLUMN_REFERENZ_ENS_ID, ENS.getReferenz());
 		values.put(ENSSQLOpenHelper.COLUMN_TYP, ENS.getTyp());
 		
-		values.put(ENSSQLOpenHelper.COLUMN_AN, ENS.getAnUser(0).getUsername());
+		Joiner joiner = Joiner.on(", ").skipNulls();		
+		values.put(ENSSQLOpenHelper.COLUMN_AN, joiner.join(ENS.getAnArray()));
 		values.put(ENSSQLOpenHelper.COLUMN_VON, ENS.getVon().getUsername());
 		
-		values.put(ENSSQLOpenHelper.COLUMN_AN_ID, ENS.getAnUser(0).getId());
+		String[] id = new String[ENS.getAnArray().length];
+		for(int i = 0; i < ENS.getAnArray().length; i++)
+		{
+				id[i] = ENS.getAnArray()[i].getId();
+		}
+		
+		joiner = Joiner.on(", ").skipNulls();		
+		values.put(ENSSQLOpenHelper.COLUMN_AN_ID, joiner.join(id));
 		values.put(ENSSQLOpenHelper.COLUMN_VON_ID, ENS.getVon().getId());
 		
 		//db.insert(table, nullColumnHack, values)		
@@ -194,11 +206,26 @@ public class ENSsql {
 		temp.setId(cursor.getString(7));
 		temp.setUsername(cursor.getString(5));		
 		ENS.setVon(temp);
+				
+		Iterable<String> user = Splitter.on(CharMatcher.anyOf(";,")).trimResults().omitEmptyStrings().split(cursor.getString(8));
+		Iterable<String> username = Splitter.on(CharMatcher.anyOf(";,")).trimResults().omitEmptyStrings().split(cursor.getString(6));
+		ArrayList<String> ID = new ArrayList<String>();
+		ArrayList<String> NAME = new ArrayList<String>();
 		
-		temp = new UserObject();
-		temp.setId(cursor.getString(8));
-		temp.setUsername(cursor.getString(6));
-		ENS.addAnUser(temp);
+		for (String element : user) {
+			ID.add(element);
+		}
+		
+		for (String element : username) {
+			NAME.add(element);
+		}
+
+		for (int i = 0; i < NAME.size(); i++) {
+			UserObject tUserObject = new UserObject();
+			tUserObject.setId("" + ID.get(i));
+			tUserObject.setUsername(NAME.get(i));
+			ENS.addAnUser(tUserObject);
+		}
 		
 		return ENS;
 	}

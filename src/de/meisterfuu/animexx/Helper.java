@@ -2,14 +2,41 @@ package de.meisterfuu.animexx;
 
 import java.text.ParseException;
 import java.util.regex.Pattern;
+
+import oauth.signpost.OAuth;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class Helper {
 
+	public static void sendStacTrace(Exception e, Context con) {
+		StackTraceElement[] stack = e.getStackTrace();
+		String text = "";
+		for(StackTraceElement line : stack)
+		{
+			text += line.toString();
+		}
+		
+		try {
+			String s = "("+Request.config.getString("id", "none")+") "+Request.config.getString("username", "none")+":";
+			s += "\n\n";
+			s += ""+text;
+			Request.sendENS("Debug Log", s, "Debug Log "+Constants.VERSION, new int[]{586283}, -1);
+			Log.i("Debug Log", "Debug Log gesendet");
+			Request.doToast("Debug Log gesendet!", con);
+		} catch (Exception z) {
+			z.printStackTrace();
+		}
+	}
+	
 	public static String BetreffRe(String Betreff) {
 		String s;
 		String begin, mid, end;
@@ -45,7 +72,7 @@ public class Helper {
 		if (!Request.config.getBoolean(config, false)) {
 			AlertDialog alertDialog = new AlertDialog.Builder(c).create();
 			alertDialog.setMessage(text);
-			alertDialog.setButton("Ok", new DialogInterface.OnClickListener() {
+			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
 
 				public void onClick(DialogInterface dialog, int which) {
 					//
@@ -60,8 +87,26 @@ public class Helper {
 	}
 
 
+	public static long toTimestamp(String date) {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		java.util.Date temp;
+
+		try {
+			temp = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		return temp.getTime();
+		
+	}
+
+
 	public static String DateToString(String date, boolean Short) {
 
+		if(date.equalsIgnoreCase("Aktuell")){
+			return "Aktuell";
+		}
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		java.util.Date temp;
 
@@ -72,9 +117,16 @@ public class Helper {
 			return "Error";
 		}
 
+		return TimestampToString(temp.getTime(), Short);
+
+	}
+	
+	public static String TimestampToString(long time, boolean Short) {
+
+		
 		java.util.Date Now = new java.util.Date();
 
-		long diff = (Now.getTime() - temp.getTime());
+		long diff = (Now.getTime() - time);
 		if (diff < 0) return "Error";
 
 		diff /= 1000;
@@ -109,6 +161,56 @@ public class Helper {
 				return "vor " + (int) (diff / 60 / 60 / 24) + " Tagen";
 		}
 
+	}
+
+
+	public static long HowLongAgo(String timestamp) {
+		Long tempo;
+		try {
+			tempo = Long.parseLong(timestamp);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+
+		java.util.Date Now = new java.util.Date();
+
+		long diff = (Now.getTime() - tempo);
+		if (diff < 0) return 0;
+
+		diff /= 1000;
+
+		return diff;
+
+	}
+
+
+	public static long TimestampBeforeSec(long sec) {
+		java.util.Date Now = new java.util.Date();
+		return Now.getTime() - sec;
+	}
+
+
+	public static void isLoggedIn(Activity a) {
+		SharedPreferences config = PreferenceManager.getDefaultSharedPreferences(a);
+		String token = config.getString(OAuth.OAUTH_TOKEN, null);
+		String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+		if (token != null && secret != null)
+			return;
+		else
+			a.startActivity(new Intent(a, AnimexxActivity.class));
+		a.finish();
+	}
+
+
+	public static boolean isLoggedIn(Context c) {
+		SharedPreferences config = PreferenceManager.getDefaultSharedPreferences(c);
+		String token = config.getString(OAuth.OAUTH_TOKEN, null);
+		String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+		if (token != null && secret != null)
+			return true;
+		else
+			return false;
 	}
 
 }

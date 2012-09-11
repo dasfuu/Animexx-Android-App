@@ -35,15 +35,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp" />
-
-        <Button
-            android:id="@+id/BtAnswer"
-            style="@style/AnimexxStyle"
-            android:layout_width="218dp"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="@string/Answer" />
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/BtAnswer"
+                style="@style/AnimexxStyle"
+                android:layout_width="218dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/Answer" />
+
+            <CheckBox
+                android:id="@+id/zitat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zitat" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>

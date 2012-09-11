@@ -31,5 +31,11 @@
     <string name="SettingsSoundENS">"ENS Ton: "</string>
     <string name="empty"></string>
     <string name="feedback">Feedback</string>
+    <string name="filtet">Filter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_single_image">SingleImage</string>
+    <string name="zitat">Zitat</string>
+    <string name="title_activity_main">Main</string>
 
 </resources>

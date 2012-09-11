@@ -28,6 +28,10 @@ public class UserObject implements Comparable<Object> {
 		setSteckbriefFreigabe(false);
 		setPicture(null);
 	}
+	
+	public String toString() {
+		return this.getUsername();
+	}
 
 	public String getId() {
 		return id;

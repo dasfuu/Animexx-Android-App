@@ -3,12 +3,21 @@
 
     <color name="custom_theme_color">#E8E8FF</color>
     <color name="header_bg">#5858FF</color>
+    <color name="bg_red">#CC3333</color>
+    <color name="bg_lightred">#DD4477</color>
+    <color name="bg_purple">#994499</color>
+    <color name="bg_blue">#3366CC</color>
+    <color name="bg_blue2">#336699</color>
+    <color name="bg_green">#329262</color>
+    <color name="bg_green2">#109618</color>
+    <color name="bg_lightgreen">#66AA00</color>
 
-    <style name="AnimexxStyle" parent="android:Theme.Light">
+    <style name="AnimexxStyle" parent="android:Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@color/custom_theme_color</item>
         <item name="android:colorBackground">@color/custom_theme_color</item>
         <item name="android:buttonStyle">@style/ButtonText</item>
         <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>
+        <item name="android:dialogTheme">@style/CustomDialogTheme</item>
     </style>
 
     <style name="ButtonText" parent="@android:style/Widget.Button">

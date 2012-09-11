@@ -1,11 +1,17 @@
 package de.meisterfuu.animexx.Home;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import de.meisterfuu.animexx.Helper;
+
 import android.util.Log;
 
-public class ContactActivityObject {
+public class ContactActivityObject extends HomeListObject {
 
 	private String vonID, vonUsername, eventURL, eventID, eventTyp, time, text, beschreibung, imgURL;
 	String s;
+	long timestamp;
 	
 	public ContactActivityObject(){
 		vonID = "none";
@@ -83,6 +89,7 @@ public class ContactActivityObject {
 
 	public void setTime(String time) {
 		this.time = time;
+		this.timestamp = Helper.toTimestamp(time);
 	}
 
 	public String getText() {
@@ -101,12 +108,53 @@ public class ContactActivityObject {
 		this.beschreibung = beschreibung;
 	}
 
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
+	}
+
+	@Override
+	public int getTyp() {
+		return HomeListObject.KONTAKTE;
+	}
+
+	@Override
+	public long getTimeStamp() {
+		return timestamp;
+	}
+
+	@Override
+	public void parseJSON(JSONObject o) {
+		
+		try {
+			this.setText(o.getString("std_text"));
+			this.setBeschreibung(o.getString("beschreibung"));
+			this.setEventID(o.getString("event_id"));
+			this.setEventTyp(o.getString("event_typ"));
+			this.setEventURL(o.getString("link"));
+			if(o.has("img_url")) this.setImgURL(o.getString("img_url"));
+			this.setTime(o.getString("datum"));
+			this.setVonID(o.getString("event_von"));
+			this.setVonUsername(o.getString("event_von_username"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	@Override
+	public String getURL() {
+		// TODO Auto-generated method stub
+		return eventURL;
+	}
+
+	@Override
 	public String getImgURL() {
 		return imgURL;
 	}
 
-	public void setImgURL(String imgURL) {
-		this.imgURL = imgURL;
-	}
+	
+
 	
 }

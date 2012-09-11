@@ -13,6 +13,7 @@ public class about extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.about);
 		WebView htm = (WebView) findViewById(R.id.webView1);
 		Button bt = (Button) findViewById(R.id.btfeedback);

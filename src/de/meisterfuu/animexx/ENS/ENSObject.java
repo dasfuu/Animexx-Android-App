@@ -73,9 +73,15 @@ public class ENSObject {
 	}
 	
 	public UserObject[] getAnArray(){
-		return (UserObject[]) this.an.toArray();
+		UserObject[] temp = new UserObject[this.an.size()];
+		for(int i = 0; i < this.an.size(); i++){
+			temp[i] = this.an.get(i);
+		}
+		
+		return temp;
 	}
 	
+
 	public String getAnString(){
 		String s = "";
 		for(UserObject i: this.an){

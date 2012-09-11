@@ -4,19 +4,23 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.GB.GBViewList;
-import de.meisterfuu.animexx.other.LoadImage;
+import de.meisterfuu.animexx.other.ImageDownloader;
+import de.meisterfuu.animexx.other.SingleImage;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class UserSteckbrief extends Activity implements UpDateUI {
@@ -27,10 +31,12 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 	TextView txtusername, txtbirth, txtmail, txtweb, txtort, txtalter, txtname;
 	Button ENS, GB;
 	JSONObject data;
-	LoadImage Avatar;
+	ImageView Avatar;
+	ImageDownloader ImageLoader = new ImageDownloader();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this); 
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setContentView(R.layout.steckbrief_main);
@@ -43,7 +49,7 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 		txtalter = (TextView) findViewById(R.id.txAlter);
 		ENS = (Button) findViewById(R.id.btENS);
 		GB = (Button) findViewById(R.id.btGB);
-		Avatar = (LoadImage) findViewById(R.id.loadAvatar);
+		Avatar = (ImageView) findViewById(R.id.loadAvatar);
 
 		if (this.getIntent().hasExtra("id")) {
 			userid = this.getIntent().getStringExtra("id");
@@ -77,7 +83,7 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 
 			if (data.getBoolean("freigabe_steckbrief")) {
 				if (!data.isNull("foto_url"))
-					Avatar.setImageDrawable(data.getString("foto_url"));
+					ImageLoader.download(data.getString("foto_url"), Avatar);
 				if (!data.isNull("vorname"))
 					vor = data.getString("vorname");
 				if (!data.isNull("nachname"))
@@ -119,6 +125,25 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 					startActivity(newIntent);
 				}
 			});
+			
+			if (!data.isNull("foto_url"))
+				Avatar.setOnClickListener(new OnClickListener(){
+	
+					public void onClick(View arg0) {
+						Bundle bundle = new Bundle();
+						try {
+							bundle.putString("URL", data.getString("foto_url"));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						Intent newIntent = new Intent(getApplicationContext(),
+								SingleImage.class);
+						newIntent.putExtras(bundle);
+						startActivity(newIntent);
+					}
+					
+				});
 
 		} catch (JSONException e) {
 			e.printStackTrace();

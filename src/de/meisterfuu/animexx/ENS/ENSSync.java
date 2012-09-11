@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.other.UserObject;
@@ -34,6 +35,7 @@ public class ENSSync extends Activity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);		
 		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
 		        new OnCancelListener() {
