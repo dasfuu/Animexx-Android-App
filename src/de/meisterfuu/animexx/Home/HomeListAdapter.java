@@ -61,7 +61,7 @@ public class HomeListAdapter extends ArrayAdapter<HomeListObject> {
 			viewHolder.text = (TextView) rowView.findViewById(R.id.CAtxt);
 			viewHolder.txinfo = (TextView) rowView.findViewById(R.id.CAtxinfo);
 			viewHolder.txtyp = (VerticalTextView) rowView.findViewById(R.id.txType);
-			viewHolder.Color = (LinearLayout) rowView.findViewById(R.id.CAcolor);
+			viewHolder.Color = (LinearLayout) rowView.findViewById(R.id.txColor);
 			//viewHolder.IMG = (WebView) rowView.findViewById(R.id.webIMG);
 			viewHolder.IMG2 = (ImageView) rowView.findViewById(R.id.webIMG2);
 			rowView.setTag(viewHolder);
@@ -85,28 +85,28 @@ public class HomeListAdapter extends ArrayAdapter<HomeListObject> {
 
 		if (s.getTyp() == HomeListObject.KONTAKTE) {
 			holder.txtyp.setText("Kontakte");
-			holder.txtyp.setBackgroundResource(R.color.bg_purple);
+			holder.Color.setBackgroundResource(R.color.bg_purple);
 		} else if (s.getTyp() == HomeListObject.WEBLOGKOMMENTAR) {
 			holder.txtyp.setText("Weblog Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_red);
+			holder.Color.setBackgroundResource(R.color.bg_red);
 		} else if (s.getTyp() == HomeListObject.FANARTKOMMENTAR) {
 			holder.txtyp.setText("Fanart Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_blue);
+			holder.Color.setBackgroundResource(R.color.bg_blue);
 		} else if (s.getTyp() == HomeListObject.DOJINSHIKOMMENTAR) {
 			holder.txtyp.setText("Dojinshi Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_green);
+			holder.Color.setBackgroundResource(R.color.bg_green);
 		} else if (s.getTyp() == HomeListObject.FANFICKOMMENTAR) {
 			holder.txtyp.setText("Fanfic Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_blue2);
+			holder.Color.setBackgroundResource(R.color.bg_blue2);
 		} else if (s.getTyp() == HomeListObject.FANWORKKOMMENTAR) {
 			holder.txtyp.setText("Fanwork Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_lightred);
+			holder.Color.setBackgroundResource(R.color.bg_lightred);
 		} else if (s.getTyp() == HomeListObject.UMFRAGEKOMMENTAR) {
 			holder.txtyp.setText("Umfrage Kommentar");
-			holder.txtyp.setBackgroundResource(R.color.bg_green2);
+			holder.Color.setBackgroundResource(R.color.bg_green2);
 		} else if (s.getTyp() == HomeListObject.COSPLAY) {
 			holder.txtyp.setText("Cosplay");
-			holder.txtyp.setBackgroundResource(R.color.bg_lightgreen);
+			holder.Color.setBackgroundResource(R.color.bg_lightgreen);
 		}
 
 		rowView.setOnClickListener(new OnClickListener(){

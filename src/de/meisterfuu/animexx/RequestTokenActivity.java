@@ -71,6 +71,7 @@ public class RequestTokenActivity extends Activity {
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+						url.str = "false";
 					}
 					temp.runOnUiThread(new Runnable() {
 						public void run() {
@@ -95,27 +96,47 @@ public class RequestTokenActivity extends Activity {
 	}
 
 	private void getAccessToken(Uri uri) {
-		final String oauth_verifier = uri
-				.getQueryParameter(OAuth.OAUTH_VERIFIER);
+		final String oauth_verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER).trim();
 		try {
-			provider.retrieveAccessToken(consumer, oauth_verifier);
+			
 
-			final Editor edit = config.edit();
-			edit.putString(OAuth.OAUTH_TOKEN, consumer.getToken());
-			edit.putString(OAuth.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
-			edit.commit();
+			final RequestTokenActivity temp = this;
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						provider.retrieveAccessToken(consumer, oauth_verifier);
+					} catch (Exception e) {
+						temp.runOnUiThread(new Runnable() {
+							public void run() {
+								LadeMessage.setText("Fehler beim verarbeiten des AccessTokens :(");
+							}
+						});
+					}
+					temp.runOnUiThread(new Runnable() {
+						public void run() {
+							final Editor edit = config.edit();
+							edit.putString(OAuth.OAUTH_TOKEN, consumer.getToken());
+							edit.putString(OAuth.OAUTH_TOKEN_SECRET, consumer.getTokenSecret());
+							edit.commit();
 
-			String token = config.getString(OAuth.OAUTH_TOKEN, "");
-			String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, "");
+							String token = config.getString(OAuth.OAUTH_TOKEN, "");
+							String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, "");
 
-			consumer.setTokenWithSecret(token, secret);
-			this.startActivity(new Intent(this, AnimexxActivity.class));
-			Log.i("OAuth", "Access Token Retrieved");
-			this.finish();
+							consumer.setTokenWithSecret(token, secret);
+							temp.startActivity(new Intent(temp, AnimexxActivity.class));
+							Log.i("OAuth", "Access Token Retrieved");
+							temp.finish();
+						}
+					});
+				}
+			}).start();			
+
 
 		} catch (Exception e) {
 			LadeMessage.setText("Fehler beim verarbeiten des AccessTokens :(");
 			Log.e("OAuth", "Access Token Retrieval Error", e);
+			Log.e("OAuth", oauth_verifier, e);
+			
 		}
 	}
 

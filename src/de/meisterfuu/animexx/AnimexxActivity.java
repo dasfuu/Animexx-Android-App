@@ -20,6 +20,7 @@ public class AnimexxActivity extends Activity {
 	private Button AnmeldeButton;
 	private SharedPreferences config;
 	TextView console;
+	boolean fetch = false;
 
 
 	@Override
@@ -47,11 +48,25 @@ public class AnimexxActivity extends Activity {
 
 			console.setText("OAuth successful!");
 			Log.i("OAuth", "OAuth successful");
+			final AnimexxActivity temp = this;
+			if (Request.config.getString("id", "none").equals("none")) {
+				new Thread(new Runnable() {
 
-			if (Request.config.getString("id", "none").equals("none")) try {
-				Request.FetchMe();
-			} catch (Exception e) {
-				e.printStackTrace();
+					public void run() {
+						try {
+							fetch = true;
+							Request.FetchMe();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						temp.runOnUiThread(new Runnable() {
+
+							public void run() {
+								temp.finish();
+							}
+						});
+					}
+				}).start();
 			}
 
 			if ((Request.config.getBoolean("push", true))) {
@@ -77,7 +92,7 @@ public class AnimexxActivity extends Activity {
 			}
 
 			startActivity(new Intent().setClass(getApplicationContext(), PersonalHomeListAll.class));
-			finish();
+			if (!fetch) finish();
 		} else {
 			Log.i("OAuth", "OAuth gescheitert");
 			console.setText("Willkommen, du bist zur Zeit nicht angemeldet!");
