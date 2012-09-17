@@ -91,6 +91,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void notifyENS(String s, String title, Context context, int id) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
@@ -118,6 +119,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void notifyURL(String s, String title, Context context, int id, String URL) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
@@ -144,6 +146,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	private void notifyGB(String s, String title, Context context, int id) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(id);
@@ -169,6 +172,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 		mManager.notify(id, notification);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void notifyRPG(String s, String title, Context context) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(32);
