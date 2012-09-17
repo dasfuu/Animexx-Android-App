@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;
 import de.meisterfuu.animexx.profil.UserPopUp;

@@ -43,7 +43,6 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
-import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.other.AvatarAdapter;
 import de.meisterfuu.animexx.other.AvatarObject;
 import de.meisterfuu.animexx.other.SlideMenu;
