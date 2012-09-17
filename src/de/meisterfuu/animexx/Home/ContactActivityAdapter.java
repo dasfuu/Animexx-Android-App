@@ -24,7 +24,7 @@ public class ContactActivityAdapter extends ArrayAdapter<ContactActivityObject> 
 		this.context = context;
 		this.names = names;
 	}
-	
+
 	public void refill(ArrayList<ContactActivityObject> newData) {
 	    names=newData;
 		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");

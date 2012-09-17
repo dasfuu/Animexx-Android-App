@@ -77,7 +77,7 @@ con.startActivity(newIntent);
 private void openAnswer() {
 	Bundle bundle = new Bundle();
 	bundle.putString("ID", userid);
-	bundle.putString("an", username);	
+	bundle.putString("an", username);
 	Intent newIntent = new Intent(con.getApplicationContext(),
 			GBAnswer.class);
 	newIntent.putExtras(bundle);

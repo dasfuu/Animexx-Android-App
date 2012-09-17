@@ -24,7 +24,7 @@ public class Helper {
 		{
 			text += line.toString();
 		}
-		
+
 		try {
 			String s = "("+Request.config.getString("id", "none")+") "+Request.config.getString("username", "none")+":";
 			s += "\n\n";
@@ -36,7 +36,7 @@ public class Helper {
 			z.printStackTrace();
 		}
 	}
-	
+
 	public static String BetreffRe(String Betreff) {
 		String s;
 		String begin, mid, end;
@@ -98,7 +98,7 @@ public class Helper {
 			return -1;
 		}
 		return temp.getTime();
-		
+
 	}
 
 
@@ -120,10 +120,10 @@ public class Helper {
 		return TimestampToString(temp.getTime(), Short);
 
 	}
-	
+
 	public static String TimestampToString(long time, boolean Short) {
 
-		
+
 		java.util.Date Now = new java.util.Date();
 
 		long diff = (Now.getTime() - time);

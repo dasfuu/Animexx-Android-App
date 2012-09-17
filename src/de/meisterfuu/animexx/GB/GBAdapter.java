@@ -31,12 +31,12 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 		this.context = context;
 		this.names = names;
 	}
-	
+
 	public void refill() {
 		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
 	    notifyDataSetChanged();
 	}
-	
+
 
 
 	@Override
@@ -55,21 +55,21 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		final GBObject s = names.get(position);
-		
-		ImageLoader.download(s.getAvatar(), holder.image);		
+
+		ImageLoader.download(s.getAvatar(), holder.image);
 
 		holder.text.setText(s.getEinleitung());
 		holder.info.setText(s.getVon().getUsername()+" am "+s.getTime());
-		
+
 		if(!s.getVon().getId().equals("none")){
-			
+
 				holder.info.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						UserPopUp Menu = new UserPopUp(context, s.getVon().getUsername(), s.getVon().getId());
 						Menu.PopUp();
 					}
 				});
-				
+
 				holder.user.setImageResource(android.R.drawable.ic_menu_info_details);
 				holder.user.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
@@ -78,11 +78,11 @@ public class GBAdapter extends ArrayAdapter<GBObject> {
 					}
 				});
 		} else {
-			holder.info.setOnClickListener(null);			
+			holder.info.setOnClickListener(null);
 			holder.user.setImageResource(0);
 			holder.user.setOnClickListener(null);
 		}
-		
+
 		return rowView;
 	}
 }

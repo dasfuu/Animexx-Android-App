@@ -6,7 +6,10 @@ import java.util.Collections;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.app.ListActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +28,16 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
-public class ContactList extends ListActivity {
+public class ContactList extends SherlockListActivity {
 
 	ArrayList<UserObject> List;
 	Context con;
 	int action = 0;
 	private EditText filterText = null;
 	CTAdapter adapter;
+
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
 
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,14 @@ public class ContactList extends ListActivity {
 		setContentView(R.layout.contact_list_header);
 		filterText = (EditText) findViewById(R.id.search_box);
 		filterText.addTextChangedListener(filterTextWatcher);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("Kontakte");
+		actionBar.setHomeButtonEnabled(true);
 
 		con = this;
 
@@ -68,6 +82,18 @@ public class ContactList extends ListActivity {
 		}).start();
 
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 
 	private TextWatcher filterTextWatcher = new TextWatcher() {
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/CAcolor"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center" >
+
+    <de.meisterfuu.animexx.other.VerticalTextView
+        android:id="@+id/txType"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/header_bg"
+        android:gravity="bottom|center"
+        android:minWidth="30dp"
+        android:text="ENS"
+        android:textColor="#FFFFFF"
+        android:textSize="7pt" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/webIMG2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/custom_theme_color"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:minHeight="30dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/CAtxinfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@+id/label"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/CAtxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:paddingBottom="0dp"
+                android:text="@+id/label"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

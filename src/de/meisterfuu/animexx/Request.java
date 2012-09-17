@@ -241,8 +241,8 @@ public class Request {
 			return null;
 		}
 	}
-	
-	
+
+
 	/*
 	  	- charakter, int / benötigt / Die ID des Charakters
 		- text, string / benötigt / Der Text
@@ -250,17 +250,17 @@ public class Request {
 		- kursiv, int / optional / Falls angegeben und "1", dann wird das Posting kursiv.
 		- intime, int / optional / Falls angegeben und ungleich "1", dann wird es ein Out-Time-Posting. Standard: In-Time.
 	 */
-	
+
 	public static HttpPost sendRPGPost(String Text, long RPGid, boolean InTime, boolean Aktion, long CharaID, long AvatarID) {
 		try {
 			int Time = 0;
 			int Akt = 0;
 			if(Aktion) Akt = 1;
 			if(InTime) Time = 1;
-			
+
 			String url = "https://ws.animexx.de/json/rpg/erstelle_posting/?api=2&rpg=" + RPGid+"&charakter="+CharaID+"&kursiv="+Akt+"&intime="+Time;
 			if(AvatarID != -1) url += "&avatar="+AvatarID;
-			
+
 			HttpPost request = new HttpPost(url);
 
 			String s = "text=" + OAuth.percentEncode(Text);
@@ -274,12 +274,12 @@ public class Request {
 			return null;
 		}
 	}
-	
+
 	public static HttpPost sendRPGPost(String Text, long RPGid, boolean InTime, boolean Aktion, long CharaID) {
 		return sendRPGPost(Text, RPGid, InTime, Aktion, CharaID, -1);
 	}
-	
-	
+
+
 
 
 	public static String sendC2DM(String id, String collapse) throws Exception {
@@ -308,7 +308,7 @@ public class Request {
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventENS"));
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGeburtstag"));
 		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventGaestebuch"));
-		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventRPGPosting"));		
+		nameValuePairs.add(new BasicNameValuePair("events[]", "XXEventRPGPosting"));
 		request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		// StringEntity se = new StringEntity(s);
@@ -379,12 +379,12 @@ public class Request {
 			String jsonOutput = makeSecuredReq("https://ws.animexx.de/json/cloud2device/registration_id_get/?api=2");
 			String jsonResponse = new JSONObject(jsonOutput).getJSONObject("return").getJSONArray("registration_ids").getString(0);
 			Log.i("GCM-Server", jsonResponse);
-			
+
 			GCMRegistrar.checkDevice(con);
 			GCMRegistrar.checkManifest(con);
 			final String regId = GCMRegistrar.getRegistrationId(con);
 			Log.i("GCM-Device", regId);
-			
+
 			if (jsonResponse.equals(regId)) {
 				Log.i("GCM", "Active");
 				return true;

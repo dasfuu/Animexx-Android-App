@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <de.meisterfuu.animexx.other.SlideMenu
+        android:id="@+id/slideMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/TxVon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Von"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/TxGB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Nachricht" />
-
-        <WebView
-            android:id="@+id/WebGB"
+        <LinearLayout
+            android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/BtAnswer"
-            style="@style/AnimexxStyle"
-            android:layout_width="218dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:text="@string/Answer" />
-    </LinearLayout>
+            android:orientation="vertical" >
 
-</ScrollView>
+            <TextView
+                android:id="@+id/TxVon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Von"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/TxGB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Nachricht" />
+
+            <WebView
+                android:id="@+id/WebGB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/BtAnswer"
+                style="@style/AnimexxStyle"
+                android:layout_width="218dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="@string/Answer" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

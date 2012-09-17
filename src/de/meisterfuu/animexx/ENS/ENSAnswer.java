@@ -3,11 +3,15 @@ package de.meisterfuu.animexx.ENS;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.*;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,9 +26,11 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.booleanobject;
 import de.meisterfuu.animexx.other.ContactList;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 import de.meisterfuu.animexx.other.UserObject;
 
-public class ENSAnswer extends Activity {
+public class ENSAnswer extends SherlockActivity   {
 
 	TextView Betreff;
 	TextView An;
@@ -36,6 +42,8 @@ public class ENSAnswer extends Activity {
 	final ENSAnswer temp = this;
 	boolean error = false;
 	boolean fetched = false;
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
 
 
 	@Override
@@ -43,6 +51,16 @@ public class ENSAnswer extends Activity {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		setContentView(R.layout.ensanswer);
+
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("Neue ENS");
+		actionBar.setHomeButtonEnabled(true);
+
 
 		Betreff = (TextView) findViewById(R.id.edBetreff);
 		Nachricht = (TextView) findViewById(R.id.edENS);
@@ -96,11 +114,11 @@ public class ENSAnswer extends Activity {
 				}
 			}
 		});
-		
+
 		Add.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				Intent AddIntent = new Intent();               
+				Intent AddIntent = new Intent();
 				AddIntent.setClass(temp, ContactList.class);
 				AddIntent.putExtra("action", 1);
 			     startActivityForResult(AddIntent, 0);
@@ -203,7 +221,7 @@ public class ENSAnswer extends Activity {
 		for (String element : user) {
 			tAn.add(element);
 		}
-		
+
 		Log.i("Splitter", tAn.toString());
 
 
@@ -218,16 +236,16 @@ public class ENSAnswer extends Activity {
 
 		if (count == tAn.size()) {
 			fetched = true;
-			if (!temp.An.getText().equals(ShowUsername())) 
+			if (!temp.An.getText().equals(ShowUsername()))
 				temp.An.setText(ShowUsername());
-			
+
 			if (SendAfter){
 				load.dismiss();
 				send();
-			} 
+			}
 				return;
-		} 
-		
+		}
+
 		fetched = false;
 
 		new Thread(new Runnable() {
@@ -280,7 +298,7 @@ public class ENSAnswer extends Activity {
 		}).start();
 
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
      {
 
@@ -297,7 +315,20 @@ public class ENSAnswer extends Activity {
      		}
            }
            Request.doToast("Fehler", temp);
-     
-     }   
+
+     }
+
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 }

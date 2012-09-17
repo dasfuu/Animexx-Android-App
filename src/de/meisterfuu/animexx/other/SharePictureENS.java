@@ -34,14 +34,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class SharePictureENS extends Activity{
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
-		
+
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		String action = intent.getAction();
@@ -65,9 +65,9 @@ public class SharePictureENS extends Activity{
 
 					// base 64 encode for text transmission (HTTP)
 					//byte[] encoded_data = Base64.encodeBase64(data);
-					//String data_string = new String(encoded_data); 
+					//String data_string = new String(encoded_data);
 					String data_string =  Base64.encodeToString(data, Base64.DEFAULT);
-					
+
 					//SendRequest(data_string);
 					new SendRequest().execute(data_string);
 
@@ -103,13 +103,13 @@ public class SharePictureENS extends Activity{
 				String datai = data_string[0];
 
 				HttpPost request = new HttpPost("http://api.imgur.com/2/upload.json");
-				
+
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
 				nameValuePairs.add(new BasicNameValuePair("key", KEYS.IMGUR));
 				nameValuePairs.add(new BasicNameValuePair("image", datai));
-				nameValuePairs.add(new BasicNameValuePair("type", "base64"));				
+				nameValuePairs.add(new BasicNameValuePair("type", "base64"));
 				request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-				
+
 				DefaultHttpClient httpclient = new DefaultHttpClient();
 				httpclient.getParams().setParameter(CoreProtocolPNames.USER_AGENT,
 						"Android App " + Constants.VERSION);
@@ -151,14 +151,14 @@ public class SharePictureENS extends Activity{
 			Toast.makeText(SharePictureENS.this, result[0],
 					Toast.LENGTH_LONG).show();
 			if(result[0].equalsIgnoreCase("Bild erfolgreich hochgeladen!")){
-				
+
 				Bundle bundle2 = new Bundle();
 				bundle2.putString("msg", "Ich habe etwas interessantes für dich bei Imgur hochgeladen: \n"+result[1]);
 				Intent newIntent = new Intent(getApplicationContext(),
 						ENSAnswer.class);
 				newIntent.putExtras(bundle2);
 				startActivity(newIntent);
-				
+
 				SharePictureENS.this.finish();
 			} else {
 				SharePictureENS.this.finish();

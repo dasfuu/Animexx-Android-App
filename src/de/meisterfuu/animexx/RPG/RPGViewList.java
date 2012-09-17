@@ -6,9 +6,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,8 +29,10 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 
-public class RPGViewList extends ListActivity implements UpDateUI {
+public class RPGViewList extends SherlockListActivity implements UpDateUI {
 
 	AlertDialog alertDialog;
 	ArrayList<RPGObject> RPGArray = new ArrayList<RPGObject>();
@@ -38,6 +43,9 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 	int mPrevTotalItemCount;
 	RelativeLayout Loading;
 
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
+
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,10 +53,30 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 		setContentView(R.layout.listview_loading_bot);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
-		
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("RPG");
+		actionBar.setHomeButtonEnabled(true);
+
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		adapter = new RPGAdapter(this, RPGArray);
 		setlist(adapter);
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 
@@ -166,11 +194,11 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 
 		try {
 			int finishedRPG = 0;
-			if(Request.config.getBoolean("showRPGfinished", false)) {
+			if (Request.config.getBoolean("showRPGfinished", false)) {
 				finishedRPG = 1;
 			}
 			HttpGet[] HTTPs = new HttpGet[1];
-			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete="+finishedRPG+"&api=2&offset=" + RPGArray.size());
+			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/meine_rpgs/?beendete=" + finishedRPG + "&api=2&offset=" + RPGArray.size());
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
 
@@ -179,12 +207,13 @@ public class RPGViewList extends ListActivity implements UpDateUI {
 		}
 
 	}
-	
+
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		RPGArray.clear();
-		refresh();		
+		refresh();
 	}
 
 }

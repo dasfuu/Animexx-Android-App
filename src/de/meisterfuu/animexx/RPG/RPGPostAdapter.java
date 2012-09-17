@@ -45,7 +45,7 @@ public class RPGPostAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 		ViewHolder holder = null;
-		
+
 
 		if (rowView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
@@ -63,7 +63,7 @@ public class RPGPostAdapter extends BaseAdapter {
 		}
 
 		final RPGPostObject s = names.get(position);
-		
+
 		if (s.isAction())
 			holder.text.setTypeface(null, Typeface.ITALIC);
 		else
@@ -86,7 +86,7 @@ public class RPGPostAdapter extends BaseAdapter {
 		} else {
 			holder.Ava.setVisibility(View.GONE);
 		}
-		
+
 
 		// holder.time.setText(""+s.getId());
 

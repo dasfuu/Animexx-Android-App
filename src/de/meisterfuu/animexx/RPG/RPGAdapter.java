@@ -27,12 +27,12 @@ public class RPGAdapter extends ArrayAdapter<RPGObject> {
 		this.context = context;
 		this.names = names;
 	}
-	
+
 	public void refill() {
 		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
 	    notifyDataSetChanged();
 	}
-	
+
 
 
 	@Override
@@ -53,8 +53,8 @@ public class RPGAdapter extends ArrayAdapter<RPGObject> {
 
 		holder.text.setText(s.getName());
 		holder.info.setText("Letzter Eintrag am "+s.getLastUpdate()+"\ndurch "+s.getLastUser().getUsername()+" ("+s.getLastChar()+")\n"+s.getPostCount()+" Einträge");
-		
-		
+
+
 		return rowView;
 	}
 }

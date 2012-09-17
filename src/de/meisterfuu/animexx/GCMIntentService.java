@@ -57,9 +57,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 	protected void onMessage(Context context, Intent intent) {
 		Log.i("GCM", "New GCM");
 		if(!Helper.isLoggedIn(context)) return;
-		
+
 		Request.config = PreferenceManager.getDefaultSharedPreferences(context);
-		
+
 		if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventENS")) {
 			String von = intent.getExtras().getString("from_username");
 			String time = intent.getExtras().getString("id");
@@ -136,7 +136,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		if(contentTitle == null) contentTitle = "ENS";
 		if(contentText == null) contentText = "Neue ENS";
 		if(tickerText == null) tickerText = "Neue ENS";
-		
+
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
@@ -163,11 +163,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		
+
 		if(contentTitle == null) contentTitle = "Gästebuch";
 		if(contentText == null) contentText = "Neuer Gästebucheintrag";
 		if(tickerText == null) tickerText = "Neuer GB Eintrag";
-		
+
 		// the next two lines initialize the Notification, using the
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
@@ -201,7 +201,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		if(Request.config.getBoolean("notify_rpg", true)) {
-			notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));	
+			notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
 		}
 		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;

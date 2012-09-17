@@ -16,9 +16,9 @@ import android.widget.ProgressBar;
 
 /**
  * Free for anyone to use, just say thanks and share
- * 
+ *
  * @author Blundell
- * 
+ *
  */
 public class LoadImage extends LinearLayout {
 
@@ -36,7 +36,7 @@ public class LoadImage extends LinearLayout {
 	 * 'image="http://developer.android.com/images/dialog_buttons.png"'
 	 * Replacing the url with your desired image Once you have instantiated the
 	 * XML view you can call setImageDrawable(url) to change the image
-	 * 
+	 *
 	 * @param context
 	 * @param attrSet
 	 */
@@ -54,7 +54,7 @@ public class LoadImage extends LinearLayout {
 	 * This is used when creating the view programatically Once you have
 	 * instantiated the view you can call setImageDrawable(url) to change the
 	 * image
-	 * 
+	 *
 	 * @param context
 	 *            the Activity context
 	 * @param imageUrl
@@ -93,7 +93,7 @@ public class LoadImage extends LinearLayout {
 	/**
 	 * Set's the view's drawable, this uses the internet to retrieve the image
 	 * don't forget to add the correct permissions to your manifest
-	 * 
+	 *
 	 * @param imageUrl
 	 *            the url of the image you wish to load
 	 */
@@ -137,7 +137,7 @@ public class LoadImage extends LinearLayout {
 
 	/**
 	 * Pass in an image url to get a drawable object
-	 * 
+	 *
 	 * @return a drawable object
 	 * @throws IOException
 	 * @throws MalformedURLException

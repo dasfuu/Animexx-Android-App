@@ -32,14 +32,14 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Request.config = PreferenceManager.getDefaultSharedPreferences(this);		
+		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		con = this;
-		
+
 
 		NotificationManager mManager;
 		mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(42);
-		
+
 		adapter = new ContactActivityAdapter(this, Array);
 		refresh();
 	}
@@ -66,12 +66,12 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 
 		try {
 			JSONArray list = null;
-			
+
 			JSONObject jsonResponse = new JSONObject(JSON);
 			list = jsonResponse.getJSONObject("return").getJSONArray("typ1");
 
 
-			
+
 
 			final ArrayList<ContactActivityObject> Array = new ArrayList<ContactActivityObject>();
 			if ((list.length()) <= 0) {
@@ -82,7 +82,7 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 
 			if (list.length() != 0) {
 				for (int i = 0; i < list.length(); i++) {
-					ContactActivityObject tempObject  = new ContactActivityObject();					
+					ContactActivityObject tempObject  = new ContactActivityObject();
 
 					tempObject.setText(list.getJSONObject(i).getString("std_text"));
 					tempObject.setBeschreibung(list.getJSONObject(i).getString("beschreibung"));
@@ -93,7 +93,7 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 					tempObject.setTime(list.getJSONObject(i).getString("datum"));
 					tempObject.setVonID(list.getJSONObject(i).getString("event_von"));
 					tempObject.setVonUsername(list.getJSONObject(i).getString("event_von_username"));
-					
+
 					Array.add(tempObject);
 				}
 			}
@@ -124,13 +124,13 @@ public class ContactsActivityList extends ListActivity implements UpDateUI {
 		try {
 			HttpGet[] HTTPs = new HttpGet[1];
 			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/persstart/get_widget_data/?api=2&widget_id=2_19&return_typ=app");
-			new TaskRequest(this).execute(HTTPs);			
-		
+			new TaskRequest(this).execute(HTTPs);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void onNewIntent(Intent intent){
 		refresh();
 	}

@@ -7,7 +7,7 @@ public class GBObject {
 	private String text, entry_id, time, avatar;
 	private int typ;
 	private UserObject An,Von;
-	
+
 	public GBObject() {
 		this.text = "";
 		this.entry_id = "";
@@ -16,7 +16,7 @@ public class GBObject {
 		An = new UserObject();
 		Von = new UserObject();
 	}
-	
+
 	public GBObject(boolean i) {
 		this();
 		this.text = "Leer :/";
@@ -57,7 +57,7 @@ public class GBObject {
 		return avatar;
 	}
 
-	public void setAvatar(String avatar) {		
+	public void setAvatar(String avatar) {
 		if (avatar.startsWith("http"))
 			this.avatar = avatar;
 		else

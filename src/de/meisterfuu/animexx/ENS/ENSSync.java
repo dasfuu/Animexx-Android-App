@@ -36,69 +36,69 @@ public class ENSSync extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
-		Request.config = PreferenceManager.getDefaultSharedPreferences(this);		
+		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true,
 		        new OnCancelListener() {
             public void onCancel(DialogInterface pd) {
             	DoError();
             }
-        });   
-		
+        });
+
 		t = new Thread(new Runnable() {
 			public void run() {
 				start();
 			}
 		});
-		
+
 		t.start();
-    	
+
 	}
-	
+
 	private void start(){
-		
+
 			try{
 				ENSsql SQL = new ENSsql(con);
 				SQL.open();
 				SQL.clearFolder();
-		
-				
-		
+
+
+
 				HttpGet HTTPs;
-				HTTPs = Request.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?api=2");	
+				HTTPs = Request.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?api=2");
 				String s;
 				s = Request.SignSend(HTTPs);
 				getFolderlist(s);
-				
-				
+
+
 				for(int i = 0; i < OrdnerArray.size(); i++){
 					if(OrdnerArray.get(i).getENS_id() > 3) SQL.createFolder(OrdnerArray.get(i));
 				}
 				SQL.close();
-				
+
 				next();
 				refreshENS();
-				
+
 			} catch (Exception e) {
 				DoError();
 				e.printStackTrace();
 			}
-			
+
 	}
-	
+
 
 	private void getFolderlist(String JSON) {
-		
+
 		try{
-			
+
 				JSONArray FolderList = null;
-				JSONObject jsonResponse = new JSONObject(JSON);	
-			
+				JSONObject jsonResponse = new JSONObject(JSON);
+
 				jsonResponse = new JSONObject(JSON);
 				final ArrayList<ENSObject> ENSa = new ArrayList<ENSObject>();
-				
-				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");	
-	
-					for (int i = 0; i < FolderList.length(); i++) {	
+
+				FolderList = jsonResponse.getJSONObject("return").getJSONArray("an");
+
+					for (int i = 0; i < FolderList.length(); i++) {
 						ENSa.add(new ENSObject());
 						ENSa.get(ENSa.size()-1).setBetreff(FolderList.getJSONObject(i).getString("name"));
 						ENSa.get(ENSa.size()-1).setENS_id(FolderList.getJSONObject(i).getLong("ordner_id"));
@@ -107,10 +107,10 @@ public class ENSSync extends Activity {
 						ENSa.get(ENSa.size()-1).setAnVon("an");
 						ENSa.get(ENSa.size()-1).setOrdner(1);
 					}
-					
-				FolderList = jsonResponse.getJSONObject("return").getJSONArray("von");	
-					
-					for (int i = 0; i < FolderList.length(); i++) {	
+
+				FolderList = jsonResponse.getJSONObject("return").getJSONArray("von");
+
+					for (int i = 0; i < FolderList.length(); i++) {
 						ENSa.add(new ENSObject());
 						ENSa.get(ENSa.size()-1).setBetreff(FolderList.getJSONObject(i).getString("name"));
 						ENSa.get(ENSa.size()-1).setENS_id(FolderList.getJSONObject(i).getLong("ordner_id"));
@@ -119,9 +119,9 @@ public class ENSSync extends Activity {
 						ENSa.get(ENSa.size()-1).setAnVon("von");
 						ENSa.get(ENSa.size()-1).setOrdner(2);
 					}
-					
-				OrdnerArray.addAll(ENSa);				
-			
+
+				OrdnerArray.addAll(ENSa);
+
 		} catch(Exception e) {
 			e.printStackTrace();
 			DoError();
@@ -133,11 +133,11 @@ public class ENSSync extends Activity {
 
 		try {
 			JSONArray ENSlist = null;
-			
+
 			JSONObject jsonResponse = new JSONObject(JSON);
 			ENSlist = jsonResponse.getJSONArray("return");
-			
-	
+
+
 
 			//ENSObject[] ENSa;
 			final ArrayList<ENSObject> ENSa = new ArrayList<ENSObject>();
@@ -146,35 +146,35 @@ public class ENSSync extends Activity {
 
 
 			for (int i = 0; i < ENSlist.length(); i++) {
-					ENSObject tempENS  = new ENSObject();					
+					ENSObject tempENS  = new ENSObject();
 
 					tempENS.setBetreff(ENSlist.getJSONObject(i).getString("betreff"));
 					tempENS.setTime(ENSlist.getJSONObject(i).getString("datum_server"));
-					
+
 					UserObject von = new UserObject();
 					von.ParseJSON(ENSlist.getJSONObject(i).getJSONObject("von"));
 					tempENS.setVon(von);
-					
+
 					for(int z = 0; z < ENSlist.getJSONObject(i).getJSONArray("an").length(); z++){
 						UserObject an = new UserObject();
 						an.ParseJSON(ENSlist.getJSONObject(i).getJSONArray("an").getJSONObject(z));
 						tempENS.addAnUser(an);
 					}
-					
+
 					if(typ.equals("an")) tempENS.setFlags(ENSlist.getJSONObject(i).getInt("an_flags"));
 					else tempENS.setFlags(ENSlist.getJSONObject(i).getInt("von_flags"));
-					
+
 					tempENS.setENS_id(ENSlist.getJSONObject(i).getLong("id"));
 					tempENS.setTyp(ENSlist.getJSONObject(i).getInt("typ"));
 					tempENS.setOrdner(folder);
 					tempENS.setAnVon(typ);
-					
+
 					ENSa.add(tempENS);
 			}
 
-			ENSArray.addAll(ENSa);	
+			ENSArray.addAll(ENSa);
 			return ENSa;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			DoError();
@@ -194,18 +194,18 @@ public class ENSSync extends Activity {
 			DoError();
 		}
 	}
-		
+
 	public void UpDateENS(String s) {
-		
+
 		final ArrayList<ENSObject> z = getENSlist(s, ordner);
-		
+
 		final int yo = ENSArray.size();
 		con.runOnUiThread(new Runnable() {
 			public void run() {
 				dialog.setMessage(yo+" ENS geladen.");
 			}
 		});
-		
+
 		Log.i("Sync",yo+" ENS geladen.");
 		Log.i("Sync","Ordner("+typ+"): "+OrdnerArray.get(i).getBetreff()+"("+ordner+")");
 		Log.i("Sync","Seite: "+page);
@@ -216,7 +216,7 @@ public class ENSSync extends Activity {
 		for(int i = 0; i < z.size(); i++) SQL.updateENS(z.get(i), false);
 		SQL.close();
 		Log.i("Sync","SQL End");
-		
+
 		if(z.size() < 100) {
 			next();
 		}
@@ -232,19 +232,19 @@ public class ENSSync extends Activity {
 	}
 
 	public void refreshENS() {
-		
+
 		try {
-			
+
 			//HTTPs[1] = Request.getHTTP("https://ws.animexx.de/json/ens/ordner_liste/?ordner_typ="+ typ + "&api=2");
 
 			HttpGet HTTPs;
 			HTTPs = Request.getHTTP("https://ws.animexx.de/json/ens/ordner_ens_liste/?ordner_id="
 								+ ordner + "&ordner_typ=" + typ + "&seite="+page+"&anzahl=100&api=2");
-			page += 1;			
+			page += 1;
 			String s;
 			s = Request.SignSend(HTTPs);
 			UpDateENS(s);
-	
+
 		} catch (Exception e) {
 			DoError();
 			e.printStackTrace();

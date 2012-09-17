@@ -168,7 +168,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
-	
+
 	private void notifyRPG(String s, String title, Context context) {
 		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mManager.cancel(32);

@@ -13,11 +13,11 @@ public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
 		super();
 		attach(GUI);
 	}
-	
+
 	public void detach() {
 		GUI=null;
 	}
-	    
+
 	public void attach(UpDateUI GUI) {
 	    this.GUI=GUI;
 	}

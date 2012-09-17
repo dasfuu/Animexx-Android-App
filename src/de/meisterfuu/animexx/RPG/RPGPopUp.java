@@ -18,7 +18,7 @@ public class RPGPopUp {
 	AlertDialog alert;
 	AlertDialog.Builder builder;
 
-	
+
 	public RPGPopUp(Context context, long rpgid, String title , long count, boolean tofu) {
 		this.title = title;
 		this.rpgid = rpgid;
@@ -27,9 +27,9 @@ public class RPGPopUp {
 		this.tofu = tofu;
 		build();
 	}
-	
+
 	private void build(){
-		
+
 		builder = new AlertDialog.Builder(con);
 		builder.setTitle(title);
 
@@ -54,7 +54,7 @@ public class RPGPopUp {
 		});
 		alert = builder.create();
 		alert.setOwnerActivity((Activity) con);
-		
+
 	}
 
 	public void PopUp() {
@@ -78,7 +78,7 @@ public class RPGPopUp {
 		newIntent.putExtras(bundle);
 		con.startActivity(newIntent);
 	}
-	
+
 	private void openRPGstart() {
 		Bundle bundle = new Bundle();
 		bundle.putLong("id", rpgid);

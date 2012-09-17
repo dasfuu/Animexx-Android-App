@@ -32,7 +32,7 @@ public class HomeCommentObject extends HomeListObject {
 	public int getTyp() {
 		return COMMENT_TYP;
 	}
-	
+
 
 	public void setTyp(int typ) {
 		COMMENT_TYP = typ;

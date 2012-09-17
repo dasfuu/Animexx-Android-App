@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 import com.google.android.gcm.GCMRegistrar;
 import de.meisterfuu.animexx.ENS.ENS;
-import de.meisterfuu.animexx.ENS.ENSMenu;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.PersonalHomeListAll;
 import de.meisterfuu.animexx.RPG.RPGViewList;
@@ -60,7 +59,7 @@ public class Menu extends Activity {
 		imgunreadENS = (ImageView) findViewById(R.id.img_unreadENS);
 		imglogo = (ImageView) findViewById(R.id.logo);
 
-		setClick(ENS, ENSMenu.class);
+		setClick(ENS, ENS.class);
 		setClick(Guestbook, GBViewList.class);
 		setClick(Contacts, ContactList.class);
 		setClick(About, about.class);

@@ -13,14 +13,14 @@ public class KaroTalerAlert extends Activity {
 
 			Bundle bundle = this.getIntent().getExtras();
 			int abholbar = bundle.getInt("abholbar");
-			int guthaben = bundle.getInt("guthaben");	
+			int guthaben = bundle.getInt("guthaben");
 			Alert(this, abholbar, guthaben);
 
 
 	}
-	
+
 	private void Alert(final Context c, int amount, int gesamt){
-		
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(c);
 		builder.setMessage("Möchtest du "+amount+" Karotaler abholen?")
 		       .setCancelable(false)
@@ -28,7 +28,7 @@ public class KaroTalerAlert extends Activity {
 		           public void onClick(DialogInterface dialog, int id) {
 		        		Intent intent2 = new Intent();
 		        		intent2.setAction("de.meisterfuu.animexx.karotaler");
-		        		intent2.putExtra("action", "get" ); 
+		        		intent2.putExtra("action", "get" );
 		        		sendBroadcast(intent2);
 		                dialog.cancel();
 		                KaroTalerAlert.this.finish();
@@ -42,6 +42,6 @@ public class KaroTalerAlert extends Activity {
 		       });
 		AlertDialog alert = builder.create();
 	     alert.show();
-		
+
 	}
 }

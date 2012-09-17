@@ -19,13 +19,13 @@ import de.meisterfuu.animexx.other.UserObject;
 */
 
 public class RPGObject {
-	
+
 	long id;
 	String name, lastUpdate, lastChar, description;
 	UserObject lastUser;
 	int PostCount;
 	boolean tofu;
-	
+
 	public RPGObject(){
 		id = -1L;
 		name = "Unbekannt";
@@ -33,9 +33,9 @@ public class RPGObject {
 		lastChar = "Unbekannt";
 		tofu = false;
 	}
-	
+
 	public void parseJSON(JSONObject o){
-			
+
 		try {
 			this.setId(o.getLong("id"));
 			this.setName(o.getString("name"));
@@ -44,15 +44,15 @@ public class RPGObject {
 			this.setLastUpdate(o.getString("letzt_datum_server"));
 			this.getLastUser().setUsername(o.getString("letzt_spieler"));
 			if(o.getInt("tofu") == 1) this.setTofu(true); else this.setTofu(false);
-			
+
 			Log.i("RPG",this.getName());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
-	}	
-	
+		}
+
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -95,5 +95,5 @@ public class RPGObject {
 	public void setTofu(boolean tofu) {
 		this.tofu = tofu;
 	}
-	
+
 }

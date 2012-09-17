@@ -1,7 +1,8 @@
 package de.meisterfuu.animexx.other;
 
-import oauth.signpost.OAuth;
-
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gcm.GCMRegistrar;
 
 import de.meisterfuu.animexx.Helper;
@@ -15,16 +16,28 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceManager;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.PreferenceActivity;
 import android.util.Log;
 
 @SuppressWarnings("deprecation")
-public class Settings extends PreferenceActivity {
+public class Settings extends SherlockPreferenceActivity {
+
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		addPreferencesFromResource(R.xml.settings);
+		setContentView(R.layout.settings);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("About");
+		actionBar.setHomeButtonEnabled(true);
+
 		final Settings temp = this;
 		Preference pref = findPreference("push");
 		pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
@@ -35,7 +48,7 @@ public class Settings extends PreferenceActivity {
 					Intent UnRegisterIntent = new Intent();
 					UnRegisterIntent.setAction("com.google.android.c2dm.intent.UNREGISTER");
 					temp.sendBroadcast(UnRegisterIntent);
-					
+
 				} else {
 					Log.i("GCM", "Register");
 					GCMRegistrar.register(temp, KEYS.GCM_SENDER_ID);
@@ -66,4 +79,15 @@ public class Settings extends PreferenceActivity {
 
 	}
 
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 }

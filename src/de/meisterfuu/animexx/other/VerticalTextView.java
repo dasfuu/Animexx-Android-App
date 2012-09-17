@@ -29,7 +29,7 @@ public class VerticalTextView extends TextView{
 
 	   @Override
 	   protected void onDraw(Canvas canvas){
-	      TextPaint textPaint = getPaint(); 
+	      TextPaint textPaint = getPaint();
 	      textPaint.setColor(getCurrentTextColor());
 	      textPaint.drawableState = getDrawableState();
 

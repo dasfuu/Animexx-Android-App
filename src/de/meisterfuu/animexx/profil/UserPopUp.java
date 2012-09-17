@@ -27,7 +27,7 @@ public class UserPopUp {
 		this.con = context;
 		build();
 	}
-	
+
 	public UserPopUp(Context context, String username, String userid) {
 
 		this.username = username;
@@ -35,9 +35,9 @@ public class UserPopUp {
 		this.con = context;
 		build();
 	}
-	
+
 	private void build(){
-		
+
 		builder = new AlertDialog.Builder(con);
 		builder.setTitle(username);
 
@@ -65,7 +65,7 @@ public class UserPopUp {
 		});
 		alert = builder.create();
 		alert.setOwnerActivity((Activity) con);
-		
+
 	}
 
 	public void PopUp() {
@@ -76,6 +76,7 @@ public class UserPopUp {
 	private void openGB() {
 		Bundle bundle = new Bundle();
 		bundle.putString("id", userid);
+		bundle.putString("username", username);
 		Intent newIntent = new Intent(con.getApplicationContext(),
 				GBViewList.class);
 		newIntent.putExtras(bundle);
@@ -92,7 +93,7 @@ public class UserPopUp {
 		newIntent.putExtras(bundle2);
 		con.startActivity(newIntent);
 	}
-	
+
 	private void openSendGB() {
 		Bundle bundle2 = new Bundle();
 		bundle2.putString("an", username);

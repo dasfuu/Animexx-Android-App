@@ -25,10 +25,10 @@ public class RequestTokenActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.login_animation);
 		LadeMessage = (TextView) findViewById(R.id.login_status);
-		
+
 		try {
 			consumer = new CommonsHttpOAuthConsumer(Constants.CONSUMER_KEY,
 					Constants.CONSUMER_SECRET);

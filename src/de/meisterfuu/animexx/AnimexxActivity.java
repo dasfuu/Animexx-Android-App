@@ -2,6 +2,8 @@ package de.meisterfuu.animexx;
 
 import com.google.android.gcm.GCMRegistrar;
 
+import de.meisterfuu.animexx.Home.PersonalHomeListAll;
+
 import oauth.signpost.OAuth;
 import android.app.Activity;
 import android.content.Intent;
@@ -74,7 +76,7 @@ public class AnimexxActivity extends Activity {
 				}
 			}
 
-			startActivity(new Intent().setClass(getApplicationContext(), Menu.class));
+			startActivity(new Intent().setClass(getApplicationContext(), PersonalHomeListAll.class));
 			finish();
 		} else {
 			Log.i("OAuth", "OAuth gescheitert");

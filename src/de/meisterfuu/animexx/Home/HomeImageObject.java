@@ -30,7 +30,7 @@ public class HomeImageObject extends HomeListObject {
 		}
 
 	}
-	
+
 	public HomeImageObject(int typ) {
 		IMAGE_TYP = typ;
 	}
@@ -46,7 +46,7 @@ public class HomeImageObject extends HomeListObject {
 	public int getTyp() {
 		return IMAGE_TYP;
 	}
-	
+
 
 	public void setTyp(int typ) {
 		IMAGE_TYP = typ;

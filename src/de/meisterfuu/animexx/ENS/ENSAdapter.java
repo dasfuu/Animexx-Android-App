@@ -2,7 +2,6 @@ package de.meisterfuu.animexx.ENS;
 
 import java.util.ArrayList;
 
-import de.meisterfuu.animexx.R;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,78 +9,89 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import de.meisterfuu.animexx.R;
+import de.meisterfuu.animexx.other.VerticalTextView;
+
 
 public class ENSAdapter extends ArrayAdapter<ENSObject> {
+
 	private final Activity context;
 	private ArrayList<ENSObject> names;
 
 	static class ViewHolder {
+
 		public TextView text, txinfo;
-		public ImageView image;
-		public ImageView more;
+		public VerticalTextView txtyp;
+		public LinearLayout Color;
+		public ImageView IMG2;
 	}
+
 
 	public ENSAdapter(Activity context, ArrayList<ENSObject> names) {
 		super(context, R.layout.enslist, names);
 		this.context = context;
 		this.names = names;
 	}
-	
-	public void refill() {
-		Log.i("Anzahl", "Im Array sind "+names.size()+" Elemente.");
-	    notifyDataSetChanged();
+
+
+	public void refill(ArrayList<ENSObject> names) {
+		this.names = names;
+		Log.i("Anzahl", "Im Array sind " + names.size() + " Elemente.");
+		notifyDataSetChanged();
 	}
+
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View rowView = convertView;
 		if (rowView == null) {
 			LayoutInflater inflater = context.getLayoutInflater();
-			rowView = inflater.inflate(R.layout.enslist, null);
+			rowView = inflater.inflate(R.layout.calist_small, null);
 			ViewHolder viewHolder = new ViewHolder();
-			viewHolder.text = (TextView) rowView.findViewById(R.id.txt);
-			viewHolder.txinfo = (TextView) rowView.findViewById(R.id.txinfo);
-			viewHolder.image = (ImageView) rowView.findViewById(R.id.img);
-			viewHolder.more = (ImageView) rowView.findViewById(R.id.imgmore);
+			viewHolder.text = (TextView) rowView.findViewById(R.id.CAtxt);
+			viewHolder.txinfo = (TextView) rowView.findViewById(R.id.CAtxinfo);
+			viewHolder.txtyp = (VerticalTextView) rowView.findViewById(R.id.txType);
+			viewHolder.Color = (LinearLayout) rowView.findViewById(R.id.CAcolor);
+			viewHolder.IMG2 = (ImageView) rowView.findViewById(R.id.webIMG2);
 			rowView.setTag(viewHolder);
 		}
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		final ENSObject s = names.get(position);
-		holder.text.setText(s.getBetreff());
-		if (s.getTyp() == 99) {
-			holder.image.setImageResource(R.drawable.folder);
+		holder.text.setText(s.getTitle());
+		if (!s.isFolder())holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
+		holder.IMG2.setVisibility(View.GONE);
+
+		holder.txtyp.setBackgroundResource(R.color.bg_blue2);
+		holder.txtyp.setText("");
+
+		if (s.isSystem()) {
+			holder.txtyp.setText("Sys");
+			holder.txtyp.setBackgroundResource(R.color.bg_green);
+		}
+
+		if (s.isUnread()) {
+			holder.txtyp.setText("Neu");
+			holder.txtyp.setBackgroundResource(R.color.header_bg);
+		}
+
+		if (s.isFolder()) {
+			holder.txtyp.setText("Ordner");
 			if(s.getAnVon().equals("an")) holder.txinfo.setText(s.getSignatur()+" ungelesene ENS"); else holder.txinfo.setText(" ");
-		} else {
-			holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
-			String flag = Integer.toBinaryString(s.getFlags());
-
-			if (flag.charAt(flag.length() - 1) == '0') {
-				holder.image.setImageResource(R.drawable.unseenmail);
-			} else if (flag.charAt(flag.length() - 1) == '1') {
-				holder.image.setImageResource(R.drawable.unreadmail);
+			if(s.getENS_id() == 1 || s.getENS_id() == 2) {
+				//holder.IMG2.setVisibility(View.VISIBLE);
 			}
-			if (flag.length() >= 2 && flag.charAt(flag.length() - 2) == '1')
-				holder.image.setImageResource(R.drawable.mail);
+			holder.txtyp.setBackgroundResource(R.color.bg_lightgreen);
 		}
-		
-		if(!s.isFolder()){
 
-			
-			holder.more.setImageResource(android.R.drawable.ic_menu_more);
-			holder.more.setOnClickListener(new View.OnClickListener() {
-				public void onClick(View v) {
-					ENSPopUp Menu = new ENSPopUp(context, s.getVon().getUsername(),
-							s.getVon().getId(), s.getENS_id(),
-							s.getBetreff(), s.getAnVon(), 1);
-					Menu.PopUp();
-				}
-			});
-		} else {
-			holder.more.setImageResource(0);
-		}
 
 		return rowView;
+	}
+
+	@Override
+	public int getCount(){
+		return names.size();
 	}
 }

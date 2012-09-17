@@ -7,7 +7,7 @@ public class UserObject implements Comparable<Object> {
 
 	private String id, username, picture;
 	private boolean SteckbriefFreigabe;
-	
+
 	public void ParseJSON(JSONObject user){
 		setPicture(null);
 		//Fehler durch abgemeldete User abfangen
@@ -21,14 +21,14 @@ public class UserObject implements Comparable<Object> {
 			setSteckbriefFreigabe(false);
 		}
 	}
-	
+
 	public UserObject() {
 		setId("none");
 		setUsername("Abgemeldet");
 		setSteckbriefFreigabe(false);
 		setPicture(null);
 	}
-	
+
 	public String toString() {
 		return this.getUsername();
 	}
@@ -68,8 +68,8 @@ public class UserObject implements Comparable<Object> {
 	public int compareTo(Object o2) {
 
 		return this.getUsername().compareTo(((UserObject) o2).getUsername());
-			
+
 	}
-	
-	
+
+
 }

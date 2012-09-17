@@ -6,27 +6,32 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
-import de.meisterfuu.animexx.Constants;
 import de.meisterfuu.animexx.Helper;
+import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 import de.meisterfuu.animexx.other.UserObject;
 
-public class RPGViewCharaList extends ListActivity implements UpDateUI {
+public class RPGViewCharaList extends SherlockListActivity implements UpDateUI {
 
 	AlertDialog alertDialog;
 	ArrayList<RPGCharaObject> RPGArray = new ArrayList<RPGCharaObject>();
@@ -37,12 +42,27 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 	boolean error = false;
 	int mPrevTotalItemCount;
 	long id;
+	RelativeLayout Loading;
 
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
+
+		setContentView(R.layout.listview_loading_bot);
+		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
+		Loading.setVisibility(View.GONE);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("RPG");
+		actionBar.setHomeButtonEnabled(true);
 
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -55,6 +75,16 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 		refresh();
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 
 	private void setlist(RPGCharaAdapter a) {
 
@@ -97,9 +127,9 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 			RPG.setUser(u);
 			RPG.setFree(false);
 			RPGa.add(RPG);
-			
+
 			JSONArray RPGlist = temp.getJSONArray("spieler");
-			
+
 			if (RPGlist.length() != 0) {
 				for (int i = 0; i < RPGlist.length(); i++) {
 					tp = RPGlist.getJSONObject(i);
@@ -138,7 +168,7 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
 
 	public void UpDateUi(final String[] s) {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		final ArrayList<RPGCharaObject> z = getRPGlist(s[0]);
 		RPGArray.addAll(z);
 		adapter.refill();
@@ -146,7 +176,7 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
 
 	public void DoError() {
-		dialog.dismiss();
+		Loading.setVisibility(View.GONE);
 		error = true;
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
@@ -161,21 +191,13 @@ public class RPGViewCharaList extends ListActivity implements UpDateUI {
 
 
 	public void refresh() {
-
-		dialog = ProgressDialog.show(this, "", Constants.LOADING, true, true, new OnCancelListener() {
-
-			public void onCancel(DialogInterface pd) {
-				Task.cancel(true);
-				((Activity) context).finish();
-			}
-		});
-
 		try {
 
 			HttpGet[] HTTPs = new HttpGet[1];
 			HTTPs[0] = Request.getHTTP("https://ws.animexx.de/json/rpg/get_charaktere/?api=2&rpg=" + id);
 			Task = new TaskRequest(this);
 			Task.execute(HTTPs);
+			Loading.setVisibility(View.VISIBLE);
 
 		} catch (Exception e) {
 			e.printStackTrace();

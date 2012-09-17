@@ -4,6 +4,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
@@ -13,7 +17,8 @@ import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.other.ImageDownloader;
 import de.meisterfuu.animexx.other.SingleImage;
-import android.app.Activity;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -23,24 +28,26 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class UserSteckbrief extends Activity implements UpDateUI {
+public class UserSteckbrief extends SherlockActivity implements UpDateUI {
 
 	String userid;
 	String username;
 
-	TextView txtusername, txtbirth, txtmail, txtweb, txtort, txtalter, txtname;
+	TextView txtbirth, txtmail, txtweb, txtort, txtalter, txtname;
 	Button ENS, GB;
 	JSONObject data;
 	ImageView Avatar;
 	ImageDownloader ImageLoader = new ImageDownloader();
 
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Helper.isLoggedIn(this); 
+		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setContentView(R.layout.steckbrief_main);
-		txtusername = (TextView) findViewById(R.id.username);
 		txtname = (TextView) findViewById(R.id.txRealName);
 		txtbirth = (TextView) findViewById(R.id.txBirthday);
 		txtmail = (TextView) findViewById(R.id.txEMail);
@@ -50,6 +57,14 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 		ENS = (Button) findViewById(R.id.btENS);
 		GB = (Button) findViewById(R.id.btGB);
 		Avatar = (ImageView) findViewById(R.id.loadAvatar);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("");
+		actionBar.setHomeButtonEnabled(true);
 
 		if (this.getIntent().hasExtra("id")) {
 			userid = this.getIntent().getStringExtra("id");
@@ -78,7 +93,7 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 			data = data.getJSONObject("return");
 
 			username = data.getString("username");
-			txtusername.setText(username);
+			getSupportActionBar().setTitle(username);
 			String vor = "";
 
 			if (data.getBoolean("freigabe_steckbrief")) {
@@ -119,16 +134,17 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 				public void onClick(View v) {
 					Bundle bundle = new Bundle();
 					bundle.putString("id", userid);
+					bundle.putString("username", username);
 					Intent newIntent = new Intent(getApplicationContext(),
 							GBViewList.class);
 					newIntent.putExtras(bundle);
 					startActivity(newIntent);
 				}
 			});
-			
+
 			if (!data.isNull("foto_url"))
 				Avatar.setOnClickListener(new OnClickListener(){
-	
+
 					public void onClick(View arg0) {
 						Bundle bundle = new Bundle();
 						try {
@@ -142,7 +158,7 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 						newIntent.putExtras(bundle);
 						startActivity(newIntent);
 					}
-					
+
 				});
 
 		} catch (JSONException e) {
@@ -155,10 +171,21 @@ public class UserSteckbrief extends Activity implements UpDateUI {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	public void refresh() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 }

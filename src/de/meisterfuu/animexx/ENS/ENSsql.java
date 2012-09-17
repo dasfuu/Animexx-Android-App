@@ -32,21 +32,21 @@ public class ENSsql {
 		COLUMN_VON_ID 8
 		COLUMN_AN_ID 9
 		COLUMN_ORDNER 10
-		COLUMN_SIGNATUR 11 
-		COLUMN_FLAGS 12	
+		COLUMN_SIGNATUR 11
+		COLUMN_FLAGS 12
 		COLUMN_KONVERSATION 13
 		COLUMN_TYP 14
 		COLUMN_REFERENZ_ENS_ID 15
 	 */
-	
+
 	SQLiteDatabase db;
 	ENSSQLOpenHelper db_helper;
 
-	public ENSsql(Context context) {			
+	public ENSsql(Context context) {
 		//this.context = context;
-		db_helper = new ENSSQLOpenHelper(context);		
+		db_helper = new ENSSQLOpenHelper(context);
 	}
-	
+
 	public void open() throws SQLException {
 		db = db_helper.getWritableDatabase();
 	}
@@ -57,11 +57,11 @@ public class ENSsql {
 	}
 
 	public long updateENS(ENSObject ENS, boolean text) {
-		
+
 		ContentValues values = new ContentValues();
 		values.put(ENSSQLOpenHelper.COLUMN_ENS_ID, ENS.getENS_id());
 		values.put(ENSSQLOpenHelper.COLUMN_BETREFF, ENS.getBetreff());
-		
+
 		if(text){
 		values.put(ENSSQLOpenHelper.COLUMN_TEXT, ENS.getText());
 		values.put(ENSSQLOpenHelper.COLUMN_SIGNATUR, ENS.getSignatur());
@@ -73,22 +73,22 @@ public class ENSsql {
 		values.put(ENSSQLOpenHelper.COLUMN_KONVERSATION, ENS.getKonversation());
 		values.put(ENSSQLOpenHelper.COLUMN_REFERENZ_ENS_ID, ENS.getReferenz());
 		values.put(ENSSQLOpenHelper.COLUMN_TYP, ENS.getTyp());
-		
-		Joiner joiner = Joiner.on(", ").skipNulls();		
+
+		Joiner joiner = Joiner.on(", ").skipNulls();
 		values.put(ENSSQLOpenHelper.COLUMN_AN, joiner.join(ENS.getAnArray()));
 		values.put(ENSSQLOpenHelper.COLUMN_VON, ENS.getVon().getUsername());
-		
+
 		String[] id = new String[ENS.getAnArray().length];
 		for(int i = 0; i < ENS.getAnArray().length; i++)
 		{
 				id[i] = ENS.getAnArray()[i].getId();
 		}
-		
-		joiner = Joiner.on(", ").skipNulls();		
+
+		joiner = Joiner.on(", ").skipNulls();
 		values.put(ENSSQLOpenHelper.COLUMN_AN_ID, joiner.join(id));
 		values.put(ENSSQLOpenHelper.COLUMN_VON_ID, ENS.getVon().getId());
-		
-		//db.insert(table, nullColumnHack, values)		
+
+		//db.insert(table, nullColumnHack, values)
 		//return db.update(ENSSQLOpenHelper.TABLE_ENS, null,	values);
 		long  a;
 
@@ -97,32 +97,32 @@ public class ENSsql {
 			a = db.insert(ENSSQLOpenHelper.TABLE_ENS, null,	values);
 			Log.i("SQL","InsertENS: "+a);
 		} else Log.i("SQL","updateENS: "+a);
-		
+
 		return a;
 	}
-	
+
 	public long createFolder(ENSObject ENS) {
-		
+
 		ContentValues values = new ContentValues();
 		values.put(ENSSQLOpenHelper.COLUMN_F_ID, ENS.getENS_id());
 		values.put(ENSSQLOpenHelper.COLUMN_BETREFF, ENS.getBetreff());
 		values.put(ENSSQLOpenHelper.COLUMN_AN_VON, ENS.getOrdner());
-		
-		//db.insert(table, nullColumnHack, values)		
+
+		//db.insert(table, nullColumnHack, values)
 		return db.insert(ENSSQLOpenHelper.TABLE_ORDNER, null,	values);
 	}
 
-	
+
 	public void deleteENS(Long ENS_id) {
 		db.delete(ENSSQLOpenHelper.TABLE_ENS, ENSSQLOpenHelper.COLUMN_ENS_ID
 				+ " = " + ENS_id, null);
 	}
-	
+
 	public void clearFolder(String typ) {
 		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, ENSSQLOpenHelper.COLUMN_AN_VON
 				+ " = " + typ, null);
 	}
-	
+
 	public void clearFolder() {
 		db.delete(ENSSQLOpenHelper.TABLE_ORDNER, null, null);
 	}
@@ -136,18 +136,18 @@ public class ENSsql {
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			ENSObject temp = cursorToENS(cursor);
-			
+
 			if(temp != null && temp.getText() != "" && temp.getText() != null)
 				ENS.add(temp);
-			
-			
+
+
 			cursor.moveToNext();
 		}
-		
+
 		cursor.close();
 		return ENS;
 	}
-	
+
 	public ArrayList<ENSObject> getAllFolder(String AnVon) {
 		ArrayList<ENSObject> ENS = new ArrayList<ENSObject>();
 
@@ -160,11 +160,11 @@ public class ENSsql {
 			if(temp.getAnVon().equalsIgnoreCase(AnVon)) ENS.add(temp);
 			cursor.moveToNext();
 		}
-		
+
 		cursor.close();
 		return ENS;
 	}
-	
+
 	public ENSObject getSingleENS(Long ENS_ID){
 		List<ENSObject> ENS = new ArrayList<ENSObject>();
 
@@ -176,10 +176,10 @@ public class ENSsql {
 			ENS.add(temp);
 			cursor.moveToNext();
 		}
-		
+
 		cursor.close();
 		if (ENS.size() != 0) return ENS.get(0);
-		
+
 		return null;
 	}
 
@@ -187,35 +187,35 @@ public class ENSsql {
 		ENSObject ENS = new ENSObject();
 		//if(cursor.getString(3) != null || cursor.getString(3).equals("") == false || cursor.getString(3).equals("NULL")){
 			ENS.setText(cursor.getString(2));
-			ENS.setSignatur(cursor.getString(10));	
+			ENS.setSignatur(cursor.getString(10));
 		//} else {
 		//	ENS.setText("");
-		//	ENS.setSignatur("");	
+		//	ENS.setSignatur("");
 		//}
 		ENS.setENS_id(cursor.getLong(0));
-		ENS.setBetreff(cursor.getString(1));		
+		ENS.setBetreff(cursor.getString(1));
 		ENS.setTime(cursor.getString(3));
 		ENS.setAnVon(cursor.getString(4));
-		ENS.setOrdner(cursor.getInt(9));		
+		ENS.setOrdner(cursor.getInt(9));
 		ENS.setFlags(cursor.getInt(11));
 		ENS.setKonversation(cursor.getInt(12));
 		ENS.setTyp(cursor.getInt(13));
 		ENS.setReferenz(cursor.getLong(14));
-		
+
 		UserObject temp = new UserObject();
 		temp.setId(cursor.getString(7));
-		temp.setUsername(cursor.getString(5));		
+		temp.setUsername(cursor.getString(5));
 		ENS.setVon(temp);
-				
+
 		Iterable<String> user = Splitter.on(CharMatcher.anyOf(";,")).trimResults().omitEmptyStrings().split(cursor.getString(8));
 		Iterable<String> username = Splitter.on(CharMatcher.anyOf(";,")).trimResults().omitEmptyStrings().split(cursor.getString(6));
 		ArrayList<String> ID = new ArrayList<String>();
 		ArrayList<String> NAME = new ArrayList<String>();
-		
+
 		for (String element : user) {
 			ID.add(element);
 		}
-		
+
 		for (String element : username) {
 			NAME.add(element);
 		}
@@ -226,10 +226,10 @@ public class ENSsql {
 			tUserObject.setUsername(NAME.get(i));
 			ENS.addAnUser(tUserObject);
 		}
-		
+
 		return ENS;
 	}
-	
+
 	private ENSObject cursorToFolder(Cursor cursor) {
 		ENSObject ENS = new ENSObject();
 		ENS.setBetreff(cursor.getString(1));
@@ -239,10 +239,10 @@ public class ENSsql {
 		if(ENS.getOrdner() == 1) ENS.setAnVon("an");
 		else ENS.setAnVon("von");
 		ENS.setSignatur("0");
-	
-		
+
+
 		return ENS;
 	}
-	
+
 
 }

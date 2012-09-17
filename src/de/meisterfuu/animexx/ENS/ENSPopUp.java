@@ -24,7 +24,7 @@ public class ENSPopUp {
 	Context con;
 	AlertDialog alert;
 	AlertDialog.Builder builder;
-	
+
 	public ENSPopUp(Context context, String username, String userid,
 			Long ENSid, String Betreff, String anvon, int List) {
 		this(context, username, userid, ENSid, Betreff, anvon);
@@ -104,7 +104,7 @@ public class ENSPopUp {
 		UserPopUp Menu = new UserPopUp(con, username, userid);
 		Menu.PopUp();
 	}
-	
+
 	private void RemoveENS() {
 
 
@@ -115,7 +115,7 @@ public class ENSPopUp {
 			public void run() {
 				final booleanobject x = new booleanobject();
 				try {
-					x.bool = Request.RemoveENS(ENSid, anvon);	
+					x.bool = Request.RemoveENS(ENSid, anvon);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					x.bool = false;
@@ -134,7 +134,7 @@ public class ENSPopUp {
 									con.getApplicationContext(), ENS.class));
 							} else if (List == 2){
 								con.startActivity(new Intent().setClass(
-									con.getApplicationContext(), ENSAusgang.class));
+									con.getApplicationContext(), ENS.class));
 							}
 							Request.doToast("ENS gelöscht!",
 									con.getApplicationContext());
@@ -143,7 +143,7 @@ public class ENSPopUp {
 				});
 			}
 		}).start();
-		
+
 	}
 
 }

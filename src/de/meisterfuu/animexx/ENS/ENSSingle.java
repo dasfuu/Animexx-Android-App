@@ -2,14 +2,20 @@ package de.meisterfuu.animexx.ENS;
 
 import java.util.List;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.common.base.Joiner;
 
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 import de.meisterfuu.animexx.other.UserObject;
 import de.meisterfuu.animexx.profil.UserPopUp;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +29,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-public class ENSSingle extends Activity {
+public class ENSSingle extends SherlockActivity {
 
 	TextView Betreff;
 	TextView Absender;
@@ -34,6 +40,8 @@ public class ENSSingle extends Activity {
 	ENSObject msg;
 	Long id2;
 	Context con;
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
 
 
 	@Override
@@ -41,6 +49,14 @@ public class ENSSingle extends Activity {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		setContentView(R.layout.enssingle);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("ENS");
+		actionBar.setHomeButtonEnabled(true);
 
 		con = this;
 
@@ -168,6 +184,29 @@ public class ENSSingle extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		case R.id.ac_answer:
+			startActivity(new Intent().setClass(getApplicationContext(), ENSAnswer.class));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.actionbar_answer, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 }

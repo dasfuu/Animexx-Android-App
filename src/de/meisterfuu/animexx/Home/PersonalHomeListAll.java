@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import android.app.ListActivity;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
@@ -20,11 +24,13 @@ import android.widget.SlidingDrawer;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.ImageDownloader;
+import de.meisterfuu.animexx.other.SlideMenu;
+import de.meisterfuu.animexx.other.SlideMenuHelper;
 
-public class PersonalHomeListAll extends ListActivity {
+public class PersonalHomeListAll extends SherlockListActivity {
 
 	ArrayList<HomeListObject> Array = new ArrayList<HomeListObject>();
-	ArrayList<HomeListObject> All = new ArrayList<HomeListObject>();
+	// ArrayList<HomeListObject> All = new ArrayList<HomeListObject>();
 
 	ArrayList<HomeListObject> Cosplay = new ArrayList<HomeListObject>();
 	ArrayList<HomeListObject> Kontakte = new ArrayList<HomeListObject>();
@@ -46,6 +52,9 @@ public class PersonalHomeListAll extends ListActivity {
 	SlidingDrawer Filter;
 	CheckBox fCosplay, fWeblogCom, fFanficCom, fFanartCom, fFanworkCom, fKontakte, fUmfrageCom, fDojinshiCom;
 
+	private SlideMenu slidemenu;
+	private SlideMenuHelper slidemenuhelper;
+
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,6 +63,14 @@ public class PersonalHomeListAll extends ListActivity {
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Filter = (SlidingDrawer) findViewById(R.id.HomeListFilter);
 		Loading.setVisibility(View.GONE);
+
+		// setup slide menu
+		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenu = slidemenuhelper.getSlideMenu();
+		// setup action bar
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setTitle("Home");
+		actionBar.setHomeButtonEnabled(true);
 
 		Request.config = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -103,6 +120,18 @@ public class PersonalHomeListAll extends ListActivity {
 
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			slidemenu.show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+
+	@Override
 	public void onBackPressed() {
 		if (Filter.isOpened()) {
 			Filter.animateClose();
@@ -112,7 +141,7 @@ public class PersonalHomeListAll extends ListActivity {
 
 	}
 
-	
+
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
 			Filter.animateToggle();
@@ -139,7 +168,8 @@ public class PersonalHomeListAll extends ListActivity {
 		if (loadCount == 0) {
 			Loading.setVisibility(View.GONE);
 			Filter.setVisibility(View.VISIBLE);
-			Collections.sort(All);
+			Collections.sort(Array);
+			Filter();
 		}
 	}
 
@@ -170,16 +200,17 @@ public class PersonalHomeListAll extends ListActivity {
 		edit.putBoolean("fFanartCom", fFanartCom.isChecked());
 		edit.commit();
 	}
-	
+
+
 	@SuppressWarnings("unused")
-	public void AddKommentare(ArrayList<HomeListObject> Source, ArrayList<HomeListObject> Target) {		
-		if(!false){
-			for(int i = 0; i < Source.size(); i++){
-				if(!((HomeCommentObject)Source.get(i)).isAbo()) {
+	public void AddKommentare(ArrayList<HomeListObject> Source, ArrayList<HomeListObject> Target) {
+		if (!false) {
+			for (int i = 0; i < Source.size(); i++) {
+				if (!((HomeCommentObject) Source.get(i)).isAbo()) {
 					Target.add(Source.get(i));
 				}
 			}
-			
+
 		} else {
 			Target.addAll(Source);
 		}

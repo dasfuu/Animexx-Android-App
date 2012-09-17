@@ -25,22 +25,22 @@ public class CTAdapter extends ArrayAdapter<UserObject> {
 		this.names = names;
 		this.all = names;
 	}
-	
+
 	public void filterUser(CharSequence s)
     {
 		ArrayList<UserObject> filtered = new ArrayList<UserObject>();
-        
+
 		for(int i = 0; i < all.size(); i++) {
 			if(all.get(i).getUsername().toLowerCase().contains( (""+s).toLowerCase() )) {
 				filtered.add(all.get(i));
 			}
 		}
-		
+
         if(filtered.isEmpty()) {
         	Request.doToast("Keine Treffer :/", context);
         }
         this.names = filtered;
-        
+
         notifyDataSetChanged();
     }
 
@@ -61,15 +61,15 @@ public class CTAdapter extends ArrayAdapter<UserObject> {
 			holder.text.setText(s.getUsername());
 		}
 
-		
+
 		return rowView;
 	}
-	
+
 	@Override
 	public int getCount(){
-		return names.size();		
+		return names.size();
 	}
-	
 
-	
+
+
 }

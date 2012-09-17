@@ -12,7 +12,7 @@ public class ContactActivityObject extends HomeListObject {
 	private String vonID, vonUsername, eventURL, eventID, eventTyp, time, text, beschreibung, imgURL;
 	String s;
 	long timestamp;
-	
+
 	public ContactActivityObject(){
 		vonID = "none";
 		vonUsername = "Abgemeldet";
@@ -25,7 +25,7 @@ public class ContactActivityObject extends HomeListObject {
 		beschreibung = "";
 		s = null;
 	}
-	
+
 	public String getFinishedText() {
 		if(s == null){
 			s = new String(text);
@@ -36,7 +36,7 @@ public class ContactActivityObject extends HomeListObject {
 
 		return s;
 	}
-	
+
 	public void refresh(){
 		s = new String(text);
 		s.replace("%username%", vonUsername);
@@ -124,7 +124,7 @@ public class ContactActivityObject extends HomeListObject {
 
 	@Override
 	public void parseJSON(JSONObject o) {
-		
+
 		try {
 			this.setText(o.getString("std_text"));
 			this.setBeschreibung(o.getString("beschreibung"));
@@ -140,7 +140,7 @@ public class ContactActivityObject extends HomeListObject {
 			e.printStackTrace();
 		}
 
-		
+
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class ContactActivityObject extends HomeListObject {
 		return imgURL;
 	}
 
-	
 
-	
+
+
 }

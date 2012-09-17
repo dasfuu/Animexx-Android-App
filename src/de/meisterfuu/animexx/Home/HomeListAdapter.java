@@ -71,44 +71,44 @@ public class HomeListAdapter extends ArrayAdapter<HomeListObject> {
 		final HomeListObject s = names.get(position);
 		holder.text.setText(s.getFinishedText());
 		holder.txinfo.setText(Helper.DateToString(s.getTime(), false));
-		
+
 		//holder.IMG.setVisibility(View.GONE);
 		if(s.getImgURL() != null && s.getImgURL() != "" && s.getImgURL() != "none"){
 			//holder.IMG.loadData("", "", "");
 			//holder.IMG.loadUrl(s.getImgURL());
 			//holder.IMG.setBackgroundResource(R.color.custom_theme_color);
 			Images.download(s.getImgURL(), holder.IMG2);
-			holder.IMG2.setVisibility(View.VISIBLE);	
+			holder.IMG2.setVisibility(View.VISIBLE);
 		} else {
-			holder.IMG2.setVisibility(View.GONE);			
+			holder.IMG2.setVisibility(View.GONE);
 		}
-		
+
 		if (s.getTyp() == HomeListObject.KONTAKTE) {
 			holder.txtyp.setText("Kontakte");
-			holder.Color.setBackgroundResource(R.color.bg_purple);
+			holder.txtyp.setBackgroundResource(R.color.bg_purple);
 		} else if (s.getTyp() == HomeListObject.WEBLOGKOMMENTAR) {
 			holder.txtyp.setText("Weblog Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_red);
+			holder.txtyp.setBackgroundResource(R.color.bg_red);
 		} else if (s.getTyp() == HomeListObject.FANARTKOMMENTAR) {
 			holder.txtyp.setText("Fanart Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_blue);
+			holder.txtyp.setBackgroundResource(R.color.bg_blue);
 		} else if (s.getTyp() == HomeListObject.DOJINSHIKOMMENTAR) {
 			holder.txtyp.setText("Dojinshi Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_green);
+			holder.txtyp.setBackgroundResource(R.color.bg_green);
 		} else if (s.getTyp() == HomeListObject.FANFICKOMMENTAR) {
 			holder.txtyp.setText("Fanfic Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_blue2);
+			holder.txtyp.setBackgroundResource(R.color.bg_blue2);
 		} else if (s.getTyp() == HomeListObject.FANWORKKOMMENTAR) {
 			holder.txtyp.setText("Fanwork Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_lightred);
+			holder.txtyp.setBackgroundResource(R.color.bg_lightred);
 		} else if (s.getTyp() == HomeListObject.UMFRAGEKOMMENTAR) {
 			holder.txtyp.setText("Umfrage Kommentar");
-			holder.Color.setBackgroundResource(R.color.bg_green2);		
+			holder.txtyp.setBackgroundResource(R.color.bg_green2);
 		} else if (s.getTyp() == HomeListObject.COSPLAY) {
 			holder.txtyp.setText("Cosplay");
-			holder.Color.setBackgroundResource(R.color.bg_lightgreen);
+			holder.txtyp.setBackgroundResource(R.color.bg_lightgreen);
 		}
-		
+
 		rowView.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View arg0) {
@@ -116,9 +116,9 @@ public class HomeListAdapter extends ArrayAdapter<HomeListObject> {
 				newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP	| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
 				context.startActivity(newIntent);
 			}
-			
+
 		});
-		
+
 		holder.IMG2.setOnClickListener(new OnClickListener(){
 
 			public void onClick(View arg0) {
@@ -129,14 +129,14 @@ public class HomeListAdapter extends ArrayAdapter<HomeListObject> {
 				newIntent.putExtras(bundle);
 				context.startActivity(newIntent);
 			}
-			
+
 		});
-		
+
 		return rowView;
 	}
-	
+
 	@Override
 	public int getCount(){
-		return names.size();		
+		return names.size();
 	}
 }
