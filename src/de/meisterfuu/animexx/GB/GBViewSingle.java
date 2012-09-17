@@ -101,7 +101,12 @@ public class GBViewSingle extends SherlockActivity {
 			slidemenu.show();
 			return true;
 		case R.id.ac_answer:
-			startActivity(new Intent().setClass(getApplicationContext(), ENSAnswer.class));
+			Bundle bundle = new Bundle();
+			bundle.putString("ID", userid);
+			bundle.putString("an", username);
+			Intent newIntent = new Intent(con.getApplicationContext(), GBAnswer.class);
+			newIntent.putExtras(bundle);
+			startActivity(newIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

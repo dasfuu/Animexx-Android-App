@@ -231,7 +231,13 @@ public class GBViewList extends SherlockListActivity implements UpDateUI {
 			slidemenu.show();
 			return true;
 		case R.id.ac_answer:
-			startActivity(new Intent().setClass(getApplicationContext(), ENSAnswer.class));
+			Bundle bundle = new Bundle();
+			bundle.putString("ID", id);
+			bundle.putString("an", username);
+			Intent newIntent = new Intent(con.getApplicationContext(),
+					GBAnswer.class);
+			newIntent.putExtras(bundle);
+			con.startActivity(newIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

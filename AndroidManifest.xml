@@ -65,39 +65,48 @@
         </activity>
         <activity
             android:name=".Menu"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".about"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".Debug"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Main"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ENS.ENSSync"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".other.Feedback"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENS"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENSEingangFragment"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENSAusgang"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENSSingle"
@@ -115,19 +124,23 @@
         </activity>
         <activity
             android:name=".ENS.bla"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENSAnswer"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".ENS.ENSMenu"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".profil.UserSteckbrief"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".GB.GBViewList"
@@ -136,6 +149,7 @@
         <activity
             android:name=".other.KaroTalerAlert"
             android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
@@ -144,35 +158,43 @@
         </activity>
         <activity
             android:name=".GB.GBAnswer"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".other.Settings"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".other.ContactList"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".Home.ContactsActivityList"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".Home.PersonalHomeListAll"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".RPG.RPGViewList"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".RPG.RPGViewCharaList"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".other.SingleImage"
-            android:label="@string/title_activity_single_image" >
+            android:label="@string/title_activity_single_image"
+            android:launchMode="singleTop" >
         </activity>
         <activity
             android:name=".RPG.RPGViewPostList"
@@ -181,14 +203,16 @@
         </activity>
         <activity
             android:name=".RPG.RPGViewPostListStart"
-            android:configChanges="orientation|keyboardHidden" >
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity android:name=".TableView" >
         </activity>
         <activity
             android:name=".other.SharePictureENS"
             android:configChanges="orientation|keyboardHidden"
-            android:label="ENS (via IMGUR)" >
+            android:label="ENS (via IMGUR)"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -223,7 +247,6 @@
                 <action android:name="de.meisterfuu.animexx.karotaler" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

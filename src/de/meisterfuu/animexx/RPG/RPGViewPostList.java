@@ -196,7 +196,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 			slidemenu.show();
 			return true;
 		case R.id.ac_answer:
-			startActivity(new Intent().setClass(getApplicationContext(), ENSAnswer.class));
+			QuickAnswer.toggle();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
