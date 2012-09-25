@@ -3,26 +3,26 @@
 
     <item
         android:id="@+id/Home"
-        android:icon="@drawable/add"
+        android:icon="@drawable/home"
         android:title="Home">
     </item>
     <item
         android:id="@+id/ENS"
-        android:icon="@drawable/add"
+        android:icon="@drawable/email_edit"
         android:title="ENS">
     </item>
     <item
         android:id="@+id/RPG"
-        android:icon="@drawable/add"
+        android:icon="@drawable/rpg"
         android:title="RPG">
     </item>
     <item
         android:id="@+id/Kontakte"
-        android:icon="@drawable/add"
+        android:icon="@drawable/group"
         android:title="Kontakte">
     </item>
-    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/add"></item>
-    <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/add"></item>
-    <item android:id="@+id/About" android:title="About" android:icon="@drawable/add"></item>
+    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/book_open"></item>
+    <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/settings"></item>
+    <item android:id="@+id/About" android:title="About" android:icon="@drawable/information"></item>
 
 </menu>

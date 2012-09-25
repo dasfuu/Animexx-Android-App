@@ -1,7 +1,6 @@
 package de.meisterfuu.animexx.other;
 
 import android.support.v4.app.FragmentTransaction;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -11,7 +10,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import de.meisterfuu.animexx.R;
 
 
-public class TabListener<T extends SherlockListFragment> implements ActionBar.TabListener {
+public class TabListener<T extends SherlockListFragment> implements ActionBar.TabListener{
 	    private SherlockListFragment mFragment;
 	    private final SherlockFragmentActivity mActivity;
 	    private final String mTag;

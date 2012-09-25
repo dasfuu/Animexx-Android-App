@@ -98,7 +98,7 @@ public class RequestTokenActivity extends Activity {
 	private void getAccessToken(Uri uri) {
 		final String oauth_verifier = uri.getQueryParameter(OAuth.OAUTH_VERIFIER).trim();
 		try {
-			
+
 
 			final RequestTokenActivity temp = this;
 			new Thread(new Runnable() {
@@ -129,14 +129,14 @@ public class RequestTokenActivity extends Activity {
 						}
 					});
 				}
-			}).start();			
+			}).start();
 
 
 		} catch (Exception e) {
 			LadeMessage.setText("Fehler beim verarbeiten des AccessTokens :(");
 			Log.e("OAuth", "Access Token Retrieval Error", e);
 			Log.e("OAuth", oauth_verifier, e);
-			
+
 		}
 	}
 

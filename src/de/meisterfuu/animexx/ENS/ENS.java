@@ -27,8 +27,9 @@ public class ENS extends SherlockFragmentActivity  {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// Notice that setContentView() is not used, because we use the root
-		// android.R.id.content as the container for each fragment
+
+		//Screen Rotating Fix?
+		if(null != savedInstanceState) return;
 
 		setContentView(R.layout.activity_main);
 

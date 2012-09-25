@@ -26,10 +26,9 @@
     <permission
         android:name="de.meisterfuu.animexx.permission.ENS_NOTIFY"
         android:description="@string/enspermission"
-        android:icon="@drawable/logo"
         android:label="@string/enspermsissionl"
         android:permissionGroup="android.permission-group.MESSAGES"
-        android:protectionLevel="dangerous" >
+        android:protectionLevel="dangerous" android:icon="@drawable/ic_launcher">
     </permission>
 
     <uses-permission android:name="android.permission.VIBRATE" />
