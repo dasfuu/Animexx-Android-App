@@ -26,9 +26,10 @@
     <permission
         android:name="de.meisterfuu.animexx.permission.ENS_NOTIFY"
         android:description="@string/enspermission"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/enspermsissionl"
         android:permissionGroup="android.permission-group.MESSAGES"
-        android:protectionLevel="dangerous" android:icon="@drawable/ic_launcher">
+        android:protectionLevel="dangerous" >
     </permission>
 
     <uses-permission android:name="android.permission.VIBRATE" />
@@ -246,6 +247,11 @@
                 <action android:name="de.meisterfuu.animexx.karotaler" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".overview.OverviewActivity"
+            android:label="@string/title_activity_overview" >
+        </activity>
     </application>
 
 </manifest>

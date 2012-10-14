@@ -37,5 +37,6 @@
     <string name="title_activity_single_image">SingleImage</string>
     <string name="zitat">Zitat</string>
     <string name="title_activity_main">Main</string>
+    <string name="title_activity_overview">Übersicht</string>
 
 </resources>
