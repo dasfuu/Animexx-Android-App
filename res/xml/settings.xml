@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-        <PreferenceCategory
+        <PreferenceCategory android:title="Allgemein">
+            <ListPreference android:key="start_activity" android:title="Startseite" android:entryValues="@array/startscreen" android:entries="@array/startscreen"/>
+        </PreferenceCategory><PreferenceCategory
                 android:title="Benachrichtigung">
         <RingtonePreference
                 android:name="Ringtone Preference"
@@ -23,5 +25,6 @@
         <PreferenceCategory android:title="Account">
             <Preference android:title="Logout" android:key="oAuthLogOut"/>
         </PreferenceCategory>
+        
         
 </PreferenceScreen>
