@@ -4,7 +4,7 @@
             <ListPreference android:key="start_activity" android:title="Startseite" android:entryValues="@array/startscreen" android:entries="@array/startscreen"/>
         </PreferenceCategory><PreferenceCategory
                 android:title="Benachrichtigung">
-        <CheckBoxPreference android:title="Benachrichtigungen" android:summaryOn="Benachrichtigungen sind an." android:summaryOff="Benachrichtigungen sind aus." android:key="notification"/><RingtonePreference
+        <CheckBoxPreference android:title="Benachrichtigungen" android:summaryOn="Benachrichtigungen sind an." android:summaryOff="Benachrichtigungen sind aus." android:key="notification" android:defaultValue="true"/><RingtonePreference
                 android:name="Ringtone Preference"
                 android:summary="Wähle einen Benachrichtigungston"
                 android:title="Ton"

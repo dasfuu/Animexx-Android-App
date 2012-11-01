@@ -78,7 +78,7 @@ public class UserSteckbrief extends SherlockActivity implements UpDateUI {
 		try {
 			HTTPs[0] = Request
 					.getHTTP("https://ws.animexx.de/json/mitglieder/steckbrief/?user_id="
-							+ userid + "&api=2");
+							+ userid + "&api=2&img_max_x=1000");
 			new TaskRequest(this).execute(HTTPs);
 		} catch (Exception e) {
 			e.printStackTrace();

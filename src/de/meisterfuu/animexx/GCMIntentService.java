@@ -200,9 +200,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		if (Request.config.getBoolean("rpg_notify_sound", true)) {
-			notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
-		}
+		notification.sound = Uri.parse(Request.config.getString("rpg_notify_sound", "DEFAULT_NOTIFICATION_URI"));
+
 		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}

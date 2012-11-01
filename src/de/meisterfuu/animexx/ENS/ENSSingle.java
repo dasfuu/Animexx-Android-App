@@ -207,6 +207,7 @@ public class ENSSingle extends SherlockActivity {
 			}
 			Intent newIntent = new Intent(getApplicationContext(), ENSAnswer.class);
 			newIntent.putExtras(bundle2);
+			startActivity(newIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
