@@ -56,9 +56,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	protected void onMessage(Context context, Intent intent) {
 		Log.i("GCM", "New GCM");
-		if(!Helper.isLoggedIn(context)) return;
+		if (!Helper.isLoggedIn(context)) return;
 
 		Request.config = PreferenceManager.getDefaultSharedPreferences(context);
+
+		if (!Request.config.getBoolean("notification", true)) return;
 
 		if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventENS")) {
 			String von = intent.getExtras().getString("from_username");
@@ -75,7 +77,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 			notifyURL(von + " hat Geburtstag", "Ein Geburtstag!", context, 44, url);
 
 		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventRPGPosting")) {
-			//
+
+			if (!Request.config.getBoolean("rpg_notify", true)) return;
 			if (!intent.getExtras().getString("id").equals("" + GCMIntentService.rpg)) {
 				notifyRPG("Ein neues Posting im RPG \"" + intent.getExtras().getString("title") + "\"", "Neuer RPG Eintrag", context);
 			}
@@ -86,7 +89,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 
 	protected void onError(Context context, String errorId) {
-		Log.i("GCM","OnError: "+errorId);
+		Log.i("GCM", "OnError: " + errorId);
 	}
 
 
@@ -105,8 +108,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
-		if(Helper.HowLongAgo(time) > (3600)){
-			if(Request.GetUnread() == 0) return;
+		if (Helper.HowLongAgo(time) > (3600)) {
+			if (Request.GetUnread() == 0) return;
 		}
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
@@ -133,9 +136,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-		if(contentTitle == null) contentTitle = "ENS";
-		if(contentText == null) contentText = "Neue ENS";
-		if(tickerText == null) tickerText = "Neue ENS";
+		if (contentTitle == null) contentTitle = "ENS";
+		if (contentText == null) contentText = "Neue ENS";
+		if (tickerText == null) tickerText = "Neue ENS";
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
@@ -163,10 +166,9 @@ public class GCMIntentService extends GCMBaseIntentService {
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-
-		if(contentTitle == null) contentTitle = "Gästebuch";
-		if(contentText == null) contentText = "Neuer Gästebucheintrag";
-		if(tickerText == null) tickerText = "Neuer GB Eintrag";
+		if (contentTitle == null) contentTitle = "Gästebuch";
+		if (contentText == null) contentText = "Neuer Gästebucheintrag";
+		if (tickerText == null) tickerText = "Neuer GB Eintrag";
 
 		// the next two lines initialize the Notification, using the
 		// configurations above
@@ -179,8 +181,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
 		mManager.notify(id, notification);
 	}
-
-
 
 
 	private void notifyRPG(String s, String title, Context context) {
@@ -200,7 +200,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		// configurations above
 		Notification notification = new Notification(icon, tickerText, when);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		if(Request.config.getBoolean("notify_rpg", true)) {
+		if (Request.config.getBoolean("rpg_notify_sound", true)) {
 			notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
 		}
 		if (Request.config.getBoolean("vibration", true)) {

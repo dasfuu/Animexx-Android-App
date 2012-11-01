@@ -62,11 +62,10 @@ public class GBViewList extends SherlockListActivity implements UpDateUI {
 		setContentView(R.layout.listview_loading_bot);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setTitle("Gästebuch");
+		ActionBar actionBar = getSupportActionBar();;
 		actionBar.setHomeButtonEnabled(true);
 
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
@@ -74,16 +73,17 @@ public class GBViewList extends SherlockListActivity implements UpDateUI {
 
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
+		username = "none";
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
 			id = bundle.getString("id");
-			// setup action bar
 			username = bundle.getString("username");
-			actionBar.setTitle(bundle.getString("username"));
 		} else {
 			id = Request.config.getString("id", "none");
-			username = "Du!";
+			username = Request.config.getString("username", "none");
 		}
+		
+		actionBar.setTitle(username);
 
 		adapter = new GBAdapter(this, GBArray);
 		setlist(adapter);

@@ -30,7 +30,7 @@ public class Feedback extends SherlockActivity {
 		Button = (Button) findViewById(R.id.btfeedback);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();

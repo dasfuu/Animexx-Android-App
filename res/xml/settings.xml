@@ -4,7 +4,7 @@
             <ListPreference android:key="start_activity" android:title="Startseite" android:entryValues="@array/startscreen" android:entries="@array/startscreen"/>
         </PreferenceCategory><PreferenceCategory
                 android:title="Benachrichtigung">
-        <RingtonePreference
+        <CheckBoxPreference android:title="Benachrichtigungen" android:summaryOn="Benachrichtigungen sind an." android:summaryOff="Benachrichtigungen sind aus." android:key="notification"/><RingtonePreference
                 android:name="Ringtone Preference"
                 android:summary="Wähle einen Benachrichtigungston"
                 android:title="Ton"
@@ -12,8 +12,10 @@
                 android:name="Ringtone Preference"
                 android:summary="Wähle einen ENS Benachrichtigungston"
                 android:title="ENS Ton"
-                android:key="ringtonePrefENS" android:showDefault="true" android:ringtoneType="notification" android:showSilent="true" android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
+                android:key="ringtonePrefENS" android:showDefault="true" android:ringtoneType="notification" android:showSilent="true" android:defaultValue="DEFAULT_NOTIFICATION_URI"/><RingtonePreference android:ringtoneType="notification" android:showSilent="true" android:showDefault="true" android:key="rpg_notify_sound" android:title="RPG Ton" android:summary="Wähle einen RPG Benachrichtigungston" android:defaultValue="DEFAULT_NOTIFICATION_URI"/>
                 <CheckBoxPreference android:title="Vibration" android:defaultValue="true" android:key="vibration" android:summaryOff="Drücken zum aktivieren! Bzzzz" android:summaryOn="Drücken zum deaktivieren! "/>
+                
+                
         </PreferenceCategory>
         <PreferenceCategory android:title="Push">
             <CheckBoxPreference android:summaryOn="Aktiv" android:title="Push" android:summaryOff="Nicht aktiv" android:key="push" android:defaultValue="true" />

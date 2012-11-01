@@ -26,6 +26,8 @@ import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import com.actionbarsherlock.app.ActionBar;
+
 import de.meisterfuu.animexx.R;
 
 import android.app.Activity;
@@ -107,6 +109,7 @@ public class SlideMenu extends LinearLayout {
 	private static FrameLayout parent;
 	private static int menuSize;
 	private Activity act;
+	private ActionBar AC;
 	private int headerImageRes;
 	private TranslateAnimation slideRightAnim;
 	private TranslateAnimation slideMenuLeftAnim;
@@ -141,9 +144,9 @@ public class SlideMenu extends LinearLayout {
 	 * @param cb Callback to be invoked on menu item click.
 	 * @param slideDuration Slide in/out duration in milliseconds.
 	 */
-	public SlideMenu(Activity act, int menuResource, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration) {
+	public SlideMenu(Activity act, int menuResource, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration, ActionBar AC) {
 		super(act);
-		init(act, menuResource, cb, slideDuration);
+		init(act, menuResource, cb, slideDuration, AC);
 	}
 
 	/**
@@ -152,8 +155,8 @@ public class SlideMenu extends LinearLayout {
 	 * @param cb Callback to be invoked on menu item click.
 	 * @param slideDuration Slide in/out duration in milliseconds.
 	 */
-	public SlideMenu(Activity act, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration) {
-		this(act, 0, cb, slideDuration);
+	public SlideMenu(Activity act, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration, ActionBar AC) {
+		this(act, 0, cb, slideDuration, AC);
 	}
 
 	/**
@@ -163,11 +166,13 @@ public class SlideMenu extends LinearLayout {
 	 * @param cb Callback to be invoked on menu item click.
 	 * @param slideDuration Slide in/out duration in milliseconds.
 	 */
-	public void init(Activity act, int menuResource, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration) {
+	public void init(Activity act, int menuResource, SlideMenuInterface.OnSlideMenuItemClickListener cb, int slideDuration, ActionBar AC) {
 
 		this.act = act;
 		this.callback = cb;
-
+		this.AC = AC;
+		AC.setIcon(R.drawable.actionbar_in);
+		
 		// set size
 		menuSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, act.getResources().getDisplayMetrics());
 
@@ -217,6 +222,7 @@ public class SlideMenu extends LinearLayout {
 	 * Slide the menu in.
 	 */
 	public void show() {
+		AC.setIcon(R.drawable.actionbar_out);
 		this.show(true);
 	}
 
@@ -324,6 +330,7 @@ public class SlideMenu extends LinearLayout {
 	 */
 	public void hide() {
 		menu.startAnimation(slideMenuLeftAnim);
+		AC.setIcon(R.drawable.actionbar_in);
 		parent.removeView(menu);
 
 		content.startAnimation(slideContentLeftAnim);

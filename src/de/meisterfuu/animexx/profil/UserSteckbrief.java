@@ -59,7 +59,7 @@ public class UserSteckbrief extends SherlockActivity implements UpDateUI {
 		Avatar = (ImageView) findViewById(R.id.loadAvatar);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();

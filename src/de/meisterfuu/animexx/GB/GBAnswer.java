@@ -39,7 +39,7 @@ public class GBAnswer extends SherlockActivity implements UpDateUI {
 		setContentView(R.layout.gbanswer);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();

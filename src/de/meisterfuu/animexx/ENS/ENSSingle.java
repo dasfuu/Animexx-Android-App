@@ -51,7 +51,7 @@ public class ENSSingle extends SherlockActivity {
 		setContentView(R.layout.enssingle);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();
@@ -194,7 +194,19 @@ public class ENSSingle extends SherlockActivity {
 			slidemenu.show();
 			return true;
 		case R.id.ac_answer:
-			startActivity(new Intent().setClass(getApplicationContext(), ENSAnswer.class));
+			Bundle bundle2 = new Bundle();
+			bundle2.putLong("relativ", id2);
+			bundle2.putString("betreff", msg.getBetreff());
+			bundle2.putString("an", msg.getVon().getUsername());
+			bundle2.putString("anid", msg.getVon().getId());
+			if (Zitat.isChecked()) {
+				String s = ">" + Html.fromHtml(msg.getText()).toString();
+				s = s.replaceAll("(\r\n|\n)", "\n>");
+				if (s.charAt(s.length() - 1) == '>') s = "" + s.subSequence(0, s.length() - 1);
+				bundle2.putString("msg", s);
+			}
+			Intent newIntent = new Intent(getApplicationContext(), ENSAnswer.class);
+			newIntent.putExtras(bundle2);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

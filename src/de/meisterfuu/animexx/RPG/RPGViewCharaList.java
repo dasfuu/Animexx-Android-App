@@ -57,7 +57,7 @@ public class RPGViewCharaList extends SherlockListActivity implements UpDateUI {
 		Loading.setVisibility(View.GONE);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();

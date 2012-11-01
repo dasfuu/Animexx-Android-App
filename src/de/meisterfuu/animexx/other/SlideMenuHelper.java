@@ -1,5 +1,7 @@
 package de.meisterfuu.animexx.other;
 
+import com.actionbarsherlock.app.ActionBar;
+
 import android.app.Activity;
 import android.content.Intent;
 
@@ -18,10 +20,10 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 	private int SlideSpeed = 200;
 
 
-	public SlideMenuHelper(Activity A) {
+	public SlideMenuHelper(Activity A, ActionBar AC) {
 		a = A;
 		slidemenu = (SlideMenu) a.findViewById(R.id.slideMenu);
-		slidemenu.init(a, R.menu.slide, this, SlideSpeed);
+		slidemenu.init(a, R.menu.slide, this, SlideSpeed, AC);
 	}
 
 

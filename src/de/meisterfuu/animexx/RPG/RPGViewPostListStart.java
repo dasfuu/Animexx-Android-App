@@ -71,7 +71,7 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 
 		// setup slide menu
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = getSupportActionBar();

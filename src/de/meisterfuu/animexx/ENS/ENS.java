@@ -33,7 +33,7 @@ public class ENS extends SherlockFragmentActivity  {
 
 		setContentView(R.layout.activity_main);
 
-		slidemenuhelper = new SlideMenuHelper(this);
+		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
 
 		// setup action bar for tabs
@@ -41,6 +41,7 @@ public class ENS extends SherlockFragmentActivity  {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setHomeButtonEnabled(true);
+		actionBar.setIcon(R.drawable.actionbar_in);
 
 		Tab tab = actionBar.newTab().setText("Eingang").setTabListener(new TabListener<ENSEingangFragment>(this, "Eingang", ENSEingangFragment.class));
 		actionBar.addTab(tab);
