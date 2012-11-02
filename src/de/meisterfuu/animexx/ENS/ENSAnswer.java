@@ -181,7 +181,7 @@ public class ENSAnswer extends SherlockActivity   {
 			public void run() {
 				final booleanobject x = new booleanobject();
 				try {
-					x.bool = Request.sendENS(betreff2, msg2, "Send from Android", AnIDs, relativ);
+					x.bool = Request.sendENS(betreff2, msg2, "Sent from Android", AnIDs, relativ);
 				} catch (Exception e) {
 					x.bool = false;
 					e.printStackTrace();

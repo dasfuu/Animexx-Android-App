@@ -21,6 +21,7 @@ public class Feedback extends SherlockActivity {
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
+	Feedback temp = this;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,10 +47,31 @@ public class Feedback extends SherlockActivity {
 					s += "\n\n";
 					s += ""+Text.getText();
 					//Request.ENSNotify("Feedback", s);
-					Request.sendENS("App-Feedback", s, "Feedback "+Constants.VERSION, new int[]{586283}, -1);
-					Log.i("Feedback", "Feedback gesendet");
-					Request.doToast("Feedback gesendet!", con);
-					con.finish();
+					final String ss = s;
+
+					new Thread(new Runnable() {
+
+						public void run() {
+							try {
+								Request.sendENS("App-Feedback", ss, "Feedback "+Constants.VERSION, new int[]{586283}, -1);
+								Log.i("Feedback", "Feedback gesendet");
+								temp.runOnUiThread(new Runnable() {
+
+									public void run() {
+										Request.doToast("Feedback gesendet!", con);
+										con.finish();
+									}
+								});
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}).start();
+					
+
+
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
