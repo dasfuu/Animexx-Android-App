@@ -278,7 +278,7 @@ public class ENSAusgangFragment extends SherlockListFragment {
 						ENSObject tempENS = new ENSObject();
 
 						tempENS.parseJSON(list.getJSONObject(i));
-
+						tempENS.setOrdner(folder);
 						Liste.add(tempENS);
 					}
 
