@@ -290,28 +290,7 @@ public class ENSEingangFragment extends SherlockListFragment {
 					for (int i = 0; i < list.length(); i++) {
 						ENSObject tempENS = new ENSObject();
 
-						tempENS.setBetreff(list.getJSONObject(i).getString("betreff"));
-						tempENS.setTime(list.getJSONObject(i).getString("datum_server"));
-
-						UserObject von = new UserObject();
-						von.ParseJSON(list.getJSONObject(i).getJSONObject("von"));
-						tempENS.setVon(von);
-
-						for (int z = 0; z < list.getJSONObject(i).getJSONArray("an").length(); z++) {
-							try{
-								UserObject an = new UserObject();
-								an.ParseJSON(list.getJSONObject(i).getJSONArray("an").getJSONObject(z));
-								tempENS.addAnUser(an);
-							} catch (Exception e) {
-
-							}
-						}
-
-						tempENS.setFlags(list.getJSONObject(i).getInt("an_flags"));
-						tempENS.setENS_id(list.getJSONObject(i).getLong("id"));
-						tempENS.setTyp(list.getJSONObject(i).getInt("typ"));
-						tempENS.setOrdner(folder);
-						tempENS.setAnVon(typ);
+						tempENS.parseJSON(list.getJSONObject(i));
 
 						Liste.add(tempENS);
 					}
