@@ -24,7 +24,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.other.UserObject;
 
 public class ENSEingangFragment extends SherlockListFragment {
 
