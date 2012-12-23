@@ -516,7 +516,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 							edAnswer.setText("");
 							QuickAnswer.animateClose();
 							Request.doToast("Erfolgreich gesendet", temp);
-							// refresh();
+							refresh();
 						}
 					});
 

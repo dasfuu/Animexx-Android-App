@@ -12,8 +12,7 @@ import de.meisterfuu.animexx.booleanobject;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class ENSPopUp {
-	final CharSequence[] items = { "Öffnen", "Absender", "Antworten",
-			"Wegwerfen" };
+	final CharSequence[] items = { "Öffnen", "Absender", "Antworten", "Wegwerfen" };
 	String username;
 	String userid;
 	Long ENSid;

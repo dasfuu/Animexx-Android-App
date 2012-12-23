@@ -19,6 +19,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 
 	private final Activity context;
 	private ArrayList<ENSObject> names;
+	private boolean isAusgang;
 
 	static class ViewHolder {
 
@@ -29,10 +30,11 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	}
 
 
-	public ENSAdapter(Activity context, ArrayList<ENSObject> names) {
+	public ENSAdapter(Activity context, ArrayList<ENSObject> names, boolean isAusgang) {
 		super(context, R.layout.enslist, names);
 		this.context = context;
 		this.names = names;
+		this.isAusgang = isAusgang;
 	}
 
 
@@ -61,7 +63,13 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		final ENSObject s = names.get(position);
 		holder.text.setText(s.getTitle());
-		if (!s.isFolder())holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
+		if (!s.isFolder()){
+			if(isAusgang){
+				holder.txinfo.setText("An " + s.getAnArray()[0].getUsername() + " am " + s.getTime());			
+			} else {
+				holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
+			}
+		}
 		holder.IMG2.setVisibility(View.GONE);
 
 		holder.txtyp.setBackgroundResource(R.color.bg_blue2);

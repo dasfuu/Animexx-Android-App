@@ -41,6 +41,7 @@ public class ContactList extends SherlockListActivity {
 
 
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);

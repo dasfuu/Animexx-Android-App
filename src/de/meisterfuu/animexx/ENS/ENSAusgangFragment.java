@@ -62,7 +62,7 @@ public class ENSAusgangFragment extends SherlockListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		adapter = new ENSAdapter(this.getSherlockActivity(), Array);
+		adapter = new ENSAdapter(this.getSherlockActivity(), Array, true);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this.getSherlockActivity());
 		context = this.getSherlockActivity();
 

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import de.meisterfuu.animexx.Constants;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 
@@ -26,6 +27,7 @@ public class Feedback extends SherlockActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.feedback);
 		Text = (TextView) findViewById(R.id.edfeedback);
 		Button = (Button) findViewById(R.id.btfeedback);

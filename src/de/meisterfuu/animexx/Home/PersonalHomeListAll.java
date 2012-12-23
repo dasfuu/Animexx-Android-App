@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 import android.widget.SlidingDrawer;
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.ImageDownloader;
@@ -58,7 +59,7 @@ public class PersonalHomeListAll extends SherlockListActivity {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Helper.isLoggedIn(this);
 		setContentView(R.layout.home_list);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Filter = (SlidingDrawer) findViewById(R.id.HomeListFilter);

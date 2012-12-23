@@ -39,7 +39,7 @@ public class about extends SherlockActivity {
 				startActivity(new Intent().setClass(getApplicationContext(), Feedback.class));
 			}
 		});
-		htm.loadUrl("http://animexx.meister-fuu.de/about.htm");
+		htm.loadUrl("http://animexx.onlinewelten.com/projekte/android-app/");
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 
+import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.ENS.ENSAnswer;
 import de.meisterfuu.animexx.ENS.ENSEingangFragment;
@@ -26,8 +27,9 @@ public class ENS extends SherlockFragmentActivity  {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
+		super.onCreate(savedInstanceState);
+		Helper.isLoggedIn(this);
 		//Screen Rotating Fix?
 		if(null != savedInstanceState) return;
 

@@ -1,6 +1,7 @@
 package de.meisterfuu.animexx;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import oauth.signpost.OAuth;
@@ -191,10 +192,18 @@ public class Helper {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public static void isLoggedIn(Activity a) {
 		SharedPreferences config = PreferenceManager.getDefaultSharedPreferences(a);
 		String token = config.getString(OAuth.OAUTH_TOKEN, null);
 		String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, null);
+		Date dat = new Date();		
+		if((dat.getMonth() == 12) && dat.getDay() >= 24){
+			a.setTheme(R.style.AnimexxChristmasStyle);
+		} else {
+			a.setTheme(R.style.AnimexxStyle);		
+		}
+
 		if (token != null && secret != null)
 			return;
 		else

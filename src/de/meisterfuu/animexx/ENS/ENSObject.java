@@ -71,11 +71,12 @@ public class ENSObject implements Comparable<Object> {
 		try {
 			this.setBetreff(JSON.getString("betreff"));
 			this.setTime(JSON.getString("datum_server"));
-			this.setText(JSON.getString("text_html"));
+			if (JSON.has("text_html")) this.setText(JSON.getString("text_html"));
 			UserObject von = new UserObject();
-			von.ParseJSON(JSON.getJSONObject("von"));
+			if (JSON.has("von")) von.ParseJSON(JSON.getJSONObject("von"));
 			this.setVon(von);
 
+			if (JSON.has("an"))
 			for (int z = 0; z < JSON.getJSONArray("an").length(); z++) {
 				UserObject an = new UserObject();
 				an.ParseJSON(JSON.getJSONArray("an").getJSONObject(z));
