@@ -21,8 +21,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
@@ -55,6 +58,8 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	final Context context = this;
 
 	private long id, count, counter;
+	
+	Editor tempo;
 
 	private BroadcastReceiver receiver;
 	private TaskRequest Task = null;
@@ -95,7 +100,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle("RPG");
 		actionBar.setHomeButtonEnabled(true);
-
+		
 		edAnswer.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			public void onFocusChange(View arg0, boolean gainFocus) {
@@ -164,6 +169,10 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		};
 
 		registerReceiver(receiver, filter);
+		
+		tempo = getSharedPreferences("RPG_HISTORY",0).edit();		
+		edAnswer.setText(getSharedPreferences("RPG_HISTORY",0).getString(""+id, ""));		
+		edAnswer.addTextChangedListener(SaveRPG);
 
 		adapter = new RPGPostAdapter(this, RPGArray);
 		setlist(adapter);
@@ -517,6 +526,9 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 							QuickAnswer.animateClose();
 							Request.doToast("Erfolgreich gesendet", temp);
 							refresh();
+							Editor tempo = getSharedPreferences("RPG_HISTORY",0).edit();
+							tempo.remove(""+id);
+							tempo.commit();
 						}
 					});
 
@@ -570,4 +582,23 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		super.onDestroy();
 		GCMIntentService.rpg = -1;
 	}
+	
+	private TextWatcher SaveRPG = new TextWatcher() {
+		
+
+		public void afterTextChanged(Editable s) {
+			tempo.commit();
+		}
+
+
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		}
+
+
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			tempo.putString(""+id, ""+s);
+
+		}
+
+	};
 }
