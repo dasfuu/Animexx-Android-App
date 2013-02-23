@@ -10,6 +10,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.Request;
@@ -79,27 +80,40 @@ public class SharePictureENS extends Activity {
 						public void run() {
 							
 							try {
-								Request.SignSend(request);
+								String s = Request.SignSend(request);
+								JSONObject ob = new JSONObject(s);
+								final String url = ob.getString("url_share");
+								
+								temp.runOnUiThread(new Runnable() {
+
+									public void run() {
+										dialog.dismiss();
+										Toast.makeText(temp, "Hochgeladen!", Toast.LENGTH_LONG).show();
+
+										Bundle bundle2 = new Bundle();
+										bundle2.putString("msg", "\n" + url);
+										Intent newIntent = new Intent(getApplicationContext(), ENSAnswer.class);
+										newIntent.putExtras(bundle2);
+										startActivity(newIntent);
+										temp.finish();
+									}
+
+								});
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
+								temp.runOnUiThread(new Runnable() {
+
+									public void run() {
+										dialog.dismiss();
+										Toast.makeText(temp, "Error!", Toast.LENGTH_LONG).show();
+										temp.finish();
+									}
+
+								});
 								e.printStackTrace();
 							}
 
 
-							temp.runOnUiThread(new Runnable() {
-
-								public void run() {
-									dialog.dismiss();
-									Toast.makeText(temp, "Hochgeladen!", Toast.LENGTH_LONG).show();
-
-									Bundle bundle2 = new Bundle();
-									bundle2.putString("msg", "Ich habe etwas interessantes für dich bei Imgur hochgeladen: \n" + "URL");
-									Intent newIntent = new Intent(getApplicationContext(), ENSAnswer.class);
-									newIntent.putExtras(bundle2);
-									startActivity(newIntent);
-								}
-
-							});
+	
 						}
 
 					}).start();
