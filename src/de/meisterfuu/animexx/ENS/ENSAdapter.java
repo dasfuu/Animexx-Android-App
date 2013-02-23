@@ -65,7 +65,9 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 		holder.text.setText(s.getTitle());
 		if (!s.isFolder()){
 			if(isAusgang){
-				holder.txinfo.setText("An " + s.getAnArray()[0].getUsername() + " am " + s.getTime());			
+				String an = "Abgemeldet";
+				if(s.getAnArray().length > 0) an = s.getAnArray()[0].getUsername();
+				holder.txinfo.setText("An " + an + " am " + s.getTime());			
 			} else {
 				holder.txinfo.setText("Von " + s.getVon().getUsername() + " am " + s.getTime());
 			}

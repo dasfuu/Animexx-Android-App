@@ -31,6 +31,8 @@ public class ENSAusgangFragment extends SherlockListFragment {
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
 	ArrayList<ENSObject> ORDNER = new ArrayList<ENSObject>();
 
+	Thread TENS, TFOLDER;
+	
 	int page = 0;
 	int mPrevTotalItemCount = 0;
 	int loadCount = 0;
@@ -87,12 +89,14 @@ public class ENSAusgangFragment extends SherlockListFragment {
 
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+				if (loadCount == 0)
 				if (position < ORDNER.size()) {
 					page = 0;
 					mPrevTotalItemCount = 0;
 					loadCount = 0;
 					folder = ORDNER.get(position).getENS_id();
 					typ = ORDNER.get(position).getAnVon();
+					TFOLDER.interrupt();
 					ENSArray.clear();
 					Show();
 					refresh();
@@ -188,7 +192,6 @@ public class ENSAusgangFragment extends SherlockListFragment {
 
 	public void Show() {
 		Array.clear();
-		Collections.sort(ENSArray);
 		Array.addAll(ORDNER);
 		Array.addAll(ENSArray);
 		adapter.notifyDataSetChanged();
@@ -198,7 +201,7 @@ public class ENSAusgangFragment extends SherlockListFragment {
 	public void getFolder(final ArrayList<ENSObject> Liste) {
 		LoadPlus();
 		final ENSAusgangFragment temp = this;
-		new Thread(new Runnable() {
+		TFOLDER = new Thread(new Runnable() {
 
 			public void run() {
 				try {
@@ -238,13 +241,17 @@ public class ENSAusgangFragment extends SherlockListFragment {
 							new Thread(new Runnable() {
 
 								public void run() {
-									ENSsql SQL = new ENSsql(temp.getSherlockActivity());
-									SQL.open();
-									SQL.clearFolder("2");
-									for (int i = 0; i < Liste.size(); i++) {
-										SQL.createFolder(Liste.get(i));
+									try{
+										ENSsql SQL = new ENSsql(temp.getSherlockActivity());
+										SQL.open();
+										SQL.clearFolder("2");
+										for (int i = 0; i < Liste.size(); i++) {
+											SQL.createFolder(Liste.get(i));
+										}
+										SQL.close();
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-									SQL.close();
 								}
 
 							}).start();
@@ -256,14 +263,15 @@ public class ENSAusgangFragment extends SherlockListFragment {
 				}
 
 			}
-		}).start();
+		});
+		TFOLDER.start();
 	}
 
 
 	public void getENS(final ArrayList<ENSObject> Liste, final long folder, final String typ, final int page) {
 		LoadPlus();
 		final ENSAusgangFragment temp = this;
-		new Thread(new Runnable() {
+		TENS = new Thread(new Runnable() {
 
 			public void run() {
 				try {
@@ -281,6 +289,7 @@ public class ENSAusgangFragment extends SherlockListFragment {
 						tempENS.setOrdner(folder);
 						Liste.add(tempENS);
 					}
+					Collections.sort(Liste);
 
 					temp.getSherlockActivity().runOnUiThread(new Runnable() {
 
@@ -296,13 +305,15 @@ public class ENSAusgangFragment extends SherlockListFragment {
 						public void run() {
 							Show();
 							LoadMinus();
+							DoError();
 						}
 					});
 					e.printStackTrace();
 				}
 
 			}
-		}).start();
+		});
+		TENS.start();
 	}
 
 }

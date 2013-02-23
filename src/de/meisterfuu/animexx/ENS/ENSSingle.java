@@ -102,7 +102,11 @@ public class ENSSingle extends SherlockActivity {
 				public void run() {
 					try {
 						msg = Request.GetENS(id2);
-						saveENS();
+						try{
+							saveENS();
+						} catch (Exception e){
+							e.printStackTrace();
+						}
 					} catch (Exception e) {
 						msg = new ENSObject();
 						msg.setText("Fehler beim abrufen!");

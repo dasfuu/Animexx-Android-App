@@ -72,19 +72,28 @@ public class ENSObject implements Comparable<Object> {
 			this.setBetreff(JSON.getString("betreff"));
 			this.setTime(JSON.getString("datum_server"));
 			if (JSON.has("text_html")) this.setText(JSON.getString("text_html"));
-			UserObject von = new UserObject();
-			if (!JSON.isNull("von")) von.ParseJSON(JSON.getJSONObject("von"));
-			this.setVon(von);
-
-			if (!JSON.isNull("an")) {
-				for (int z = 0; z < JSON.getJSONArray("an").length(); z++) {
+			
+			try{
+				UserObject von = new UserObject();
+				if (!JSON.isNull("von")) von.ParseJSON(JSON.getJSONObject("von"));
+				this.setVon(von);
+	
+				if (!JSON.isNull("an")) {
+					for (int z = 0; z < JSON.getJSONArray("an").length(); z++) {
+						UserObject an = new UserObject();
+						if(!JSON.getJSONArray("an").isNull(z)) an.ParseJSON(JSON.getJSONArray("an").getJSONObject(z));
+						this.addAnUser(an);
+					}
+				} else {
 					UserObject an = new UserObject();
-					an.ParseJSON(JSON.getJSONArray("an").getJSONObject(z));
 					this.addAnUser(an);
 				}
-			} else {
+			} catch (Exception e) {
+				UserObject von = new UserObject();
+				this.setVon(von);
 				UserObject an = new UserObject();
 				this.addAnUser(an);
+				e.printStackTrace();
 			}
 			
 			if (JSON.has("an_flags")) {

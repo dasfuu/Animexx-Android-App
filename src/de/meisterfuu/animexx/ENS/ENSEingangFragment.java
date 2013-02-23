@@ -30,6 +30,8 @@ public class ENSEingangFragment extends SherlockListFragment {
 	ArrayList<ENSObject> Array = new ArrayList<ENSObject>();
 	ArrayList<ENSObject> ENSArray = new ArrayList<ENSObject>();
 	ArrayList<ENSObject> ORDNER = new ArrayList<ENSObject>();
+	
+	Thread TENS, TFOLDER;
 
 	int page = 0;
 	int mPrevTotalItemCount = 0;
@@ -94,6 +96,7 @@ public class ENSEingangFragment extends SherlockListFragment {
 					loadCount = 0;
 					folder = ORDNER.get(position).getENS_id();
 					typ = ORDNER.get(position).getAnVon();
+					TFOLDER.interrupt();
 					ENSArray.clear();
 					//Request.doToast(""+page, context);
 					Show();
@@ -190,7 +193,6 @@ public class ENSEingangFragment extends SherlockListFragment {
 
 	public void Show() {
 		Array.clear();
-		Collections.sort(ENSArray);
 		Array.addAll(ORDNER);
 		Array.addAll(ENSArray);
 		adapter.notifyDataSetChanged();
@@ -200,11 +202,12 @@ public class ENSEingangFragment extends SherlockListFragment {
 	public void getFolder(final ArrayList<ENSObject> Liste) {
 		LoadPlus();
 		final ENSEingangFragment temp = this;
-		new Thread(new Runnable() {
+		TFOLDER = new Thread(new Runnable() {
 
 			public void run() {
 				try {
 					final String JSON = Request.makeSecuredReq("https://ws.animexx.de/json/ens/ordner_liste/?api=2");
+					
 					JSONArray list = null;
 
 					JSONObject jsonResponse = new JSONObject(JSON);
@@ -225,7 +228,9 @@ public class ENSEingangFragment extends SherlockListFragment {
 								temp.setTyp(99);
 								temp.setOrdner(1);
 								temp.setAnVon("an");
-
+								
+								
+								
 								Liste.add(temp);
 							}
 						}
@@ -242,13 +247,17 @@ public class ENSEingangFragment extends SherlockListFragment {
 							new Thread(new Runnable() {
 
 								public void run() {
-									ENSsql SQL = new ENSsql(temp.getSherlockActivity());
-									SQL.open();
-									SQL.clearFolder("1");
-									for (int i = 0; i < Liste.size(); i++) {
-										SQL.createFolder(Liste.get(i));
+									try{
+										ENSsql SQL = new ENSsql(temp.getSherlockActivity());
+										SQL.open();
+										SQL.clearFolder("1");
+										for (int i = 0; i < Liste.size(); i++) {
+											SQL.createFolder(Liste.get(i));
+										}
+										SQL.close();
+									} catch (Exception e) {
+										e.printStackTrace();
 									}
-									SQL.close();
 								}
 
 							}).start();
@@ -268,14 +277,15 @@ public class ENSEingangFragment extends SherlockListFragment {
 				}
 
 			}
-		}).start();
+		});
+		TFOLDER.start();
 	}
 
 
 	public void getENS(final ArrayList<ENSObject> Liste, final long folder, final String typ, final int page) {
 		LoadPlus();
 		final ENSEingangFragment temp = this;
-		new Thread(new Runnable() {
+		TENS = new Thread(new Runnable() {
 
 			public void run() {
 				try {
@@ -293,6 +303,7 @@ public class ENSEingangFragment extends SherlockListFragment {
 						tempENS.setOrdner(folder);
 						Liste.add(tempENS);
 					}
+					Collections.sort(Liste);
 
 					temp.getSherlockActivity().runOnUiThread(new Runnable() {
 
@@ -315,7 +326,8 @@ public class ENSEingangFragment extends SherlockListFragment {
 				}
 
 			}
-		}).start();
+		});
+		TENS.start();
 	}
 
 }
