@@ -4,56 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center" >
-
-
-
-
-
-
-
-
-
-
-
-    <de.meisterfuu.animexx.other.VerticalTextView
-        android:id="@+id/txType"
+
+    <LinearLayout
+        android:id="@+id/txColor"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:background="@color/header_bg"
-        android:gravity="bottom|center"
-        android:minWidth="30dp"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="7pt" />
+        android:gravity="center_vertical" >
+
+        <de.meisterfuu.animexx.other.VerticalTextView
+            android:id="@+id/txType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center"
+            android:minWidth="100dp"
+            android:text="Kommentar"
+            android:textColor="#FFFFFF"
+            android:textSize="7pt" />
 
-
-
-
-
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-
-
+
         <ImageView
             android:id="@+id/webIMG2"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/custom_theme_color"
             android:scaleType="centerCrop" />
-
-
-
-
+
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="top"
-            android:minHeight="30dp"
+            android:minHeight="100dp"
             android:orientation="vertical" >
 
             <TextView
@@ -63,16 +51,13 @@
                 android:padding="10dp"
                 android:text="@+id/label"
                 android:textSize="11sp" />
-
-
-
+
             <TextView
                 android:id="@+id/CAtxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:paddingBottom="0dp"
                 android:text="@+id/label"
                 android:textSize="16sp" />
 

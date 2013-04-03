@@ -11,7 +11,9 @@ import de.meisterfuu.animexx.ENS.ENS;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.PersonalHomeListAll;
 import de.meisterfuu.animexx.RPG.RPGViewList;
+import de.meisterfuu.animexx.events.EventViewList;
 import de.meisterfuu.animexx.other.SlideMenuInterface.OnSlideMenuItemClickListener;
+import de.meisterfuu.animexx.overview.OverviewActivity;
 
 public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 
@@ -55,6 +57,12 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			break;
 		case R.id.Kontakte:
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), ContactList.class));
+			break;
+		case R.id.Events:
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), EventViewList.class));
+			break;
+		case R.id.Dashboard:
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), OverviewActivity.class));
 			break;
 		}
 

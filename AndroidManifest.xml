@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="44"
-    android:versionName="1.7.1 Christmas" >
+    android:versionCode="45"
+    android:versionName="1.7.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="14" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.STATUS_BAR" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <permission
@@ -39,7 +38,7 @@
         android:label="@string/app_name"
         android:theme="@style/AnimexxStyle" >
         <activity
-            android:name=".AnimexxActivity"
+            android:name="de.meisterfuu.animexx.AnimexxActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
@@ -49,7 +48,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RequestTokenActivity"
+            android:name="de.meisterfuu.animexx.RequestTokenActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
@@ -64,52 +63,52 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Menu"
+            android:name="de.meisterfuu.animexx.Menu"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".about"
+            android:name="de.meisterfuu.animexx.about"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".Debug"
+            android:name="de.meisterfuu.animexx.Debug"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Main"
+            android:name="de.meisterfuu.animexx.Main"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ENS.ENSSync"
+            android:name="de.meisterfuu.animexx.ENS.ENSSync"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".other.Feedback"
+            android:name="de.meisterfuu.animexx.other.Feedback"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENS"
+            android:name="de.meisterfuu.animexx.ENS.ENS"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENSEingangFragment"
+            android:name="de.meisterfuu.animexx.ENS.ENSEingangFragment"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENSAusgang"
+            android:name="de.meisterfuu.animexx.ENS.ENSAusgang"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENSSingle"
+            android:name="de.meisterfuu.animexx.ENS.ENSSingle"
             android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
                 <data
@@ -123,93 +122,102 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ENS.bla"
+            android:name="de.meisterfuu.animexx.ENS.bla"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENSAnswer"
+            android:name="de.meisterfuu.animexx.ENS.ENSAnswer"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".ENS.ENSMenu"
+            android:name="de.meisterfuu.animexx.ENS.ENSMenu"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".profil.UserSteckbrief"
+            android:name="de.meisterfuu.animexx.profil.UserSteckbrief"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".GB.GBViewList"
+            android:name="de.meisterfuu.animexx.GB.GBViewList"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity
-            android:name=".other.KaroTalerAlert"
+            android:name="de.meisterfuu.animexx.other.KaroTalerAlert"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent" >
         </activity>
         <activity
-            android:name=".GB.GBViewSingle"
+            android:name="de.meisterfuu.animexx.GB.GBViewSingle"
             android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity
-            android:name=".GB.GBAnswer"
+            android:name="de.meisterfuu.animexx.GB.GBAnswer"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".other.Settings"
+            android:name="de.meisterfuu.animexx.other.Settings"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".other.ContactList"
+            android:name="de.meisterfuu.animexx.other.ContactList"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".Home.ContactsActivityList"
+            android:name="de.meisterfuu.animexx.Home.ContactsActivityList"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".Home.PersonalHomeListAll"
+            android:name="de.meisterfuu.animexx.Home.PersonalHomeListAll"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".RPG.RPGViewList"
+            android:name="de.meisterfuu.animexx.RPG.RPGViewList"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".RPG.RPGViewCharaList"
+            android:name="de.meisterfuu.animexx.RPG.RPGViewCharaList"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".other.SingleImage"
+            android:name="de.meisterfuu.animexx.other.SingleImage"
             android:label="@string/title_activity_single_image"
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".RPG.RPGViewPostList"
+            android:name="de.meisterfuu.animexx.RPG.RPGViewPostList"
             android:configChanges="orientation|keyboardHidden"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".RPG.RPGViewPostListStart"
+            android:name="de.meisterfuu.animexx.RPG.RPGViewPostListStart"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop" >
         </activity>
-        <activity android:name=".TableView" >
+        <activity
+            android:name="de.meisterfuu.animexx.events.EventViewList"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".other.SharePictureENS"
+            android:name="de.meisterfuu.animexx.events.EventViewDetail"
+            android:configChanges="orientation|keyboardHidden" >
+        </activity>
+        <activity android:name="de.meisterfuu.animexx.TableView" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.other.SharePictureENS"
             android:configChanges="orientation|keyboardHidden"
             android:label="Animexx"
             android:launchMode="singleTop" >
@@ -236,21 +244,25 @@
         <service android:name="de.meisterfuu.animexx.GCMIntentService" />
 
         <receiver
-            android:name=".ENSNotify"
+            android:name="de.meisterfuu.animexx.ENSNotify"
             android:permission="de.meisterfuu.animexx.permission.ENS_NOTIFY" >
             <intent-filter>
                 <action android:name="de.meisterfuu.animexx.ensnotify" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".other.KaroTaler" >
+        <receiver android:name="de.meisterfuu.animexx.other.KaroTaler" >
             <intent-filter>
                 <action android:name="de.meisterfuu.animexx.karotaler" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".overview.OverviewActivity"
+            android:name="de.meisterfuu.animexx.overview.OverviewActivity"
             android:label="@string/title_activity_overview" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.events.EventEditNote"
+            android:label="@string/title_activity_event_edit_note" >
         </activity>
     </application>
 
