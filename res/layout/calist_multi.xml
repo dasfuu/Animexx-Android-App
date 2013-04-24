@@ -68,19 +68,19 @@
 
         <ImageView
             android:id="@+id/ImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/note" />
 
         <TextView
             android:id="@+id/ImageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/ImageView"
             android:text="TextView"
             android:textSize="20dp" />
