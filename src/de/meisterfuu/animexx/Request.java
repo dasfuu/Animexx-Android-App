@@ -69,6 +69,27 @@ public class Request {
 		}
 
 	}
+	
+	public static String GetUserThumbURL(long id) {
+
+		try {
+			String jsonOutput = "";
+			jsonOutput = makeSecuredReq("https://ws.animexx.de/json/mitglieder/steckbrief/?api=2&user_id="+id+"&img_format=jpg&img_quality=75&img_max_x=150");
+			JSONObject jsonResponse = new JSONObject(jsonOutput);
+			JSONObject m = (JSONObject) jsonResponse.get("return");
+			String URL = null;
+			if(m.has("foto_url")){
+				if(m.isNull("foto_url")) return null;
+				URL = m.getString("foto_url");	
+				Log.i("Animexx", URL);
+			}			
+			if(URL.equals("null")) return null;
+			return URL;
+		} catch (Exception e) {
+			return null;
+		}
+
+	}
 
 
 	public static ENSObject GetENS(long id) throws Exception {

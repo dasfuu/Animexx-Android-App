@@ -19,7 +19,7 @@ import de.meisterfuu.animexx.other.SlideMenuHelper;
 import de.meisterfuu.animexx.other.TabListener;
 import de.meisterfuu.animexx.other.SlideMenu;
 
-public class ENS extends SherlockFragmentActivity  {
+public class ENSActivity extends SherlockFragmentActivity  {
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;

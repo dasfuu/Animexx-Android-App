@@ -8,7 +8,7 @@ import com.actionbarsherlock.view.MenuItem;
 
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.ENS.ENS;
+import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.KaroTalerAlert;
 import de.meisterfuu.animexx.other.MultiListAdapter;
@@ -148,7 +148,7 @@ public class OverviewActivity extends MultiSherlockListActivity {
 			OnClickListener ENSClick = new OnClickListener() {
 
 				public void onClick(View v) {
-					Intent newIntent = new Intent(context, ENS.class);
+					Intent newIntent = new Intent(context, ENSActivity.class);
 					context.startActivity(newIntent);
 				}
 			};

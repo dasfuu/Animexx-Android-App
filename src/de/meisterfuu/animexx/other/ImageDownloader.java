@@ -138,7 +138,7 @@ public class ImageDownloader {
 		if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {
 			File sdDir = android.os.Environment.getExternalStorageDirectory();
 
-			cacheDir = new File(sdDir, "data/Animexx/chached_images");
+			cacheDir = new File(sdDir, "data/Animexx/cached_images");
 		} else
 			cacheDir = context.getCacheDir();
 

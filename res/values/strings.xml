@@ -41,5 +41,7 @@
     <string name="title_activity_event_edit_note">Notiz</string>
     <string name="action_settings">Settings</string>
     <string name="new_note">Neue Notiz...</string>
+    <string name="title_activity_home_kontakt">HomeKontaktActivity</string>
+    <string name="title_activity_home_kontakt_detail_fragment">HomeKontaktDetailFragment</string>
 
 </resources>

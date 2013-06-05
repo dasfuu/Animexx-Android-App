@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
+import de.meisterfuu.animexx.other.ImageDownloader;
+import de.meisterfuu.animexx.other.ImageDownloaderENS;
 import de.meisterfuu.animexx.other.VerticalTextView;
 
 
@@ -20,6 +22,7 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	private final Activity context;
 	private ArrayList<ENSObject> names;
 	private boolean isAusgang;
+	public ImageDownloaderENS Images;
 
 	static class ViewHolder {
 
@@ -73,6 +76,12 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 			}
 		}
 		holder.IMG2.setVisibility(View.GONE);
+		try{
+			//Images.download(s.getVon().getIdLong(), holder.IMG2);
+		} catch (Exception e) {
+			holder.IMG2.setVisibility(View.GONE);
+			e.printStackTrace();
+		}
 
 		holder.txtyp.setBackgroundResource(R.color.bg_blue2);
 		holder.txtyp.setText("");

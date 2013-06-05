@@ -4,9 +4,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.google.android.gcm.GCMRegistrar;
-import de.meisterfuu.animexx.ENS.ENS;
+import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.GB.GBViewList;
-import de.meisterfuu.animexx.Home.PersonalHomeListAll;
+import de.meisterfuu.animexx.Home.HomeKontaktActivity;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.other.ContactList;
 import de.meisterfuu.animexx.other.Settings;
@@ -59,13 +59,13 @@ public class Menu extends Activity {
 		imgunreadENS = (ImageView) findViewById(R.id.img_unreadENS);
 		imglogo = (ImageView) findViewById(R.id.logo);
 
-		setClick(ENS, ENS.class);
+		setClick(ENS, ENSActivity.class);
 		setClick(Guestbook, GBViewList.class);
 		setClick(Contacts, ContactList.class);
 		setClick(About, about.class);
 		// setClick(About, Debug.class);
 		// setClick(Home, ContactsActivityList.class);
-		setClick(Home, PersonalHomeListAll.class);
+		setClick(Home, HomeKontaktActivity.class);
 		setClick(Settings, Settings.class);
 		setClick(RPG, RPGViewList.class);
 
@@ -75,7 +75,7 @@ public class Menu extends Activity {
 
 			public void onClick(View v) {
 
-				startActivity(new Intent().setClass(getApplicationContext(), ENS.class));
+				startActivity(new Intent().setClass(getApplicationContext(), ENSActivity.class));
 
 			}
 		});

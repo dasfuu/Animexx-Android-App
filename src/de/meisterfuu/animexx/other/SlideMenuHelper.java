@@ -7,9 +7,10 @@ import android.content.Intent;
 
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.about;
-import de.meisterfuu.animexx.ENS.ENS;
+import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.GB.GBViewList;
-import de.meisterfuu.animexx.Home.PersonalHomeListAll;
+import de.meisterfuu.animexx.Home.HomeKontaktActivity;
+import de.meisterfuu.animexx.Home.HomeKontaktFragment;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.events.EventViewList;
 import de.meisterfuu.animexx.other.SlideMenuInterface.OnSlideMenuItemClickListener;
@@ -44,10 +45,11 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), RPGViewList.class));
 			break;
 		case R.id.ENS:
-			a.startActivity(new Intent().setClass(a.getApplicationContext(), ENS.class));
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), ENSActivity.class));
 			break;
 		case R.id.Home:
-			a.startActivity(new Intent().setClass(a.getApplicationContext(), PersonalHomeListAll.class));
+			//a.startActivity(new Intent().setClass(a.getApplicationContext(), PersonalHomeListAll.class));
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), HomeKontaktActivity.class));
 			break;
 		case R.id.About:
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), about.class));

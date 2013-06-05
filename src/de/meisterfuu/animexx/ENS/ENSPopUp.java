@@ -130,10 +130,10 @@ public class ENSPopUp {
 						} else {
 							if(List == 1){
 								con.startActivity(new Intent().setClass(
-									con.getApplicationContext(), ENS.class));
+									con.getApplicationContext(), ENSActivity.class));
 							} else if (List == 2){
 								con.startActivity(new Intent().setClass(
-									con.getApplicationContext(), ENS.class));
+									con.getApplicationContext(), ENSActivity.class));
 							}
 							Request.doToast("ENS gelöscht!",
 									con.getApplicationContext());

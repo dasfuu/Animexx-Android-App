@@ -125,9 +125,10 @@ public class Helper {
 	public static String TimestampToString(long time, boolean Short) {
 
 
-		java.util.Date Now = new java.util.Date();
+		//java.util.Date Now = new java.util.Date();
+		Calendar Now = Calendar.getInstance();
 
-		long diff = (Now.getTime() - time);
+		long diff = (Now.getTimeInMillis() - time);
 		if (diff < 0) return "Error";
 
 		diff /= 1000;

@@ -8,7 +8,7 @@
     </item>
     <item
         android:id="@+id/ENS"
-        android:icon="@drawable/email_edit"
+        android:icon="@drawable/ens"
         android:title="ENS">
     </item>
     <item
@@ -19,12 +19,12 @@
     <item android:id="@+id/Events" android:title="Events" android:icon="@drawable/calendar"></item>
     <item
         android:id="@+id/Kontakte"
-        android:icon="@drawable/group"
+        android:icon="@drawable/contacts"
         android:title="Kontakte">
     </item>
-    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/book_open"></item>
+    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/book"></item>
     <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/settings"></item>
-    <item android:id="@+id/About" android:title="About" android:icon="@drawable/information"></item>
-	<item android:id="@+id/Dashboard" android:title="Dashboard" android:icon="@drawable/information"></item>
+    <item android:id="@+id/About" android:title="About" android:icon="@drawable/about"></item>
+	<item android:id="@+id/Dashboard" android:title="Dashboard" android:icon="@drawable/dash"></item>
 
 </menu>

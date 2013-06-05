@@ -28,6 +28,10 @@ public class UserObject implements Comparable<Object> {
 		setSteckbriefFreigabe(false);
 		setPicture(null);
 	}
+	
+	public UserObject(JSONObject user) {
+		ParseJSON(user);
+	}
 
 	public String toString() {
 		return this.getUsername();
@@ -35,6 +39,10 @@ public class UserObject implements Comparable<Object> {
 
 	public String getId() {
 		return id;
+	}
+	
+	public long getIdLong() {
+		return Long.valueOf(id);
 	}
 
 	public void setId(String id) {

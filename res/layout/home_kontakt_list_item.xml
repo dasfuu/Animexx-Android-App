@@ -35,6 +35,12 @@
             android:background="@color/custom_theme_color"
             android:scaleType="centerCrop" />
 
+        <ImageView
+            android:id="@+id/CAChatBubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/chat" />
+
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="0dip"

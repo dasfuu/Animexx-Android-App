@@ -1,8 +1,7 @@
 package de.meisterfuu.animexx;
 
-import de.meisterfuu.animexx.ENS.ENS;
+import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.GB.GBViewList;
-import de.meisterfuu.animexx.Home.ContactsActivityList;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -44,7 +43,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventGeburtstag")) {
 			String von = intent.getExtras().getString("from_username");
 			String url = intent.getExtras().getString("url");
-			notifyURL(von + " hat Geburtstag", "Ein Geburtstag!", context, 44, url);
+			//notifyURL(von + " hat Geburtstag", "Ein Geburtstag!", context, 44, url);
 
 		} else if (intent.getExtras().getString("type").equalsIgnoreCase("XXEventRPGPosting")) {
 			//
@@ -52,7 +51,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 				notifyRPG("Ein neues Posting im RPG \""+intent.getExtras().getString("title")+"\"", "Neuer RPG Eintrag", context);
 			}
 		} else {
-			notifyURL("Es ist etwas passiert, nur was?", "Event 42!", context, 666, "http://animexx.de");
+			//notifyURL("Es ist etwas passiert, nur was?", "Event 42!", context, 666, "http://animexx.de");
 		}
 
 	}
@@ -101,7 +100,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 		CharSequence contentTitle = title; 			// message title
 		CharSequence contentText = s; 				// message text
 
-		Intent intent = new Intent(context, ENS.class);
+		Intent intent = new Intent(context, ENSActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -111,33 +110,6 @@ public class C2DMReceiver extends BroadcastReceiver {
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		// notification.defaults |= Notification.DEFAULT_SOUND;
 		notification.sound = Uri.parse(Request.config.getString("ringtonePrefENS", "DEFAULT_NOTIFICATION_URI"));
-		if (Request.config.getBoolean("vibration", true)) {
-			notification.defaults |= Notification.DEFAULT_VIBRATE;
-		}
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		mManager.notify(id, notification);
-	}
-
-
-	@SuppressWarnings("deprecation")
-	private void notifyURL(String s, String title, Context context, int id, String URL) {
-		mManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-		mManager.cancel(id);
-		int icon = R.drawable.notification_icon; 	// icon from resources
-		CharSequence tickerText = s; 				// ticker-text
-		long when = System.currentTimeMillis(); 	// notification time
-		CharSequence contentTitle = title;			// message title
-		CharSequence contentText = s; 				// message text
-
-		Intent intent = new Intent().setClass(context, ContactsActivityList.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-		// the next two lines initialize the Notification, using the
-		// configurations above
-		Notification notification = new Notification(icon, tickerText, when);
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		notification.sound = Uri.parse(Request.config.getString("ringtonePref", "DEFAULT_NOTIFICATION_URI"));
 		if (Request.config.getBoolean("vibration", true)) {
 			notification.defaults |= Notification.DEFAULT_VIBRATE;
 		}

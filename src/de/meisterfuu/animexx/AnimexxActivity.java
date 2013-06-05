@@ -2,8 +2,8 @@ package de.meisterfuu.animexx;
 
 import com.google.android.gcm.GCMRegistrar;
 
-import de.meisterfuu.animexx.ENS.ENS;
-import de.meisterfuu.animexx.Home.PersonalHomeListAll;
+import de.meisterfuu.animexx.ENS.ENSActivity;
+import de.meisterfuu.animexx.Home.HomeKontaktActivity;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.other.ContactList;
 
@@ -96,15 +96,15 @@ public class AnimexxActivity extends Activity {
 
 			String startscreen = Request.config.getString("start_activity", "Home");
 			if (startscreen.equals("Home")) {
-				startActivity(new Intent().setClass(getApplicationContext(), PersonalHomeListAll.class));
+				startActivity(new Intent().setClass(getApplicationContext(), HomeKontaktActivity.class));
 			} else if (startscreen.equals("RPG")) {
 				startActivity(new Intent().setClass(getApplicationContext(), RPGViewList.class));
 			} else if (startscreen.equals("Kontakte")) {
 				startActivity(new Intent().setClass(getApplicationContext(), ContactList.class));
 			} else if (startscreen.equals("ENS")) {
-				startActivity(new Intent().setClass(getApplicationContext(), ENS.class));
+				startActivity(new Intent().setClass(getApplicationContext(), ENSActivity.class));
 			} else {
-				startActivity(new Intent().setClass(getApplicationContext(), PersonalHomeListAll.class));
+				startActivity(new Intent().setClass(getApplicationContext(), HomeKontaktActivity.class));
 			}
 			
 			if (!fetch) finish();

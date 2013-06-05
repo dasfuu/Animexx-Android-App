@@ -82,7 +82,7 @@ public class SharePictureENS extends Activity {
 							try {
 								String s = Request.SignSend(request);
 								JSONObject ob = new JSONObject(s);
-								final String url = ob.getString("url_share");
+								final String url = ob.getJSONObject("return").getString("url_share");
 								
 								temp.runOnUiThread(new Runnable() {
 
