@@ -43,5 +43,11 @@
     <string name="new_note">Neue Notiz...</string>
     <string name="title_activity_home_kontakt">HomeKontaktActivity</string>
     <string name="title_activity_home_kontakt_detail_fragment">HomeKontaktDetailFragment</string>
+    <string name="activity_share_image_ens">Neue ENS</string>
+    <string name="activity_share_image_microblog">Neuer Microblog</string>
+    <string name="activity_share_image_browser">Im Browser</string>
+    <string name="fragment_microblog_send">Senden</string>
+    <string name="title_new_microblog">Microblog</string>
+    <string name="home_comment_send">Absenden</string>
 
 </resources>

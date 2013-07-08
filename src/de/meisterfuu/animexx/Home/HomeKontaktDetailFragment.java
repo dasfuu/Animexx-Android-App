@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import com.actionbarsherlock.app.SherlockFragment;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.other.ImageDownloader;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HomeKontaktDetailFragment extends SherlockFragment {
+public class HomeKontaktDetailFragment extends SherlockFragment implements Refreshable {
 	
 	HomeKontaktObject obj;
 	
@@ -35,10 +37,10 @@ public class HomeKontaktDetailFragment extends SherlockFragment {
 		type = (TextView) view.findViewById(R.id.home_kontakt_detail_typ);
 		comment_date = (TextView) view.findViewById(R.id.home_kontakt_detail_comment_date);
 		
-		open = (Button) view.findViewById(R.id.home_kontakt_detail_url);
+		open = (Button) view.findViewById(R.id.home_kontakt_detail_open);
 		comment = (Button) view.findViewById(R.id.home_kontakt_detail_comment);
 		
-		img = (ImageView) view.findViewById(R.id.home_kontakt_detail_image);
+		img = (ImageView) view.findViewById(R.id.fragment_microblog_img);
 		
 		img_loeader = new ImageDownloader();
 		
@@ -75,11 +77,27 @@ public class HomeKontaktDetailFragment extends SherlockFragment {
 					});
 					comment_date.setText(obj.getComment_date());
 					comment.setVisibility(View.VISIBLE);
-					if(obj.getComment_count() > 0)comment_date.setVisibility(View.VISIBLE);
+					if(obj.getComment_count() > 0){
+						comment_date.setVisibility(View.VISIBLE);
+					} else {
+						comment_date.setVisibility(View.GONE);
+						comment.setText("Schreibe den ersten Kommentar!");
+					}
 				} else {
 					comment.setVisibility(View.GONE);
 					comment_date.setVisibility(View.GONE);
 				}
+				
+				if(obj.getLink() != null)
+				open.setOnClickListener(new OnClickListener(){
+
+					public void onClick(View v) {
+						Uri uri = Uri.parse(obj.getLink());
+						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+						startActivity(intent);						
+					}
+					
+				});
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -99,6 +117,11 @@ public class HomeKontaktDetailFragment extends SherlockFragment {
 		myFragment.setArguments(args);
 
 		return myFragment;
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

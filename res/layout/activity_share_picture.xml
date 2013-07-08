@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,7 +5,7 @@
     tools:context=".HomeKontaktDetailFragment" >
 
     <ImageView
-        android:id="@+id/fragment_microblog_img"
+        android:id="@+id/share_image_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_alignParentLeft="true"
@@ -14,15 +13,15 @@
         android:src="@drawable/test1" />
 
     <TextView
-        android:id="@+id/home_kontakt_detail_title"
+        android:id="@+id/share_image_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fragment_microblog_img"
+        android:layout_alignBottom="@+id/share_image_image"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:background="#80000000"
         android:paddingLeft="4dp"
-        android:text="Neue Microblog Nachricht"
+        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#FFFFFF" />
 
@@ -32,30 +31,43 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/home_kontakt_detail_title"
+        android:layout_below="@+id/share_image_title"
         android:orientation="vertical"
         android:padding="5dp" >
 
-        <EditText
-            android:id="@+id/fragment_microblog_text"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/share_image_URL"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/fragment_microblog_send"
-            android:layout_marginTop="16dp"
-            android:ems="10"
-            android:inputType="textShortMessage"
-            android:maxLength="120" />
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/share_image_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
 
         <Button
-            android:id="@+id/fragment_microblog_send"
+            android:id="@+id/share_image_ENS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/fragment_microblog_send" />
+            android:layout_margin="4dp"
+            android:text="@string/activity_share_image_ens" />
+
+        <Button
+            android:id="@+id/share_image_shortblog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/activity_share_image_microblog" />
+
+        <Button
+            android:id="@+id/share_image_browser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/activity_share_image_browser" />
+
     </LinearLayout>
 
 </RelativeLayout>

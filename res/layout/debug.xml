@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <Button
-        android:id="@+id/home_kontakt_detail_url"
+        android:id="@+id/fragment_microblog_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Button" />

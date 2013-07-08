@@ -22,7 +22,7 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.ImageDownloader;
 
-public class HomeKontaktFragment extends SherlockFragment {
+public class HomeKontaktFragment extends SherlockFragment implements Refreshable {
 
 	ArrayList<HomeKontaktObject> Array = new ArrayList<HomeKontaktObject>();
 
@@ -30,6 +30,7 @@ public class HomeKontaktFragment extends SherlockFragment {
 	ProgressDialog dialog;
 	Boolean loading, loaded = false;
 	HomeKontaktAdapter adapter;
+	ListView lv;
 	ImageDownloader Images = new ImageDownloader();
 	int loadCount = 0;
 	RelativeLayout Loading;
@@ -45,7 +46,7 @@ public class HomeKontaktFragment extends SherlockFragment {
 
 		adapter = new HomeKontaktAdapter(this, Array);
 		adapter.Images = Images;
-		ListView lv = (ListView) view.findViewById(R.id.HomeListView);
+		lv = (ListView) view.findViewById(R.id.HomeListView);
 		lv.setAdapter(adapter);
 
 		if (!loaded) {
@@ -124,7 +125,7 @@ public class HomeKontaktFragment extends SherlockFragment {
 
 
 	public void refresh() {
-
+		Array = new ArrayList<HomeKontaktObject>();
 		getKontakt(Array);
 
 	}
@@ -156,6 +157,9 @@ public class HomeKontaktFragment extends SherlockFragment {
 
 						public void run() {
 							Collections.sort(Array);
+							adapter = new HomeKontaktAdapter(HomeKontaktFragment.this, Array);
+							adapter.Images = Images;
+							lv.setAdapter(adapter);
 							adapter.notifyDataSetChanged();
 							LoadMinus();
 						}

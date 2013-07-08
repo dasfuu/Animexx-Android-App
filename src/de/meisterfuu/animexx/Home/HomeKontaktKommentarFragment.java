@@ -1,8 +1,14 @@
 package de.meisterfuu.animexx.Home;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,9 +18,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -23,7 +33,7 @@ import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.other.ImageDownloader;
 
 
-public class HomeKontaktKommentarFragment extends SherlockFragment {
+public class HomeKontaktKommentarFragment extends SherlockFragment implements Refreshable {
 
 	ArrayList<HomeKontaktKommentarObject> Array = new ArrayList<HomeKontaktKommentarObject>();
 
@@ -31,23 +41,40 @@ public class HomeKontaktKommentarFragment extends SherlockFragment {
 	ProgressDialog dialog;
 	Boolean loading, loaded = false;
 	HomeKontaktKommentarAdapter adapter;
+	ListView lv;
 	ImageDownloader Images = new ImageDownloader();
 	int loadCount = 0;
 	RelativeLayout Loading;
 	String id;
 
+	
+	TextView msg;
+	Button send;
 
 	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.home_list, null);
+		View view = inflater.inflate(R.layout.home_comment_list, null);
 		Loading = (RelativeLayout) view.findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
 		context = this.getActivity();
+		
+		msg = (TextView) view.findViewById(R.id.home_comment_msg);
+		send = (Button) view.findViewById(R.id.home_comment_send);
+		
+		send.setOnClickListener(new OnClickListener(){
+
+			public void onClick(View v) {
+				if(msg.getText().length() > 0){
+					send(msg.getText().toString());
+				}				
+			}
+			
+		});
 
 		adapter = new HomeKontaktKommentarAdapter(this, Array);
 		adapter.Images = Images;
-		ListView lv = (ListView) view.findViewById(R.id.HomeListView);
+		lv = (ListView) view.findViewById(R.id.HomeListView);
 		lv.setAdapter(adapter);
 
 		if (!loaded) {
@@ -60,6 +87,65 @@ public class HomeKontaktKommentarFragment extends SherlockFragment {
 		}
 
 		return view;
+	}
+
+
+	public void send(String message) {
+
+
+		final ProgressDialog dialog = new ProgressDialog(this.getActivity());
+		dialog.setMessage("Senden...");
+		dialog.setCancelable(false);
+		dialog.show();
+
+		final HttpPost request = new HttpPost("https://ws.animexx.de/json/persstart5/post_item_kommentar/?api=2");
+
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+		nameValuePairs.add(new BasicNameValuePair("item_id", ""+id));
+		nameValuePairs.add(new BasicNameValuePair("widget_id", "kontakte"));
+		nameValuePairs.add(new BasicNameValuePair("text", message));
+		try {
+			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		new Thread(new Runnable() {
+
+			public void run() {
+				
+				try {
+					String s = Request.SignSend(request);
+					JSONObject ob = new JSONObject(s).getJSONObject("return");
+	
+					
+					HomeKontaktKommentarFragment.this.getActivity().runOnUiThread(new Runnable() {
+
+						public void run() {
+							dialog.dismiss();
+							refresh();
+							Toast.makeText(HomeKontaktKommentarFragment.this.getActivity(), "Gesendet!", Toast.LENGTH_LONG).show();
+						}
+
+					});
+				} catch (Exception e) {
+					HomeKontaktKommentarFragment.this.getActivity().runOnUiThread(new Runnable() {
+
+						public void run() {
+							dialog.dismiss();
+							Toast.makeText(HomeKontaktKommentarFragment.this.getActivity(), "Error!", Toast.LENGTH_LONG).show();							
+						}
+
+					});
+					e.printStackTrace();
+				}
+
+
+
+			}
+
+		}).start();
+		
 	}
 
 
@@ -113,6 +199,7 @@ public class HomeKontaktKommentarFragment extends SherlockFragment {
 
 	public void refresh() {
 
+		Array = new ArrayList<HomeKontaktKommentarObject>();
 		getKontakt(Array);
 
 	}
@@ -143,6 +230,9 @@ public class HomeKontaktKommentarFragment extends SherlockFragment {
 
 						public void run() {
 							//Collections.sort(Array);
+							adapter = new HomeKontaktKommentarAdapter(HomeKontaktKommentarFragment.this, Array);
+							adapter.Images = Images;
+							lv.setAdapter(adapter);
 							adapter.notifyDataSetChanged();
 							LoadMinus();
 						}

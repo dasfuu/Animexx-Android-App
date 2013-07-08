@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="47"
+    android:versionCode="48"
     android:versionName="Beta 1.8" >
 
     <uses-sdk
@@ -222,7 +222,7 @@
         <activity android:name="de.meisterfuu.animexx.TableView" >
         </activity>
         <activity
-            android:name="de.meisterfuu.animexx.other.SharePictureENS"
+            android:name="de.meisterfuu.animexx.Share.SharePicture"
             android:configChanges="orientation|keyboardHidden"
             android:label="Animexx"
             android:launchMode="singleTop" >
@@ -276,6 +276,10 @@
         <activity
             android:name="de.meisterfuu.animexx.Home.HomeKontaktDetailFragment"
             android:label="@string/title_activity_home_kontakt_detail_fragment" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.Home.HomeKontaktNewFragment"
+            android:label="@string/title_new_microblog" >
         </activity>
     </application>
 

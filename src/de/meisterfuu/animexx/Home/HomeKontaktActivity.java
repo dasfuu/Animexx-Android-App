@@ -7,15 +7,21 @@ import java.util.List;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.widget.ShareActionProvider;
 
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.ENS.ENSAnswer;
+import de.meisterfuu.animexx.Share.SharePicture;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
@@ -37,6 +43,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
+	private ShareActionProvider mShareActionProvider;
 
 
 	@Override
@@ -143,10 +150,30 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		case android.R.id.home:
 			slidemenu.show();
 			return true;
+		case R.id.refresh:
+			mMyAdapter.refreshCurrent();
+			return true;
+		case R.id.new_post:
+			Intent newIntent = new Intent(getApplicationContext(), HomeKontaktNewFragment.class);
+			startActivity(newIntent);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.home_kontakt_menu, menu);
+		
+
+		
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+
 
 	public class MyAdapter extends FragmentStatePagerAdapter {
 
@@ -162,6 +189,10 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		@Override
 		public int getItemPosition(Object object) {
 			return FragmentStatePagerAdapter.POSITION_NONE;
+		}
+		
+		public void refreshCurrent(){
+			((Refreshable)pages.get(pages.size()-1)).refresh();
 		}
 
 
