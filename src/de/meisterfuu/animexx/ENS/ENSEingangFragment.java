@@ -24,7 +24,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.other.ImageDownloaderENS;
 
 public class ENSEingangFragment extends SherlockListFragment {
 
@@ -68,7 +67,6 @@ public class ENSEingangFragment extends SherlockListFragment {
 		adapter = new ENSAdapter(this.getSherlockActivity(), Array, false);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this.getSherlockActivity());
 		context = this.getSherlockActivity();
-		adapter.Images = new ImageDownloaderENS();
 		setListAdapter(adapter);
 
 		ListView lv = getListView();

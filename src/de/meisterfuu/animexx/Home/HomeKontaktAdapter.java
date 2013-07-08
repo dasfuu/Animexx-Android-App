@@ -92,9 +92,11 @@ public class HomeKontaktAdapter extends ArrayAdapter<HomeKontaktObject> {
 			rowView.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View arg0) {
-					Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://animexx.onlinewelten.com" + s.getLink()));
-					newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
-					context.startActivity(newIntent);
+					//Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://animexx.onlinewelten.com" + s.getLink()));
+					//newIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_FROM_BACKGROUND);
+					//context.startActivity(newIntent);
+					((HomeKontaktActivity)context.getActivity()).showDetail(s.json);
+					
 				}
 
 			});
@@ -136,7 +138,7 @@ public class HomeKontaktAdapter extends ArrayAdapter<HomeKontaktObject> {
 			rowView.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View arg0) {
-					((HomeKontaktActivity) context.getActivity()).showDetail(s.data);
+					((HomeKontaktActivity) context.getActivity()).showMulti(s.data);
 				}
 
 			});

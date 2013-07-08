@@ -18,7 +18,7 @@ public class Debug extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.debug);
 		Web = (WebView) findViewById(R.id.webView1);
-		Button = (Button) findViewById(R.id.button1);
+		Button = (Button) findViewById(R.id.home_kontakt_detail_url);
 		Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 

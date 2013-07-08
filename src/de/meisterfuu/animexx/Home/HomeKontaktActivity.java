@@ -98,6 +98,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 			public void onPageSelected(int arg0) {
 				if (arg0 == mMyAdapter.getCount() - 2) {
 					mMyAdapter.pages.remove(mMyAdapter.getCount() - 1);
+					mMyAdapter.notifyDataSetChanged();
 				}
 			}
 
@@ -117,9 +118,23 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 
 
 	public void showDetail(String pdata) {
-		mMyAdapter.addPage(pdata);
+		mMyAdapter.addDetailPage(pdata);
+		mMyAdapter.notifyDataSetChanged();
 		mJazzy.setCurrentItem(mMyAdapter.getCount() - 1);
 	}
+	
+	public void showComments(String pdata) {
+		mMyAdapter.addCommentPage(pdata);
+		mMyAdapter.notifyDataSetChanged();
+		mJazzy.setCurrentItem(mMyAdapter.getCount() - 1);
+	}
+	
+	public void showMulti(String pdata) {
+		mMyAdapter.addPage(pdata);
+		mMyAdapter.notifyDataSetChanged();
+		mJazzy.setCurrentItem(mMyAdapter.getCount() - 1);
+	}
+
 
 
 	@Override
@@ -170,8 +185,25 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		 * Add new Fragment to the ViewPager.
 		 */
 		public void addDetailPage(String data) {
+			pages.add(HomeKontaktDetailFragment.newInstance(data));
+		}
+		
+		/**
+		 * Add new Fragment to the ViewPager.
+		 */
+		public void addCommentPage(String data) {
+			pages.add(HomeKontaktKommentarFragment.newInstance(data));
+		}
+		
+		/**
+		 * Add new Fragment to the ViewPager.
+		 */
+		public void addAnswerPage(String data) {
 			pages.add(HomeKontaktFragment.newInstance(data));
 		}
+
+
+
 
 
 		@Override

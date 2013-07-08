@@ -50,7 +50,13 @@ public class HomeKontaktObject implements Comparable<Object> {
 	// Einzel
 	private String event_typ = null, event_name = null, kommentar = null, link = null, item_image = null, item_name = null, date_server = null;
 	private long date_server_ts;
+	private String id;
 	private UserObject von, item_author;
+	
+	//Kommentar System
+	private String comment_date;
+	private boolean commentable = false;
+	private int comment_count;
 
 	// Multi
 	private int grouped_by;
@@ -106,6 +112,16 @@ public class HomeKontaktObject implements Comparable<Object> {
 			if (this.getEvent_typ().equals("magwb")) {
 				this.setItem_image(null);
 			}
+			
+			//kommentierbar: bool: Können andere Nutzer Kommentare zu diesem Item verfassen?
+			//kommentare_anzahl: int: Anzahl der Kommentare zu diesem Item
+			//kommentare_letzte: string: Datum (ME(S)Z) des letzten Kommentars)
+			if(obj.getBoolean("kommentierbar")){
+				commentable = true;
+				comment_date = obj.getString("kommentare_letzte");
+				comment_count = obj.getInt("kommentare_anzahl");
+			}					
+			this.setId(obj.getString("item_id"));
 		}
 	}
 
@@ -220,6 +236,18 @@ public class HomeKontaktObject implements Comparable<Object> {
 	}
 
 
+	
+	public String getId() {
+		return id;
+	}
+
+
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
 	public int getGrouped_by() {
 		return grouped_by;
 	}
@@ -227,6 +255,42 @@ public class HomeKontaktObject implements Comparable<Object> {
 
 	public void setGrouped_by(int grouped_by) {
 		this.grouped_by = grouped_by;
+	}
+
+
+	
+	public String getComment_date() {
+		return comment_date;
+	}
+
+
+	
+	public void setComment_date(String comment_date) {
+		this.comment_date = comment_date;
+	}
+
+
+	
+	public boolean isCommentable() {
+		return commentable;
+	}
+
+
+	
+	public void setCommentable(boolean commentable) {
+		this.commentable = commentable;
+	}
+
+
+	
+	public int getComment_count() {
+		return comment_count;
+	}
+
+
+	
+	public void setComment_count(int comment_count) {
+		this.comment_count = comment_count;
 	}
 
 

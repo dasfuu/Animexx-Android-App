@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.other.ImageDownloader;
-import de.meisterfuu.animexx.other.ImageDownloaderENS;
 import de.meisterfuu.animexx.other.VerticalTextView;
 
 
@@ -22,7 +20,6 @@ public class ENSAdapter extends ArrayAdapter<ENSObject> {
 	private final Activity context;
 	private ArrayList<ENSObject> names;
 	private boolean isAusgang;
-	public ImageDownloaderENS Images;
 
 	static class ViewHolder {
 

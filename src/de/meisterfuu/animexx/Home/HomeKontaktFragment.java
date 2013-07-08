@@ -28,7 +28,7 @@ public class HomeKontaktFragment extends SherlockFragment {
 
 	Context context;
 	ProgressDialog dialog;
-	Boolean loading;
+	Boolean loading, loaded = false;
 	HomeKontaktAdapter adapter;
 	ImageDownloader Images = new ImageDownloader();
 	int loadCount = 0;
@@ -48,25 +48,27 @@ public class HomeKontaktFragment extends SherlockFragment {
 		ListView lv = (ListView) view.findViewById(R.id.HomeListView);
 		lv.setAdapter(adapter);
 
+		if (!loaded) {
+			loaded = true;
+			if (getArguments() != null && getArguments().getCharArray("data") != null) {
+				JSONArray list = null;
+				try {
+					list = new JSONArray(new String(getArguments().getCharArray("data")));
 
-		if (getArguments() != null && getArguments().getCharArray("data") != null) {
-			JSONArray list = null;
-			try {
-				list = new JSONArray(new String(getArguments().getCharArray("data")));
-
-				if (list.length() != 0) {
-					for (int i = 0; i < list.length(); i++) {
-						HomeKontaktObject tempObject = new HomeKontaktObject(list.getJSONObject(i));
-						Array.add(tempObject);
+					if (list.length() != 0) {
+						for (int i = 0; i < list.length(); i++) {
+							HomeKontaktObject tempObject = new HomeKontaktObject(list.getJSONObject(i));
+							Array.add(tempObject);
+						}
 					}
+					Collections.sort(Array);
+					adapter.notifyDataSetChanged();
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
-				Collections.sort(Array);
-				adapter.notifyDataSetChanged();
-			} catch (JSONException e) {
-				e.printStackTrace();
+			} else {
+				refresh();
 			}
-		} else {
-			refresh();
 		}
 
 		return view;

@@ -1,0 +1,7 @@
+package de.meisterfuu.animexx;
+
+public class KEYS {
+	public static final String CONSUMER_KEY = "xxx";
+	public static final String CONSUMER_SECRET = "xxx";
+	public static final String GCM_SENDER_ID = "xxx";
+}
