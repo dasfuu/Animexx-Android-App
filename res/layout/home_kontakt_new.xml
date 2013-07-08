@@ -27,9 +27,9 @@
         android:textColor="#FFFFFF" />
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/home_kontakt_detail_title"
@@ -46,7 +46,7 @@
             android:layout_marginTop="16dp"
             android:ems="10"
             android:inputType="textShortMessage"
-            android:maxLength="120" />
+            android:maxLength="140" />
 
         <Button
             android:id="@+id/fragment_microblog_send"
@@ -56,6 +56,26 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:text="@string/fragment_microblog_send" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp" >
+
+            <ImageButton
+                android:id="@+id/fragment_microblog_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_camera" />
+
+            <ImageButton
+                android:id="@+id/fragment_microblog_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_add_img" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

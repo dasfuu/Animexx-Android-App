@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import oauth.signpost.OAuth;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -16,14 +18,17 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +38,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.Share.SharePicture;
 import de.meisterfuu.animexx.other.ImageDownloader;
 
 
@@ -47,6 +53,7 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 	TextView msg;
 	ImageView img;
 	Button send;
+	ImageButton btcamera, btimage;
 	
 	String id;
 	
@@ -56,10 +63,13 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
+		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		setContentView(R.layout.home_kontakt_new);	
 
 		msg = (TextView) findViewById(R.id.fragment_microblog_text);
+		msg.setText(Request.config.getString("microblog_temp", ""));
+		
 		img = (ImageView) findViewById(R.id.fragment_microblog_img);
 		img.setVisibility(View.GONE);
 		send = (Button) findViewById(R.id.fragment_microblog_send);
@@ -69,12 +79,37 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 			}			
 		});
 		
+		btcamera = (ImageButton) findViewById(R.id.fragment_microblog_camera);
+		btcamera.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				Bundle bundle2 = new Bundle();
+				bundle2.putString("req_code", "2");
+				Intent newIntent = new Intent(getApplicationContext(), SharePicture.class);
+				newIntent.putExtras(bundle2);
+				startActivity(newIntent);		
+				Request.config.edit().putString("microblog_temp", msg.getText().toString()).commit();
+				HomeKontaktNewFragment.this.finish();
+			}			
+		});
 		
-		if (this.getIntent().hasExtra("uri")) {
-			String url = this.getIntent().getStringExtra("uri");
+		btimage = (ImageButton) findViewById(R.id.fragment_microblog_image);
+		btimage.setOnClickListener(new OnClickListener(){
+			public void onClick(View v) {
+				Bundle bundle2 = new Bundle();
+				bundle2.putString("req_code", "1");
+				Intent newIntent = new Intent(getApplicationContext(), SharePicture.class);
+				newIntent.putExtras(bundle2);
+				startActivity(newIntent);		
+				Request.config.edit().putString("microblog_temp", msg.getText().toString()).commit();
+				HomeKontaktNewFragment.this.finish();
+			}			
+		});
+		
+		
+		if (this.getIntent().hasExtra("id")) {
 			id = this.getIntent().getStringExtra("id");
-
 			try {			
+				String url = this.getIntent().getStringExtra("uri");
 				// Query gallery for camera picture via
 				// Android ContentResolver interface
 				ContentResolver cr = getContentResolver();
@@ -111,7 +146,7 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 		final HttpPost request = new HttpPost("https://ws.animexx.de/json/persstart5/post_microblog_message/?api=2");
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-		nameValuePairs.add(new BasicNameValuePair("text", ""+msg.getText()));
+		nameValuePairs.add(new BasicNameValuePair("text", OAuth.percentEncode(""+msg.getText())));
 		if(id != null)nameValuePairs.add(new BasicNameValuePair("attach_foto", id));
 		try {
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -133,6 +168,7 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 						public void run() {
 							dialog.dismiss();
 							Toast.makeText(HomeKontaktNewFragment.this, "Gesendet!", Toast.LENGTH_LONG).show();
+							Request.config.edit().remove("microblog_temp").commit();
 							HomeKontaktNewFragment.this.finish();
 						}
 
