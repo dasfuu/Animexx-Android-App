@@ -44,6 +44,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
 	private ShareActionProvider mShareActionProvider;
+	private boolean first = true;
 
 
 	@Override
@@ -57,12 +58,17 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		slidemenu = slidemenuhelper.getSlideMenu();
 		// setup action bar
 		ActionBar actionBar = this.getSupportActionBar();
-		actionBar.setTitle("Kontakte");
+		actionBar.setTitle("Feed");
 		actionBar.setHomeButtonEnabled(true);
 
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
 		setupJazziness(TransitionEffect.FlipHorizontal);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
+		mMyAdapter.refreshCurrent();	
 	}
 
 
@@ -122,6 +128,16 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		}
 
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(!first){
+			mMyAdapter.refreshCurrent();
+		} else {
+			//first = false;
+		}
+	}
 
 
 	public void showDetail(String pdata) {
@@ -155,7 +171,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 			return true;
 		case R.id.new_post:
 			Intent newIntent = new Intent(getApplicationContext(), HomeKontaktNewFragment.class);
-			startActivity(newIntent);
+			startActivityForResult(newIntent, 0);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -201,7 +217,13 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		 */
 		private void initPages() {
 			pages = new ArrayList<SherlockFragment>();
-			pages.add(HomeKontaktFragment.newInstance());
+			
+			if(Request.config.getBoolean("kontakt_big",false)){
+				pages.add(HomeKontaktBigFragment.newInstance());
+			}else{
+				pages.add(HomeKontaktFragment.newInstance());
+			}
+
 		}
 
 

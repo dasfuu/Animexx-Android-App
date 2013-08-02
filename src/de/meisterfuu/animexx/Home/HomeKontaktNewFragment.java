@@ -1,10 +1,13 @@
 package de.meisterfuu.animexx.Home;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import oauth.signpost.OAuth;
@@ -12,9 +15,11 @@ import oauth.signpost.OAuth;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -23,7 +28,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +48,7 @@ import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.Share.SharePicture;
 import de.meisterfuu.animexx.other.ImageDownloader;
 
-
+@SuppressLint("SimpleDateFormat")
 public class HomeKontaktNewFragment extends SherlockActivity {
 
 	ArrayList<HomeKontaktObject> Array = new ArrayList<HomeKontaktObject>();
@@ -49,14 +56,15 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 	Context context;
 	ImageDownloader Images = new ImageDownloader();
 	ProgressDialog dialog;
-	
+
 	TextView msg;
 	ImageView img;
 	Button send;
 	ImageButton btcamera, btimage;
-	
+
 	String id;
-	
+
+
 
 	/** Called when the activity is first created. */
 	@Override
@@ -64,52 +72,58 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		setContentView(R.layout.home_kontakt_new);	
+
+		setContentView(R.layout.home_kontakt_new);
 
 		msg = (TextView) findViewById(R.id.fragment_microblog_text);
 		msg.setText(Request.config.getString("microblog_temp", ""));
-		
+
 		img = (ImageView) findViewById(R.id.fragment_microblog_img);
 		img.setVisibility(View.GONE);
 		send = (Button) findViewById(R.id.fragment_microblog_send);
-		send.setOnClickListener(new OnClickListener(){
+		send.setOnClickListener(new OnClickListener() {
+
 			public void onClick(View v) {
-				send();				
-			}			
+				try {
+					send();
+				} catch (UnsupportedEncodingException e) {
+					Toast.makeText(HomeKontaktNewFragment.this, "Senden gescheitert: UnsupportedEncodingException", Toast.LENGTH_LONG).show();
+				}
+			}
 		});
-		
+
 		btcamera = (ImageButton) findViewById(R.id.fragment_microblog_camera);
-		btcamera.setOnClickListener(new OnClickListener(){
+		btcamera.setOnClickListener(new OnClickListener() {
+
 			public void onClick(View v) {
 				Bundle bundle2 = new Bundle();
 				bundle2.putString("req_code", "2");
 				Intent newIntent = new Intent(getApplicationContext(), SharePicture.class);
 				newIntent.putExtras(bundle2);
-				startActivity(newIntent);		
+				startActivity(newIntent);
 				Request.config.edit().putString("microblog_temp", msg.getText().toString()).commit();
 				HomeKontaktNewFragment.this.finish();
-			}			
+			}
 		});
-		
+
 		btimage = (ImageButton) findViewById(R.id.fragment_microblog_image);
-		btimage.setOnClickListener(new OnClickListener(){
+		btimage.setOnClickListener(new OnClickListener() {
+
 			public void onClick(View v) {
 				Bundle bundle2 = new Bundle();
 				bundle2.putString("req_code", "1");
 				Intent newIntent = new Intent(getApplicationContext(), SharePicture.class);
 				newIntent.putExtras(bundle2);
-				startActivity(newIntent);		
+				startActivity(newIntent);
 				Request.config.edit().putString("microblog_temp", msg.getText().toString()).commit();
 				HomeKontaktNewFragment.this.finish();
-			}			
+			}
 		});
-		
-		
+
 		if (this.getIntent().hasExtra("id")) {
 			id = this.getIntent().getStringExtra("id");
-			try {			
-				String url = this.getIntent().getStringExtra("uri");
+			try {
+				String url = this.getIntent().getStringExtra("url");
 				// Query gallery for camera picture via
 				// Android ContentResolver interface
 				ContentResolver cr = getContentResolver();
@@ -117,27 +131,25 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 				is = cr.openInputStream(Uri.parse(url));
 				// Get binary bytes for encode
 				byte[] data = getBytesFromFile(is);
-				
-				//Show Picture			
-			     BitmapFactory.Options options = new BitmapFactory.Options();
-			     Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length,options);
-				img.setImageBitmap(bm);	
+
+				// Show Picture
+				BitmapFactory.Options options = new BitmapFactory.Options();
+				Bitmap bm = BitmapFactory.decodeByteArray(data, 0, data.length, options);
+				img.setImageBitmap(bm);
 				img.setVisibility(View.VISIBLE);
 			} catch (Exception e) {
 				img.setVisibility(View.GONE);
 			}
 
 		} else {
-			
+
 		}
-		
 
 	}
 
 
-	
-	public void send(){
-		
+	public void send() throws UnsupportedEncodingException {
+
 		dialog = new ProgressDialog(this);
 		dialog.setMessage("Hochladen...");
 		dialog.setCancelable(false);
@@ -145,24 +157,24 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 
 		final HttpPost request = new HttpPost("https://ws.animexx.de/json/persstart5/post_microblog_message/?api=2");
 
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-		nameValuePairs.add(new BasicNameValuePair("text", OAuth.percentEncode(""+msg.getText())));
-		if(id != null)nameValuePairs.add(new BasicNameValuePair("attach_foto", id));
-		try {
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-		} catch (UnsupportedEncodingException e1) {
-			e1.printStackTrace();
+		String s = "";
+		s += "text=" + OAuth.percentEncode("" + msg.getText());
+		if (id != null) {
+			s += "&attach_foto=" + id;
 		}
-		
+
+		StringEntity se = new StringEntity(s);
+		se.setContentType("application/x-www-form-urlencoded");
+		request.setEntity(se);
+
 		new Thread(new Runnable() {
 
 			public void run() {
-				
+
 				try {
 					String s = Request.SignSend(request);
 					JSONObject ob = new JSONObject(s).getJSONObject("return");
-	
-					
+
 					HomeKontaktNewFragment.this.runOnUiThread(new Runnable() {
 
 						public void run() {
@@ -186,15 +198,13 @@ public class HomeKontaktNewFragment extends SherlockActivity {
 					e.printStackTrace();
 				}
 
-
-
 			}
 
 		}).start();
-		
-		
+
 	}
-	
+
+
 	public static byte[] getBytesFromFile(InputStream is) {
 		try {
 			ByteArrayOutputStream buffer = new ByteArrayOutputStream();

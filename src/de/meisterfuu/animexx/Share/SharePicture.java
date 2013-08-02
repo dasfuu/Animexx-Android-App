@@ -183,7 +183,7 @@ public class SharePicture extends SherlockActivity {
 	private void after() {
 		if (after == 1) {
 			Bundle bundle2 = new Bundle();
-			bundle2.putString("url", url_direct);
+			bundle2.putString("url", imageUri.toString());
 			bundle2.putString("id", id + "");
 			Intent newIntent = new Intent(getApplicationContext(), HomeKontaktNewFragment.class);
 			newIntent.putExtras(bundle2);
@@ -268,6 +268,8 @@ public class SharePicture extends SherlockActivity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else {
+			this.finish();
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}

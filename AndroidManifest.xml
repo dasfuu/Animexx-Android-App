@@ -281,6 +281,10 @@
             android:name="de.meisterfuu.animexx.Home.HomeKontaktNewFragment"
             android:label="@string/title_new_microblog" >
         </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.Home.HomeKontaktBigFragment"
+            android:label="@string/title_activity_home_kontakt_big" >
+        </activity>
     </application>
 
 </manifest>

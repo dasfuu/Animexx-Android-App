@@ -34,7 +34,7 @@ public class HomeKontaktDetailFragment extends SherlockFragment implements Refre
 		title = (TextView) view.findViewById(R.id.home_kontakt_detail_title);
 		author = (TextView) view.findViewById(R.id.home_kontakt_detail_author);
 		date = (TextView) view.findViewById(R.id.home_kontakt_detail_date);
-		type = (TextView) view.findViewById(R.id.home_kontakt_detail_typ);
+		type = (TextView) view.findViewById(R.id.home_kontakt_detail_info);
 		comment_date = (TextView) view.findViewById(R.id.home_kontakt_detail_comment_date);
 		
 		open = (Button) view.findViewById(R.id.home_kontakt_detail_open);
@@ -50,9 +50,10 @@ public class HomeKontaktDetailFragment extends SherlockFragment implements Refre
 			try {
 				obj.parseJSON(new JSONObject(new String(getArguments().getCharArray("data"))));				
 				
-				if(obj.getItem_image() != null){
+				if(obj.getItem_image_big() != null){
 					img.setVisibility(View.VISIBLE);
-					img_loeader.download(obj.getItem_image(), img, true);
+					img_loeader.download(obj.getItem_image(), img, false);
+					img_loeader.download(obj.getItem_image_big(), img, true);
 				} else {
 					img.setVisibility(View.GONE);
 				}

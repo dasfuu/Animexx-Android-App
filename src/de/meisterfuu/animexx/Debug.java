@@ -21,16 +21,31 @@ public class Debug extends Activity {
 		Button = (Button) findViewById(R.id.fragment_microblog_send);
 		Button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
+				
+				
+				
+				new Thread(new Runnable() {
 
-				try {
-					String s = Request.makeSecuredReq("https://ws.animexx.de/json/persstart/get_widget_data/?api=2&widget_id=2_19&return_typ=app&zeit_von=1334595292");
-					Web.loadDataWithBaseURL("fake://fake.de", s, "text/html", "UTF-8", null);
-					Log.i("Debug Request", s);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			
+					public void run() {
+
+							try {
+								final String s = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=1000&img_max_y=1000&img_format=jpg&img_quality=90&return_typ=app&zeit_von=1374524430017");
+	
+								Web.post(new Runnable() {
+						                public void run() {
+										Web.loadDataWithBaseURL("fake://fake.de", s, "text/html", "UTF-8", null);
+										Log.i("Debug Request", s);
+						                 }
+						             });
+
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+					}
+				}).start();
+				
+				
 			}
 		});
 	}

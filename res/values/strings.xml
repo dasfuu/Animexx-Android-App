@@ -49,5 +49,6 @@
     <string name="fragment_microblog_send">Senden</string>
     <string name="title_new_microblog">Microblog</string>
     <string name="home_comment_send">Absenden</string>
+    <string name="title_activity_home_kontakt_big">HomeKontaktBigActivity</string>
 
 </resources>

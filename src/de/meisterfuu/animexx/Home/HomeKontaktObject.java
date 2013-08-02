@@ -48,7 +48,7 @@ public class HomeKontaktObject implements Comparable<Object> {
 	private boolean multi_item = false;
 
 	// Einzel
-	private String event_typ = null, event_name = null, kommentar = null, link = null, item_image = null, item_name = null, date_server = null;
+	private String event_typ = null, event_name = null, kommentar = null, link = null, item_image = null, item_image_big = null, item_name = null, date_server = null;
 	private long date_server_ts;
 	private String id;
 	private UserObject von, item_author;
@@ -105,12 +105,14 @@ public class HomeKontaktObject implements Comparable<Object> {
 			this.setVon(new UserObject(obj.getJSONObject("von")));
 			this.setLink(obj.getString("link"));
 			if (!obj.isNull("item_image")) this.setItem_image(obj.getString("item_image"));
+			if (!obj.isNull("item_image_big")) this.setItem_image_big(obj.getString("item_image_big"));
 			if (!obj.isNull("item_name")) this.setItem_name(obj.getString("item_name"));
 			if (!obj.isNull("item_author")) {
 				this.setItem_author(new UserObject(obj.getJSONObject("item_author")));
 			}
 			if (this.getEvent_typ().equals("magwb")) {
 				this.setItem_image(null);
+				this.setItem_image_big(null);
 			}
 			
 			//kommentierbar: bool: Können andere Nutzer Kommentare zu diesem Item verfassen?
@@ -172,6 +174,10 @@ public class HomeKontaktObject implements Comparable<Object> {
 
 
 	public void setLink(String link) {
+		if(link.startsWith("/")){
+			this.link = "http://animexx.onlinewelten.com/"+link;
+			return;
+		}
 		this.link = link;
 	}
 
@@ -193,6 +199,18 @@ public class HomeKontaktObject implements Comparable<Object> {
 
 	public void setItem_image(String item_image) {
 		this.item_image = item_image;
+	}
+
+
+	
+	public String getItem_image_big() {
+		return item_image_big;
+	}
+
+
+	
+	public void setItem_image_big(String item_image_big) {
+		this.item_image_big = item_image_big;
 	}
 
 

@@ -11,6 +11,7 @@
     <color name="bg_green">#329262</color>
     <color name="bg_green2">#109618</color>
     <color name="bg_lightgreen">#66AA00</color>
+    <color name="bg_light">#C3C3FF</color>
 
 
 
@@ -19,7 +20,7 @@
         <item name="android:colorBackground">@color/custom_theme_color</item>
         <item name="android:buttonStyle">@style/ButtonText</item>
         <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>
-        <item name="android:dialogTheme">@style/CustomDialogTheme</item>
+        <!-- <item name="android:dialogTheme">@style/CustomDialogTheme</item> --> 
     </style>
 
     <style name="ButtonText" parent="@android:style/Widget.Button">
