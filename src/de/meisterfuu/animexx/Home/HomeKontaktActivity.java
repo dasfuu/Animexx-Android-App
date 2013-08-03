@@ -10,13 +10,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.ShareActionProvider;
-
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.ENS.ENSAnswer;
-import de.meisterfuu.animexx.Share.SharePicture;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;
 import android.annotation.SuppressLint;
@@ -26,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.ViewGroup;
@@ -43,9 +40,8 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
-	private ShareActionProvider mShareActionProvider;
 	private boolean first = true;
-
+	long lastUpdate = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +128,12 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(!first){
+		if(!first && ((System.currentTimeMillis() - lastUpdate) > 120000)){
 			mMyAdapter.refreshCurrent();
+			lastUpdate = System.currentTimeMillis();
 		} else {
-			//first = false;
+			first = false;
+			lastUpdate = System.currentTimeMillis();
 		}
 	}
 
@@ -204,7 +202,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 
 		@Override
 		public int getItemPosition(Object object) {
-			return FragmentStatePagerAdapter.POSITION_NONE;
+			return PagerAdapter.POSITION_NONE;
 		}
 		
 		public void refreshCurrent(){
