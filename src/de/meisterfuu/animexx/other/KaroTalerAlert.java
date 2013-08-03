@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class KaroTalerAlert extends Activity {
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 

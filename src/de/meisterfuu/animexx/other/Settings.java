@@ -24,6 +24,7 @@ public class Settings extends SherlockPreferenceActivity {
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);

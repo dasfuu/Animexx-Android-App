@@ -22,6 +22,7 @@ public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
 	    this.GUI=GUI;
 	}
 
+	@Override
 	protected String[] doInBackground(HttpRequestBase... requests) {
 		int count = requests.length;
 		String[] s = new String[count];
@@ -35,10 +36,12 @@ public class TaskRequest extends AsyncTask<HttpRequestBase, Integer, String[]> {
 		}
 	}
 
+	@Override
 	protected void onProgressUpdate(Integer... progress) {
 
 	}
 
+	@Override
 	protected void onPostExecute(String[] result) {
 		finished = true;
 		if (result[0].equals("Error")) {

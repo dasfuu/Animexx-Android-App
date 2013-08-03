@@ -171,16 +171,16 @@ public class TouchImageView extends ImageView {
 
 		// Fit to screen.
 		float scale;
-		scale = Math.min((float) width / (float) imageWidth, (float) height / (float) imageHeight);
+		scale = Math.min(width / imageWidth, height / imageHeight);
 		matrix.setScale(scale, scale);
 		setImageMatrix(matrix);
 		saveScale = 1f;
 
 		// Center the image
-		redundantYSpace = (float) height - (scale * (float) imageHeight);
-		redundantXSpace = (float) width - (scale * (float) imageWidth);
-		redundantYSpace /= (float) 2;
-		redundantXSpace /= (float) 2;
+		redundantYSpace = height - (scale * imageHeight);
+		redundantXSpace = width - (scale * imageWidth);
+		redundantYSpace /= 2;
+		redundantXSpace /= 2;
 
 		matrix.postTranslate(redundantXSpace, redundantYSpace);
 

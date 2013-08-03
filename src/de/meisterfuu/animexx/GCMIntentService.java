@@ -27,6 +27,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 
+	@Override
 	protected void onRegistered(Context context, String regId) {
 		String registration = regId;
 		Log.i("GCM", registration);
@@ -45,6 +46,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 
+	@Override
 	protected void onUnregistered(Context context, String regId) {
 		Log.i("GCM", "OnUnregister");
 		Editor edit = Request.config.edit();
@@ -53,6 +55,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 
+	@Override
 	protected void onMessage(Context context, Intent intent) {
 		Log.i("GCM", "New GCM");
 		if (!Helper.isLoggedIn(context)) return;
@@ -87,6 +90,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 
+	@Override
 	protected void onError(Context context, String errorId) {
 		Log.i("GCM", "OnError: " + errorId);
 	}

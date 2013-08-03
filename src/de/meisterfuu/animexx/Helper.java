@@ -73,7 +73,7 @@ public class Helper {
 		if (!Request.config.getBoolean(config, false)) {
 			AlertDialog alertDialog = new AlertDialog.Builder(c).create();
 			alertDialog.setMessage(text);
-			alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+			alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
 
 				public void onClick(DialogInterface dialog, int which) {
 					//

@@ -58,6 +58,7 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 	private SlideMenuHelper slidemenuhelper;
 
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
@@ -199,7 +200,7 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 		Loading.setVisibility(View.GONE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				((Activity) context).finish();

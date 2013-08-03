@@ -2,23 +2,8 @@ package de.meisterfuu.animexx.other;
 
 import java.util.ArrayList;
 
-import android.graphics.Color;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.AdapterView.OnItemClickListener;
-
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockListActivity;
-
-import de.meisterfuu.animexx.Helper;
-import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.Request;
 
 
 public class MultiSherlockListActivity extends SherlockListActivity {

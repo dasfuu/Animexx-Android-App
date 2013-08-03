@@ -33,6 +33,7 @@ public class UserObject implements Comparable<Object> {
 		ParseJSON(user);
 	}
 
+	@Override
 	public String toString() {
 		return this.getUsername();
 	}

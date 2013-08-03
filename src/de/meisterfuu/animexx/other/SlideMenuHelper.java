@@ -10,14 +10,11 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
-import de.meisterfuu.animexx.Debug;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.about;
 import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.HomeKontaktActivity;
-import de.meisterfuu.animexx.Home.HomeKontaktBigFragment;
-import de.meisterfuu.animexx.Home.HomeKontaktFragment;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.events.EventViewList;
 import de.meisterfuu.animexx.other.SlideMenuInterface.OnSlideMenuItemClickListener;

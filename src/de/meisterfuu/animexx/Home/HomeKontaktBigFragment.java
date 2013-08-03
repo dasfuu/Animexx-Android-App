@@ -5,26 +5,14 @@ import java.util.Calendar;
 import java.util.Collections;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
-import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
-import de.meisterfuu.animexx.R.layout;
-import de.meisterfuu.animexx.R.menu;
-import de.meisterfuu.animexx.other.ImageDownloader;
-import de.meisterfuu.animexx.other.SlideMenu;
-import de.meisterfuu.animexx.other.SlideMenuHelper;
+import de.meisterfuu.animexx.other.ImageDownloaderCustom;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +20,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 
 public class HomeKontaktBigFragment extends SherlockFragment implements Refreshable {
 
-	private SlideMenu slidemenu;
-	private SlideMenuHelper slidemenuhelper;
-	
 	ArrayList<HomeKontaktObject> Array = new ArrayList<HomeKontaktObject>();
 
 	Context context;
@@ -46,7 +30,7 @@ public class HomeKontaktBigFragment extends SherlockFragment implements Refresha
 	Boolean loading, loaded = false;
 	HomeKontaktBigAdapter adapter;
 	ListView lv;
-	ImageDownloader Images = new ImageDownloader();
+	ImageDownloaderCustom Images = new ImageDownloaderCustom("kontakt_big");
 	int loadCount = 0;
 	RelativeLayout Loading;
 
@@ -115,8 +99,8 @@ public class HomeKontaktBigFragment extends SherlockFragment implements Refresha
 			public void run() {
 				try {
 					Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.WEEK_OF_YEAR, -1);
-					final String JSON = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=800&img_max_y=800&img_format=jpg&img_quality=70&return_typ=app&zeit_von=" + cal.getTimeInMillis());
+					cal.add(Calendar.DAY_OF_YEAR, -2);
+					final String JSON = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=800&img_max_y=700&img_format=jpg&img_quality=70&return_typ=app&zeit_von=" + (cal.getTimeInMillis()/1000));
 					JSONArray list = null;
 
 					JSONObject jsonResponse = new JSONObject(JSON);

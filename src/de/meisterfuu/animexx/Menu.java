@@ -36,6 +36,7 @@ public class Menu extends Activity {
 	final Menu temp = this;
 
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
@@ -138,7 +139,7 @@ public class Menu extends Activity {
 							AlertDialog alertDialog = new AlertDialog.Builder(temp).create();
 							alertDialog.setTitle("Karotaler abgeholt!");
 							alertDialog.setMessage("Du hast jetzt " + neu + " Karotaler.");
-							alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+							alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 								public void onClick(DialogInterface dialog, int which) {
 									//

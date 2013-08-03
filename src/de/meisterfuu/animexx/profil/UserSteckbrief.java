@@ -42,6 +42,7 @@ public class UserSteckbrief extends SherlockActivity implements UpDateUI {
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);

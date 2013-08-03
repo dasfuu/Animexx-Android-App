@@ -20,6 +20,7 @@ public class C2DMReceiver extends BroadcastReceiver {
 	public static int rpg = -1;
 
 
+	@Override
 	public void onReceive(Context context, Intent intent) {
 		Request.config = PreferenceManager.getDefaultSharedPreferences(context);
 		if (intent.getAction().equals("com.google.android.c2dm.intent.REGISTRATION")) {

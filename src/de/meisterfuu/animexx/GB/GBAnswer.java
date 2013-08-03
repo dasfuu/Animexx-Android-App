@@ -69,6 +69,7 @@ public class GBAnswer extends SherlockActivity implements UpDateUI {
 	}
 
 
+	@Override
 	public void onBackPressed() {
 		finish();
 		return;

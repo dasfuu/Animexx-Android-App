@@ -150,6 +150,7 @@ public class ENSAnswer extends SherlockActivity   {
 	}
 
 
+	@Override
 	public void onBackPressed() {
 		finish();
 		return;
@@ -299,6 +300,7 @@ public class ENSAnswer extends SherlockActivity   {
 
 	}
 
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
      {
 

@@ -61,7 +61,7 @@ public class ImageDownloader {
 			// Is the bitmap in our memory cache?
 			Bitmap bitmap = null;
 
-			bitmap = (Bitmap) imageCache.get(f.getPath());
+			bitmap = imageCache.get(f.getPath());
 
 			if (bitmap == null) {
 
@@ -181,7 +181,7 @@ public class ImageDownloader {
 		// Actual download method, run in the task thread
 		protected Bitmap doInBackground(String... params) {
 			// params comes from the execute() call: params[0] is the url.
-			url = (String) params[0];
+			url = params[0];
 			return downloadBitmap(params[0]);
 		}
 

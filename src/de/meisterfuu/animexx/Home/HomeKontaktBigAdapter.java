@@ -15,7 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.other.ImageDownloader;
+import de.meisterfuu.animexx.other.ImageDownloaderCustom;
+import de.meisterfuu.animexx.other.ImageSaveObject;
 import de.meisterfuu.animexx.other.SingleImage;
 
 
@@ -23,7 +24,7 @@ public class HomeKontaktBigAdapter extends ArrayAdapter<HomeKontaktObject> {
 
 	private final HomeKontaktActivity context;
 	private ArrayList<HomeKontaktObject> names;
-	public ImageDownloader Images;
+	public ImageDownloaderCustom Images;
 
 	static class ViewHolder {
 		public TextView title, info, date;
@@ -70,7 +71,8 @@ public class HomeKontaktBigAdapter extends ArrayAdapter<HomeKontaktObject> {
 			
 			if(obj.getItem_image_big() != null){
 				holder.IMG.setVisibility(View.VISIBLE);
-				Images.download(obj.getItem_image_big(), holder.IMG, true);
+				ImageSaveObject imgObj = new ImageSaveObject(obj.getItem_image_big(), obj.getId());
+				Images.download(imgObj,holder.IMG, true);
 			} else {
 				holder.IMG.setVisibility(View.GONE);
 			}

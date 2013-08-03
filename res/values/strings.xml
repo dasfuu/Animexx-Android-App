@@ -50,5 +50,6 @@
     <string name="title_new_microblog">Microblog</string>
     <string name="home_comment_send">Absenden</string>
     <string name="title_activity_home_kontakt_big">HomeKontaktBigActivity</string>
+    <string name="title_activity_overview_card">Dashboard</string>
 
 </resources>

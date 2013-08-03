@@ -73,12 +73,12 @@ public class LoadImage extends LinearLayout {
 		mContext = context;
 
 		mImage = new ImageView(mContext);
-		mImage.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
+		mImage.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		mSpinner = new ProgressBar(mContext);
-		mSpinner.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT));
+		mSpinner.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+				android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
 
 		mSpinner.setIndeterminate(true);
 
@@ -102,6 +102,7 @@ public class LoadImage extends LinearLayout {
 		mSpinner.setVisibility(View.VISIBLE);
 		mImage.setVisibility(View.GONE);
 		new Thread() {
+			@Override
 			public void run() {
 				try {
 					mDrawable = getDrawableFromUrl(imageUrl);

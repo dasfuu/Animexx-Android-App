@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -81,6 +82,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private SlideMenuHelper slidemenuhelper;
 
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
@@ -239,7 +241,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		ListView lv = getListView();
 
 		lv.setStackFromBottom(true);
-		lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+		lv.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
 
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -311,7 +313,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
-		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				// ((Activity) context).finish();
@@ -355,6 +357,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	}
 
 
+	@Override
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_MENU) {
 			QuickAnswer.animateToggle();
@@ -548,36 +551,42 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	}
 
 
+	@Override
 	protected void onStart() {
 		super.onStart();
 		GCMIntentService.rpg = (int) id;
 	}
 
 
+	@Override
 	protected void onRestart() {
 		super.onRestart();
 		GCMIntentService.rpg = (int) id;
 	}
 
 
+	@Override
 	protected void onResume() {
 		super.onResume();
 		GCMIntentService.rpg = (int) id;
 	}
 
 
+	@Override
 	protected void onPause() {
 		super.onPause();
 		GCMIntentService.rpg = -1;
 	}
 
 
+	@Override
 	protected void onStop() {
 		super.onStop();
 		GCMIntentService.rpg = -1;
 	}
 
 
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		GCMIntentService.rpg = -1;

@@ -115,6 +115,7 @@ public class RPGCharaObject {
 	}
 
 
+	@Override
 	public String toString() {
 		return getName();
 	}

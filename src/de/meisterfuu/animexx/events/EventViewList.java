@@ -45,6 +45,7 @@ public class EventViewList extends SherlockListActivity {
 	private SlideMenuHelper slidemenuhelper;
 
 
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);

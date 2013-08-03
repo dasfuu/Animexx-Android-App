@@ -1,7 +1,6 @@
 package de.meisterfuu.animexx.Share;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.ENS.ENSAnswer;
-import de.meisterfuu.animexx.Home.HomeKontaktDetailFragment;
 import de.meisterfuu.animexx.Home.HomeKontaktNewFragment;
 
 import android.app.Activity;
@@ -37,6 +35,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.ImageColumns;
+import android.provider.MediaStore.MediaColumns;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -201,8 +201,8 @@ public class SharePicture extends SherlockActivity {
 		String fileName = "animexx_" + Calendar.getInstance().getTimeInMillis() + ".jpg";
 		// create parameters for Intent with filename
 		ContentValues values = new ContentValues();
-		values.put(MediaStore.Images.Media.TITLE, fileName);
-		values.put(MediaStore.Images.Media.DESCRIPTION, "Animexx App");
+		values.put(MediaColumns.TITLE, fileName);
+		values.put(ImageColumns.DESCRIPTION, "Animexx App");
 		// imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
 		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
@@ -220,8 +220,8 @@ public class SharePicture extends SherlockActivity {
 		String fileName = "animexx_" + Calendar.getInstance().getTimeInMillis() + ".jpg";
 		// create parameters for Intent with filename
 		ContentValues values = new ContentValues();
-		values.put(MediaStore.Images.Media.TITLE, fileName);
-		values.put(MediaStore.Images.Media.DESCRIPTION, "Animexx App");
+		values.put(MediaColumns.TITLE, fileName);
+		values.put(ImageColumns.DESCRIPTION, "Animexx App");
 		// imageUri is the current activity attribute, define and save it for later usage (also in onSaveInstanceState)
 		imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 		// create new Intent

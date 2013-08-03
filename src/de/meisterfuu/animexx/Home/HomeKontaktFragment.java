@@ -135,12 +135,11 @@ public class HomeKontaktFragment extends SherlockFragment implements Refreshable
 		LoadPlus();
 		final HomeKontaktActivity temp = (HomeKontaktActivity) this.getActivity();
 		new Thread(new Runnable() {
-
 			public void run() {
 				try {
 					Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.WEEK_OF_YEAR, -1);
-					final String JSON = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=1000&img_max_y=1000&img_format=jpg&img_quality=90&return_typ=app&zeit_von=" + cal.getTimeInMillis());
+					cal.add(Calendar.DAY_OF_YEAR, -2);
+					final String JSON = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=1000&img_max_y=1000&img_format=jpg&img_quality=90&return_typ=app&zeit_von=" + (cal.getTimeInMillis()/1000));
 					JSONArray list = null;
 
 					JSONObject jsonResponse = new JSONObject(JSON);

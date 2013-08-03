@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="48"
+    android:versionCode="49"
     android:versionName="Beta 1.8" >
 
     <uses-sdk
@@ -284,6 +284,10 @@
         <activity
             android:name="de.meisterfuu.animexx.Home.HomeKontaktBigFragment"
             android:label="@string/title_activity_home_kontakt_big" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.overview.OverviewCardActivity"
+            android:label="@string/title_activity_overview_card" >
         </activity>
     </application>
 

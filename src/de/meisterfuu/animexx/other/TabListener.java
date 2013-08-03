@@ -1,9 +1,9 @@
 package de.meisterfuu.animexx.other;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -33,7 +33,7 @@ public class TabListener<T extends SherlockListFragment> implements ActionBar.Ta
 	        // Check if the fragment is already initialized
 	        if (mFragment == null) {
 	            // If not, instantiate and add it to the activity
-	            mFragment = (SherlockListFragment) SherlockFragment.instantiate(mActivity, mClass.getName());
+	            mFragment = (SherlockListFragment) Fragment.instantiate(mActivity, mClass.getName());
 	            ft.add(R.id.FragView, mFragment, mTag);
 	        } else {
 	            // If it exists, simply attach it in order to show it
