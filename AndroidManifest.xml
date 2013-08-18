@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="49"
+    android:versionCode="50"
     android:versionName="Beta 1.8" >
 
     <uses-sdk
@@ -70,7 +70,7 @@
         <activity
             android:name="de.meisterfuu.animexx.about"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.Debug"
@@ -94,8 +94,7 @@
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.ENS.ENSActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.ENS.ENSEingangFragment"
@@ -163,12 +162,12 @@
         <activity
             android:name="de.meisterfuu.animexx.other.Settings"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.other.ContactList"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.Home.ContactsActivityList"
@@ -188,7 +187,7 @@
         <activity
             android:name="de.meisterfuu.animexx.RPG.RPGViewList"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.RPG.RPGViewCharaList"
@@ -213,7 +212,7 @@
         <activity
             android:name="de.meisterfuu.animexx.events.EventViewList"
             android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.events.EventViewDetail"
@@ -263,7 +262,8 @@
 
         <activity
             android:name="de.meisterfuu.animexx.overview.OverviewActivity"
-            android:label="@string/title_activity_overview" >
+            android:label="@string/title_activity_overview"
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.events.EventEditNote"
@@ -271,7 +271,8 @@
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.Home.HomeKontaktActivity"
-            android:label="@string/title_activity_home_kontakt" >
+            android:label="@string/title_activity_home_kontakt"
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.Home.HomeKontaktDetailFragment"
@@ -287,7 +288,21 @@
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.overview.OverviewCardActivity"
-            android:label="@string/title_activity_overview_card" >
+            android:label="@string/title_activity_overview_card"
+            android:launchMode="singleTask" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.fanworks.Fanart"
+            android:label="@string/title_activity_fanart" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.fanworks.FanartKommentare"
+            android:label="@string/title_activity_fanart_kommentare" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.RPG.RPGNewPost"
+            android:label="@string/title_activity_rpgnew_post"
+            android:launchMode="singleTop" >
         </activity>
     </application>
 

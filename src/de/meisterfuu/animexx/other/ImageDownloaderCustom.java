@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,7 +40,7 @@ public class ImageDownloaderCustom {
 	boolean clickable = false;
 
 
-	public ImageDownloaderCustom( String folder) {
+	public ImageDownloaderCustom(String folder) {
 		ImageDownloaderCustom.folder = folder;
 		imageCache = new HashMap<String, Bitmap>();
 
@@ -57,7 +58,7 @@ public class ImageDownloaderCustom {
 			this.clickable = clickable;
 			// Caching code right here
 			String filename = url.getName();
-			File f = new File(getCacheDirectory(imageView.getContext()), filename);
+			final File f = new File(getCacheDirectory(imageView.getContext()), filename);
 
 			// Is the bitmap in our memory cache?
 			Bitmap bitmap = null;
@@ -85,6 +86,7 @@ public class ImageDownloaderCustom {
 				if (clickable) imageView.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View arg0) {
+						/*
 						Bundle bundle = new Bundle();
 						bundle.putString("URL", url.getUrl());
 						bundle.putString("NAME", url.getName());
@@ -93,6 +95,13 @@ public class ImageDownloaderCustom {
 						Intent newIntent = new Intent(imageView.getContext(), SingleImage.class);
 						newIntent.putExtras(bundle);
 						imageView.getContext().startActivity(newIntent);
+						*/
+						Intent i2 = new Intent();
+						i2.setAction(android.content.Intent.ACTION_VIEW);
+						i2.setDataAndType(Uri.fromFile(f), "image/*");
+						imageView.getContext().startActivity(i2);
+						
+
 					}
 
 				});
@@ -105,17 +114,20 @@ public class ImageDownloaderCustom {
 	// cancel a download (internal only)
 	private static boolean cancelPotentialDownload(ImageSaveObject url, ImageView imageView) {
 		BitmapDownloaderTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
-
-		if (bitmapDownloaderTask != null) {
-			String bitmapUrl = bitmapDownloaderTask.url.getUrl();
-			if ((bitmapUrl == null) || (!bitmapUrl.equals(url.getUrl()))) {
-				bitmapDownloaderTask.cancel(true);
-			} else {
-				// The same URL is already being downloaded.
-				return false;
+		try {
+			if (bitmapDownloaderTask != null) {
+				String bitmapUrl = bitmapDownloaderTask.url.getUrl();
+				if ((bitmapUrl == null) || (!bitmapUrl.equals(url.getUrl()))) {
+					bitmapDownloaderTask.cancel(true);
+				} else {
+					// The same URL is already being downloaded.
+					return false;
+				}
 			}
+			return true;
+		} catch (NullPointerException e) {
+			return false;
 		}
-		return true;
 	}
 
 
@@ -149,6 +161,7 @@ public class ImageDownloaderCustom {
 
 	private void writeFile(final Bitmap bmp, final File f) {
 		new Thread(new Runnable() {
+
 			public void run() {
 				FileOutputStream out = null;
 				try {
@@ -203,28 +216,26 @@ public class ImageDownloaderCustom {
 				// Change bitmap only if this process is still associated with it
 				if (this == bitmapDownloaderTask) {
 					imageView.setImageBitmap(bitmap);
-
-					if (clickable) imageView.setOnClickListener(new OnClickListener() {
-
-						public void onClick(View arg0) {
-							Bundle bundle = new Bundle();
-							bundle.putString("URL", url.getUrl());
-
-							Intent newIntent = new Intent(imageView.getContext(), SingleImage.class);
-							newIntent.putExtras(bundle);
-							//imageView.getContext().startActivity(newIntent);
-						}
-
-					});
-
 					// cache the image
 
 					String filename = url.getName();
-					File f = new File(getCacheDirectory(imageView.getContext()), filename);
+					final File f = new File(getCacheDirectory(imageView.getContext()), filename);
 
 					imageCache.put(f.getPath(), bitmap);
 
 					writeFile(bitmap, f);
+					
+					
+					if (clickable) imageView.setOnClickListener(new OnClickListener() {
+
+						public void onClick(View arg0) {
+							Intent i2 = new Intent();
+							i2.setAction(android.content.Intent.ACTION_VIEW);
+							i2.setDataAndType(Uri.fromFile(f), "image/*");
+							imageView.getContext().startActivity(i2);
+						}
+
+					});
 				}
 			}
 		}
@@ -288,6 +299,5 @@ public class ImageDownloaderCustom {
 		}
 		return null;
 	}
-	
 
 }

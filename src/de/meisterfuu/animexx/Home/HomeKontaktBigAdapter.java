@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.R;
+import de.meisterfuu.animexx.fanworks.Fanart;
 import de.meisterfuu.animexx.other.ImageDownloaderCustom;
 import de.meisterfuu.animexx.other.ImageSaveObject;
 import de.meisterfuu.animexx.other.SingleImage;
@@ -111,6 +112,12 @@ public class HomeKontaktBigAdapter extends ArrayAdapter<HomeKontaktObject> {
 
 				public void onClick(View v) {
 					Uri uri = Uri.parse(obj.getLink());
+					if(obj.getLink().contains("fanart")){
+						Intent i=new Intent(context,Fanart.class);
+						i.putExtra("fanwork_id", Long.parseLong(uri.getLastPathSegment()));
+						context.startActivity(i);
+						return;
+					}
 					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 					context.startActivity(intent);						
 				}

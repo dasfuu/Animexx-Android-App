@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 
+import de.meisterfuu.animexx.Debug;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.about;
 import de.meisterfuu.animexx.ENS.ENSActivity;
@@ -71,7 +72,7 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), OverviewActivity.class));
 			break;
 		case R.id.Chat:
-			//a.startActivity(new Intent().setClass(a.getApplicationContext(), OverviewActivity.class));
+			//a.startActivity(new Intent().setClass(a.getApplicationContext(), Debug.class));
 			startApplication("de.meisterfuu.animexxenger");
 			break;
 		case R.id.Foren:

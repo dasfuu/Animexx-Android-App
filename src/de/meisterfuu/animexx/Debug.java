@@ -29,7 +29,7 @@ public class Debug extends Activity {
 					public void run() {
 
 							try {
-								final String s = Request.makeSecuredReq("https://ws.animexx.de/json/persstart5/get_widget_data/?api=2&widget_id=kontakte&img_max_x=1000&img_max_y=1000&img_format=jpg&img_quality=90&return_typ=app&zeit_von=1374524430017");
+								final String s = Request.makeSecuredReq("https://ws.animexx.de/json/fanworks/list_fanwork_types/?api=2");
 	
 								Web.post(new Runnable() {
 						                public void run() {

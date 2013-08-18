@@ -51,5 +51,9 @@
     <string name="home_comment_send">Absenden</string>
     <string name="title_activity_home_kontakt_big">HomeKontaktBigActivity</string>
     <string name="title_activity_overview_card">Dashboard</string>
+    <string name="title_activity_fanart">Fanart</string>
+    <string name="title_activity_fanart_kommentare">Kommentare</string>
+    <string name="title_activity_rpgnew_post">RPGNewPost</string>
+    <string name="rpg_new_send">Absenden</string>
 
 </resources>

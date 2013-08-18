@@ -66,12 +66,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private TaskRequest Task = null;
 	private RPGPostAdapter adapter;
 
-	private SlidingDrawer QuickAnswer;
 	private RelativeLayout Loading;
-	private EditText edAnswer;
-	private Button Send, Chara;
-	private CheckBox Aktion, InTime;
-	private WebView Ava;
 
 	private long SendAvatarID = -1;
 	private RPGCharaObject SendChara = null;
@@ -90,11 +85,6 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 		setContentView(R.layout.rpg_post_list_slide);
 
-		edAnswer = (EditText) findViewById(R.id.ed_answer);
-		Send = (Button) findViewById(R.id.btsend);
-		Chara = (Button) findViewById(R.id.btchara);
-		Ava = (WebView) findViewById(R.id.webAva);
-
 		// setup slide menu
 		slidemenuhelper = new SlideMenuHelper(this, getSupportActionBar());
 		slidemenu = slidemenuhelper.getSlideMenu();
@@ -103,29 +93,8 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		actionBar.setTitle("RPG");
 		actionBar.setHomeButtonEnabled(true);
 		
-		edAnswer.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-			public void onFocusChange(View arg0, boolean gainFocus) {
-				if (!gainFocus) {
-					InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-					imm.hideSoftInputFromWindow(edAnswer.getWindowToken(), 0);
-				}
-			}
-
-		});
-
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(edAnswer.getWindowToken(), 0);
-
-		QuickAnswer = (SlidingDrawer) findViewById(R.id.RPGQuickAnswer);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
-
-		Aktion = (CheckBox) findViewById(R.id.chAktion);
-		InTime = (CheckBox) findViewById(R.id.chInTime);
-
-		ShowQuickAnswer = true;
-		if (!ShowQuickAnswer) QuickAnswer.setVisibility(View.GONE);
 
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -171,31 +140,12 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		};
 
 		registerReceiver(receiver, filter);
-		
-		tempo = getSharedPreferences("RPG_HISTORY",0).edit();		
-		edAnswer.setText(getSharedPreferences("RPG_HISTORY",0).getString(""+id, ""));		
-		edAnswer.addTextChangedListener(SaveRPG);
 
 		adapter = new RPGPostAdapter(this, RPGArray);
 		setlist(adapter);
 		refresh();
 		FetchChara();
 
-		Send.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				send();
-			}
-
-		});
-
-		Chara.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				ShowCharaPicker();
-			}
-
-		});
 	}
 
 
@@ -206,7 +156,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 			slidemenu.show();
 			return true;
 		case R.id.ac_answer:
-			QuickAnswer.toggle();
+			send();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -226,10 +176,19 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		if (SendChara == null) {
 			Request.doToast("Kein Charakter gewählt", context);
 			ShowCharaPicker();
-		} else if (edAnswer.getText().toString().length() != 0) {
-			sendData();
 		} else {
-			Request.doToast("Fehler: Leerer Post", context);
+			//NEW Post Activity
+			Bundle bundle = new Bundle();
+			bundle.putLong("id", id);
+			bundle.putString("char_name", SendChara.getName());
+			bundle.putString("rpg_name", "");
+			bundle.putString("avatar_url", "");
+			bundle.putLong("avatar_id", SendAvatarID);
+			bundle.putLong("char_id", SendChara.getId());
+
+			Intent newIntent = new Intent(this, RPGNewPost.class);
+			newIntent.putExtras(bundle);
+			startActivity(newIntent);
 		}
 	}
 
@@ -297,8 +256,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		final ArrayList<RPGPostObject> z = getRPGlist(s[0]);
 
 		Loading.setVisibility(View.GONE);
-		if (ShowQuickAnswer) QuickAnswer.setVisibility(View.VISIBLE);
-
+		
 		RPGArray.addAll(z);
 		adapter.refill();
 		if (RPGArray.size() != 0) counter = RPGArray.get(RPGArray.size() - 1).getId() + 1;
@@ -309,7 +267,6 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 	public void DoError() {
 		Loading.setVisibility(View.GONE);
-		if (ShowQuickAnswer) QuickAnswer.setVisibility(View.VISIBLE);
 
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setMessage("Es ist ein Fehler aufgetreten. Kein Internet?");
@@ -327,7 +284,6 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 		try {
 			Loading.setVisibility(View.VISIBLE);
-			QuickAnswer.setVisibility(View.GONE);
 			HttpGet[] HTTPs = new HttpGet[1];
 
 			if (counter <= 0L) counter = 1L;
@@ -345,25 +301,11 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 	@Override
 	public void onBackPressed() {
-		if (QuickAnswer.isOpened()) {
-			QuickAnswer.animateClose();
-		} else {
 			unregisterReceiver(receiver);
 			GCMIntentService.rpg = -1;
 			Task.cancel(true);
 			finish();
-			return;
-		}
-	}
-
-
-	@Override
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_MENU) {
-			QuickAnswer.animateToggle();
-			return true;
-		}
-		return super.onKeyUp(keyCode, event);
+			return;		
 	}
 
 
@@ -389,7 +331,6 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 				SendChara = CharaArray.get(pos);
 				dialog.dismiss();
 				ShowAvatarPicker(SendChara);
-				Chara.setText(SendChara.toString());
 			}
 		});
 
@@ -401,11 +342,9 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private void ShowAvatarPicker(final RPGCharaObject Chara) {
 		SendAvatarID = -1;
 		if (Chara.getAvatarArray().isEmpty()) {
-			Ava.setVisibility(View.GONE);
 			return;
 		}
 		if (!isToFu) {
-			Ava.setVisibility(View.GONE);
 			return;
 		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -429,10 +368,8 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 				if (pos < Chara.getAvatarArray().size()) {
 					SendAvatarID = Chara.getAvatarArray().get(pos).getId();
-					Ava.loadUrl(Chara.getAvatarArray().get(pos).getUrl());
-					Ava.setVisibility(View.VISIBLE);
 				} else {
-					Ava.setVisibility(View.GONE);
+					
 				}
 				dialog.dismiss();
 			}
@@ -445,8 +382,6 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private void FetchChara() {
 
 		final RPGViewPostList temp = this;
-		Send.setText("Lade..");
-		Send.setClickable(false);
 
 		new Thread(new Runnable() {
 
@@ -466,8 +401,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 					temp.runOnUiThread(new Runnable() {
 
 						public void run() {
-							temp.Send.setOnClickListener(null);
-							temp.Send.setText("Fehler");
+
 						}
 					});
 				}
@@ -494,13 +428,8 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 					RPG.parseJSON(tp);
 					CharaArray.add(RPG);
 				}
-
-				Send.setClickable(true);
-				Send.setText("Absenden");
 			} else {
-				Send.setClickable(true);
-				Send.setOnClickListener(null);
-				Send.setText("Keine Charas");
+
 			}
 
 		} catch (Exception e) {
@@ -510,45 +439,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	}
 
 
-	private void sendData() {
 
-		final RPGViewPostList temp = this;
-		final ProgressDialog dialog = ProgressDialog.show(temp, "", "Sende...", true);
-		new Thread(new Runnable() {
-
-			public void run() {
-				try {
-					String erg = Request.SignSend(Request.sendRPGPost(edAnswer.getText().toString(), id, InTime.isChecked(), Aktion.isChecked(), SendChara.getId(), SendAvatarID));
-					JSONObject jsonResponse = new JSONObject(erg);
-					jsonResponse.getInt("return");
-					temp.runOnUiThread(new Runnable() {
-
-						public void run() {
-							dialog.dismiss();
-							edAnswer.setText("");
-							QuickAnswer.animateClose();
-							Request.doToast("Erfolgreich gesendet", temp);
-							refresh();
-							Editor tempo = getSharedPreferences("RPG_HISTORY",0).edit();
-							tempo.remove(""+id);
-							tempo.commit();
-						}
-					});
-
-				} catch (Exception e) {
-					e.printStackTrace();
-					temp.runOnUiThread(new Runnable() {
-
-						public void run() {
-							dialog.dismiss();
-							Request.doToast("Fehler beim senden", temp);
-						}
-					});
-				}
-
-			}
-		}).start();
-	}
 
 
 	@Override
@@ -592,22 +483,4 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		GCMIntentService.rpg = -1;
 	}
 	
-	private TextWatcher SaveRPG = new TextWatcher() {
-		
-
-		public void afterTextChanged(Editable s) {
-			tempo.commit();
-		}
-
-
-		public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		}
-
-
-		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			tempo.putString(""+id, ""+s);
-
-		}
-
-	};
 }

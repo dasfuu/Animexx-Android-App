@@ -30,8 +30,6 @@ public class ENSActivity extends SherlockFragmentActivity  {
 
 		super.onCreate(savedInstanceState);
 		Helper.isLoggedIn(this);
-		//Screen Rotating Fix?
-		if(null != savedInstanceState) return;
 
 		setContentView(R.layout.activity_main);
 
