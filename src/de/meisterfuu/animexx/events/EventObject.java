@@ -1,5 +1,6 @@
 package de.meisterfuu.animexx.events;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,7 +19,7 @@ public class EventObject {
 	private double geo_l, geo_b;
 
 	private String detail_json = null;
-
+	private JSONArray pages = null;
 
 	public boolean isAnimexxInvolved() {
 
@@ -73,6 +74,10 @@ public class EventObject {
 				this.setAdress(json.getString("adresse"));
 				this.setVeranstalter(json.getString("veranstalter"));
 				this.setContact(json.getString("kontakt"));
+			}
+			
+			if(json.has("beschreibungsseiten")){
+				this.setPages(json.getJSONArray("beschreibungsseiten"));
 			}
 			
 		} catch (JSONException e) {
@@ -277,6 +282,16 @@ public class EventObject {
 
 	public void setDetail_json(String detail_json) {
 		this.detail_json = detail_json;
+	}
+
+
+	public JSONArray getPages() {
+		return pages;
+	}
+
+
+	public void setPages(JSONArray pages) {
+		this.pages = pages;
 	}
 
 }

@@ -33,6 +33,7 @@ import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
+import de.meisterfuu.animexx.other.ImageDownloaderCustom;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;
 
@@ -47,15 +48,14 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 	int mPrevTotalItemCount;
 	// private BroadcastReceiver receiver;
 	EditText edAnswer;
-	Button Send;
 	boolean error;
 	long id;
 	long count = 1;
-	LinearLayout QuickAnswer;
 	RelativeLayout Loading;
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
+	private ImageDownloaderCustom ImageLoader;
 
 
 	@Override
@@ -64,11 +64,9 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 		Helper.isLoggedIn(this);
 		Request.config = PreferenceManager.getDefaultSharedPreferences(this);
 
-		setContentView(R.layout.rpg_post_list_answer);
+		setContentView(R.layout.rpg_post_list_slide);
 		edAnswer = (EditText) findViewById(R.id.ed_answer);
-		Send = (Button) findViewById(R.id.btsend);
 
-		QuickAnswer = (LinearLayout) findViewById(R.id.RPGQuickAnswer);
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 
 		// setup slide menu
@@ -78,6 +76,10 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setTitle("RPG");
 		actionBar.setHomeButtonEnabled(true);
+		
+		ImageLoader = new ImageDownloaderCustom("RPG_Avatar");
+		LinearLayout active_char = (LinearLayout) findViewById(R.id.active_char);
+		active_char.setVisibility(View.GONE);
 
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -85,11 +87,10 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 		} else
 			finish();
 
-		adapter = new RPGPostAdapter(this, RPGArray);
+		adapter = new RPGPostAdapter(this, RPGArray, ImageLoader);
 		setlist(adapter);
 		refresh();
 		Loading.setVisibility(View.GONE);
-		QuickAnswer.setVisibility(View.GONE);
 	}
 
 
@@ -163,7 +164,7 @@ public class RPGViewPostListStart extends SherlockListActivity implements UpDate
 			if (RPGlist.length() != 0) {
 				for (int i = 0; i < RPGlist.length(); i++) {
 					JSONObject tp = RPGlist.getJSONObject(i);
-					RPGPostObject RPG = new RPGPostObject();
+					RPGPostObject RPG = new RPGPostObject(id);
 					RPG.parseJSON(tp);
 					if ((RPG.getId() >= count) || RPGArray.isEmpty()) RPGa.add(RPG);
 				}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/selectable_background_cardbank"
+        android:gravity="center_vertical"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/card_picture_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:baselineAlignBottom="true"
+            android:cropToPadding="false"
+            android:scaleType="centerInside"
+            android:src="@drawable/test1" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,5 +1,6 @@
 package de.meisterfuu.animexx.Home;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.json.JSONArray;
@@ -52,6 +53,7 @@ public class HomeKontaktObject implements Comparable<Object> {
 	private long date_server_ts;
 	private String id;
 	private UserObject von, item_author;
+	private ArrayList<UserObject> empholen_von;
 	
 	//Kommentar System
 	private String comment_date;
@@ -113,6 +115,14 @@ public class HomeKontaktObject implements Comparable<Object> {
 			if (this.getEvent_typ().equals("magwb")) {
 				this.setItem_image(null);
 				this.setItem_image_big(null);
+			}
+			
+			if (!obj.isNull("empfohlen_von")) {
+				this.setEmpholen_von(new ArrayList<UserObject>());
+				JSONArray arr = obj.getJSONArray("empfohlen_von");
+				for (int i = 0; i < arr.length(); i++) {
+					this.getEmpholen_von().add(new UserObject(arr.getJSONObject(i)));
+				}
 			}
 			
 			//kommentierbar: bool: Können andere Nutzer Kommentare zu diesem Item verfassen?
@@ -331,6 +341,18 @@ public class HomeKontaktObject implements Comparable<Object> {
 		} else {
 			return 0;
 		}
+	}
+
+
+	
+	public ArrayList<UserObject> getEmpholen_von() {
+		return empholen_von;
+	}
+
+
+	
+	public void setEmpholen_von(ArrayList<UserObject> empholen_von) {
+		this.empholen_von = empholen_von;
 	}
 
 }

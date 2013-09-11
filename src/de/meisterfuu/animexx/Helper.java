@@ -129,7 +129,7 @@ public class Helper {
 		Calendar Now = Calendar.getInstance();
 
 		long diff = (Now.getTimeInMillis() - time);
-		if (diff < 0) return "Error";
+		if (diff < 0) return "Gerade eben";
 
 		diff /= 1000;
 

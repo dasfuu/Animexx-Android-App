@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
 	<item>
 		<shape android:shape="rectangle"
 			android:dither="true">
@@ -17,7 +18,7 @@
 
 			<corners android:radius="4dp" />
 
-			<solid android:color="@color/custom_theme_color" />
+			<solid android:color="@android:color/white" />
 
 			<padding android:bottom="8dp"
 				android:left="0dp"
@@ -25,4 +26,5 @@
 				android:top="0dp" />
 		</shape>
 	</item>
+
 </layer-list>

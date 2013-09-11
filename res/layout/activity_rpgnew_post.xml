@@ -53,7 +53,6 @@
             android:layout_alignLeft="@+id/chInTime"
             android:layout_below="@+id/chInTime"
             android:layout_marginLeft="33dp"
-            android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 

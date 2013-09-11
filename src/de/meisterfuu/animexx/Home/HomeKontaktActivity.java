@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -189,7 +190,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 	
 
 
-	public class MyAdapter extends FragmentStatePagerAdapter {
+	public class MyAdapter extends FragmentPagerAdapter {//FragmentStatePagerAdapter {
 
 		public List<SherlockFragment> pages;
 
@@ -216,7 +217,7 @@ public class HomeKontaktActivity extends SherlockFragmentActivity {
 		private void initPages() {
 			pages = new ArrayList<SherlockFragment>();
 			
-			if(Request.config.getBoolean("kontakt_big",false)){
+			if(Request.config.getBoolean("kontakt_big",true)){
 				pages.add(HomeKontaktBigFragment.newInstance());
 			}else{
 				pages.add(HomeKontaktFragment.newInstance());

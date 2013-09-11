@@ -12,14 +12,16 @@ public class RPGPostObject implements Comparable<Object> {
 	String Chara;
 	String Time;
 	String avatar_url;
+	long rpg_id;
 	long avatar_id;
 	long Chara_id;
 	boolean action, in_time;
 	UserObject User;
 
 
-	public RPGPostObject() {
+	public RPGPostObject(long rpgid) {
 		User = new UserObject();
+		rpg_id = rpgid;
 		Chara = "Unbekannt";
 	}
 

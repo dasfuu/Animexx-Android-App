@@ -74,7 +74,7 @@ public class EventViewList extends SherlockListActivity {
 
 				Bundle bundle = new Bundle();
 				bundle.putLong("id", Array.get(position).getId());
-				Intent newIntent = new Intent(context, EventViewDetail.class);
+				Intent newIntent = new Intent(context, EventViewCardDetail.class);
 				newIntent.putExtras(bundle);
 				startActivity(newIntent);
 

@@ -4,29 +4,30 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical" >
-
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="2dp"
         android:orientation="vertical" >
-
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <WebView
-                android:id="@+id/AvaList"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginBottom="2dp"
-                android:layout_marginRight="4dp" />
-
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF" >
+
+            <ImageView
+                android:id="@+id/rpg_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_action_dialog" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical" >
 
                 <TextView
@@ -42,16 +43,7 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/header_bg"
-            android:orientation="vertical" >
-
         </LinearLayout>
 
         <TextView
@@ -59,6 +51,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+        	android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="TextView" />
     </LinearLayout>

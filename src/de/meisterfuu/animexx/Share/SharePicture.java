@@ -242,6 +242,7 @@ public class SharePicture extends SherlockActivity {
 				is.close();
 				// Show Picture
 				BitmapFactory.Options options = new BitmapFactory.Options();
+				options.inSampleSize = 3;
 				Bitmap bm = BitmapFactory.decodeByteArray(fdata, 0, fdata.length, options);
 				img.setImageBitmap(bm);
 				upload(fdata, name);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="50"
-    android:versionName="Beta 1.8" >
+    android:versionCode="54"
+    android:versionName="1.8.1" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -303,6 +303,22 @@
             android:name="de.meisterfuu.animexx.RPG.RPGNewPost"
             android:label="@string/title_activity_rpgnew_post"
             android:launchMode="singleTop" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.other.KarotalerActivity"
+            android:label="@string/title_activity_karotaler" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.profil.UserCardSteckbrief"
+            android:label="@string/title_activity_user_card_steckbrief" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.events.EventViewCardDetail"
+            android:label="@string/title_activity_event_view_card_detail" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.events.EventViewPage"
+            android:label="@string/title_activity_event_view_page" >
         </activity>
     </application>
 

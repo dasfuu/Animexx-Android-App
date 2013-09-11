@@ -108,7 +108,7 @@ public class UserPopUp {
 		Bundle bundle = new Bundle();
 		bundle.putString("id", userid);
 		Intent newIntent = new Intent(con.getApplicationContext(),
-				UserSteckbrief.class);
+				UserCardSteckbrief.class);
 		newIntent.putExtras(bundle);
 		con.startActivity(newIntent);
 	}

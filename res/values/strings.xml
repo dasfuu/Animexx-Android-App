@@ -55,5 +55,9 @@
     <string name="title_activity_fanart_kommentare">Kommentare</string>
     <string name="title_activity_rpgnew_post">RPGNewPost</string>
     <string name="rpg_new_send">Absenden</string>
+    <string name="title_activity_karotaler">KarotalerActivity</string>
+    <string name="title_activity_user_card_steckbrief">UserCardSteckbrief</string>
+    <string name="title_activity_event_view_card_detail">EventViewCardDetail</string>
+    <string name="title_activity_event_view_page">EventViewPage</string>
 
 </resources>

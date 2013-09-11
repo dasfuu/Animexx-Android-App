@@ -6,6 +6,7 @@ import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.Home.HomeKontaktActivity;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.other.ContactList;
+import de.meisterfuu.animexx.overview.OverviewCardActivity;
 
 import oauth.signpost.OAuth;
 import android.app.Activity;
@@ -95,7 +96,7 @@ public class AnimexxActivity extends Activity {
 			}
 
 			String startscreen = Request.config.getString("start_activity", "Home");
-			if (startscreen.equals("Home")) {
+			if (startscreen.equals("Feed")) {
 				startActivity(new Intent().setClass(getApplicationContext(), HomeKontaktActivity.class));
 			} else if (startscreen.equals("RPG")) {
 				startActivity(new Intent().setClass(getApplicationContext(), RPGViewList.class));
@@ -103,8 +104,10 @@ public class AnimexxActivity extends Activity {
 				startActivity(new Intent().setClass(getApplicationContext(), ContactList.class));
 			} else if (startscreen.equals("ENS")) {
 				startActivity(new Intent().setClass(getApplicationContext(), ENSActivity.class));
+			} else if (startscreen.equals("Home")) {
+				startActivity(new Intent().setClass(getApplicationContext(), OverviewCardActivity.class));
 			} else {
-				startActivity(new Intent().setClass(getApplicationContext(), HomeKontaktActivity.class));
+				startActivity(new Intent().setClass(getApplicationContext(), OverviewCardActivity.class));
 			}
 			
 			if (!fetch) finish();

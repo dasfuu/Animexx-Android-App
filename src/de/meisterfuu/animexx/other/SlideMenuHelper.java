@@ -19,7 +19,7 @@ import de.meisterfuu.animexx.Home.HomeKontaktActivity;
 import de.meisterfuu.animexx.RPG.RPGViewList;
 import de.meisterfuu.animexx.events.EventViewList;
 import de.meisterfuu.animexx.other.SlideMenuInterface.OnSlideMenuItemClickListener;
-import de.meisterfuu.animexx.overview.OverviewActivity;
+import de.meisterfuu.animexx.overview.OverviewCardActivity;
 
 public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 
@@ -69,7 +69,7 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), EventViewList.class));
 			break;
 		case R.id.Dashboard:
-			a.startActivity(new Intent().setClass(a.getApplicationContext(), OverviewActivity.class));
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), OverviewCardActivity.class));
 			break;
 		case R.id.Chat:
 			//a.startActivity(new Intent().setClass(a.getApplicationContext(), Debug.class));

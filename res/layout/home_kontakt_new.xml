@@ -64,14 +64,19 @@
 
             <ImageButton
                 android:id="@+id/fragment_microblog_camera"
+                style="@style/ButtonImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_action_camera" />
 
             <ImageButton
                 android:id="@+id/fragment_microblog_image"
+                style="@style/ButtonImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_action_add_img" />
 
         </LinearLayout>

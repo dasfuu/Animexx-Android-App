@@ -16,11 +16,14 @@ import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.Home.HomeKontaktNewFragment;
 import de.meisterfuu.animexx.other.MultiListAdapter;
 import de.meisterfuu.animexx.other.MultiSherlockListActivity;
 import de.meisterfuu.animexx.other.SlideMenu;
@@ -92,6 +95,14 @@ public class EventViewDetail extends MultiSherlockListActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			slidemenu.show();
+			return true;
+		case R.id.action_pages:
+			Bundle bundle = new Bundle();
+			bundle.putLong("event_id", Event.getId());
+			bundle.putString("pages", Event.getPages().toString());
+			Intent newIntent = new Intent(context, EventViewPage.class);
+			newIntent.putExtras(bundle);
+			startActivity(newIntent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -201,7 +212,7 @@ public class EventViewDetail extends MultiSherlockListActivity {
 		};
 		
 		if(Note != null) {
-			this.addPicture(R.drawable.note, "Notiz:", NoteClick);
+			this.addPicture(R.drawable.card_edit, "Notiz:", NoteClick);
 			this.addText(Note, NoteClick);
 		} else {
 			this.addText("Notiz hinzufügen", NoteClick);
@@ -225,6 +236,15 @@ public class EventViewDetail extends MultiSherlockListActivity {
 			SQL.close();			
 			populate();
 		}
+	}
+	
+	
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getSupportMenuInflater();
+		inflater.inflate(R.menu.event_view_card_detail, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 	
 

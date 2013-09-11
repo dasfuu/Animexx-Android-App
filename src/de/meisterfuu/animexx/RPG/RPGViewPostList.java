@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
@@ -37,10 +38,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SlidingDrawer;
+import android.widget.TextView;
 import de.meisterfuu.animexx.GCMIntentService;
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
@@ -49,6 +53,8 @@ import de.meisterfuu.animexx.TaskRequest;
 import de.meisterfuu.animexx.UpDateUI;
 import de.meisterfuu.animexx.other.AvatarAdapter;
 import de.meisterfuu.animexx.other.AvatarObject;
+import de.meisterfuu.animexx.other.ImageDownloaderCustom;
+import de.meisterfuu.animexx.other.ImageSaveObject;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;
 
@@ -67,6 +73,9 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private RPGPostAdapter adapter;
 
 	private RelativeLayout Loading;
+	private LinearLayout active_char;
+	private TextView active_char_name;
+	private ImageView active_char_img;
 
 	private long SendAvatarID = -1;
 	private RPGCharaObject SendChara = null;
@@ -75,6 +84,8 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 	private SlideMenu slidemenu;
 	private SlideMenuHelper slidemenuhelper;
+	
+	private ImageDownloaderCustom ImageLoader;
 
 
 	@Override
@@ -95,6 +106,20 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 		
 		Loading = (RelativeLayout) findViewById(R.id.RPGloading);
 		Loading.setVisibility(View.GONE);
+		
+		active_char = (LinearLayout) findViewById(R.id.active_char);
+		active_char_name = (TextView) findViewById(R.id.active_char_name);
+		active_char_img = (ImageView) findViewById(R.id.active_char_img);
+		
+		active_char_name.setText("Charakter wählen");
+		active_char.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				ShowCharaPicker();
+			}
+		});
+		
+		ImageLoader = new ImageDownloaderCustom("RPG_Avatar");
 
 		if (this.getIntent().hasExtra("id")) {
 			Bundle bundle = this.getIntent().getExtras();
@@ -141,7 +166,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 
 		registerReceiver(receiver, filter);
 
-		adapter = new RPGPostAdapter(this, RPGArray);
+		adapter = new RPGPostAdapter(this, RPGArray, ImageLoader);
 		setlist(adapter);
 		refresh();
 		FetchChara();
@@ -172,12 +197,16 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	}
 
 
+	boolean newP = false;
+	
 	private void send() {
 		if (SendChara == null) {
 			Request.doToast("Kein Charakter gewählt", context);
 			ShowCharaPicker();
+			newP = true;
 		} else {
 			//NEW Post Activity
+			newP = false;
 			Bundle bundle = new Bundle();
 			bundle.putLong("id", id);
 			bundle.putString("char_name", SendChara.getName());
@@ -232,7 +261,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 			if (RPGlist.length() != 0) {
 				for (int i = 0; i < RPGlist.length(); i++) {
 					JSONObject tp = RPGlist.getJSONObject(i);
-					RPGPostObject RPG = new RPGPostObject();
+					RPGPostObject RPG = new RPGPostObject(id);
 					RPG.parseJSON(tp);
 					if ((RPG.getId() >= counter) || RPGArray.isEmpty()) RPGa.add(RPG); // Sehr langsam bei vielen Eintraegen!
 				}
@@ -329,6 +358,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
 				SendChara = CharaArray.get(pos);
+				active_char_name.setText(SendChara.getName());
 				dialog.dismiss();
 				ShowAvatarPicker(SendChara);
 			}
@@ -342,9 +372,11 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	private void ShowAvatarPicker(final RPGCharaObject Chara) {
 		SendAvatarID = -1;
 		if (Chara.getAvatarArray().isEmpty()) {
+			if(newP) send();
 			return;
 		}
 		if (!isToFu) {
+			if(newP) send();
 			return;
 		}
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -367,11 +399,14 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 			public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
 
 				if (pos < Chara.getAvatarArray().size()) {
-					SendAvatarID = Chara.getAvatarArray().get(pos).getId();
+					SendAvatarID = Chara.getAvatarArray().get(pos).getId();	
+					//active_char_img
+					ImageLoader.download(new ImageSaveObject(Chara.getAvatarArray().get(pos).getUrl(), id+"_"+SendChara.getId()+"_"+SendAvatarID), active_char_img);
 				} else {
-					
+
 				}
 				dialog.dismiss();
+				if(newP) send();
 			}
 		});
 
@@ -459,6 +494,7 @@ public class RPGViewPostList extends SherlockListActivity implements UpDateUI {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		refresh();
 		GCMIntentService.rpg = (int) id;
 	}
 

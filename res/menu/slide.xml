@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
+    <item android:id="@+id/Dashboard" android:title="Home" android:icon="@drawable/menu_home"></item>
     <item
         android:id="@+id/Home"
-        android:icon="@drawable/home"
-        android:title="Home">
+        android:icon="@drawable/menu_feed"
+        android:title="Feed">
     </item>
     <item
         android:id="@+id/ENS"
-        android:icon="@drawable/ens"
+        android:icon="@drawable/menu_ens"
         android:title="ENS">
     </item>
     <item
         android:id="@+id/RPG"
-        android:icon="@drawable/rpg"
+        android:icon="@drawable/menu_rpg"
         android:title="RPG">
     </item>
-    <item android:id="@+id/Events" android:title="Events" android:icon="@drawable/calendar"></item>
+    <item android:id="@+id/Events" android:title="Events" android:icon="@drawable/menu_calendar"></item>
     <item
         android:id="@+id/Kontakte"
-        android:icon="@drawable/contacts"
+        android:icon="@drawable/menu_contacts"
         android:title="Kontakte">
     </item>
-    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/book"></item>
-    <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/settings"></item>
-    <item android:id="@+id/About" android:title="About" android:icon="@drawable/about"></item>
-	<item android:id="@+id/Dashboard" android:title="Dashboard" android:icon="@drawable/dash"></item>
-	<item android:id="@+id/Foren" android:title="Foren" android:icon="@drawable/dash"></item>
-	<item android:id="@+id/Chat" android:title="Chat" android:icon="@drawable/dash"></item>
+    <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/menu_book"></item>
+    <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/menu_settings"></item>
+    <item android:id="@+id/About" android:title="About" android:icon="@drawable/menu_info"></item>
+	<item android:id="@+id/Foren" android:title="Foren" android:icon="@drawable/menu_dialog"></item>
+	<item android:id="@+id/Chat" android:title="Chat" android:icon="@drawable/menu_dialog"></item>
 
 </menu>

@@ -39,7 +39,7 @@
             android:id="@+id/CAChatBubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/chat" />
+            android:src="@drawable/card_dialog" />
 
         <LinearLayout
             android:id="@+id/linearLayout1"

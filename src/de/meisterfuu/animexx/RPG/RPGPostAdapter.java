@@ -11,28 +11,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
+import de.meisterfuu.animexx.other.ImageDownloaderCustom;
+import de.meisterfuu.animexx.other.ImageSaveObject;
 import de.meisterfuu.animexx.profil.UserPopUp;
 
 public class RPGPostAdapter extends BaseAdapter {
 
 	private final Activity context;
+	private final ImageDownloaderCustom ImageLoader;
 	private final ArrayList<RPGPostObject> names;
 
 	static class ViewHolder {
 		public TextView text;
 		public TextView name;
 		public TextView time;
-		public WebView Ava;
+		public ImageView Ava;
 	}
 
 
-	public RPGPostAdapter(Activity context, ArrayList<RPGPostObject> names) {
+	public RPGPostAdapter(Activity context, ArrayList<RPGPostObject> names, ImageDownloaderCustom ImageLoader) {
 		this.context = context;
 		this.names = names;
+		this.ImageLoader = ImageLoader;
 	}
 
 
@@ -52,7 +57,7 @@ public class RPGPostAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 
 			rowView = inflater.inflate(R.layout.rpg_post_list_ava, null);
-			holder.Ava = (WebView) rowView.findViewById(R.id.AvaList);
+			holder.Ava = (ImageView) rowView.findViewById(R.id.rpg_avatar);
 			holder.text = (TextView) rowView.findViewById(R.id.tx_rpgpost);
 			holder.name = (TextView) rowView.findViewById(R.id.tx_rpgchara);
 			holder.time = (TextView) rowView.findViewById(R.id.tx_rpgtime);
@@ -80,7 +85,7 @@ public class RPGPostAdapter extends BaseAdapter {
 			if(!Request.config.getBoolean("rpgshowavatar", true)) {
 				holder.Ava.setVisibility(View.GONE);
 			} else {
-				holder.Ava.loadUrl(s.getAvatar_url());
+				ImageLoader.download(new ImageSaveObject(s.getAvatar_url(), s.rpg_id+"_"+s.getChara_id()+"_"+s.getAvatar_id()), holder.Ava);
 				holder.Ava.setVisibility(View.VISIBLE);
 			}
 		} else {

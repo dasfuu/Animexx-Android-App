@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import oauth.signpost.OAuth;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -98,17 +101,25 @@ public class HomeKontaktKommentarFragment extends SherlockFragment implements Re
 		dialog.setCancelable(false);
 		dialog.show();
 
-		final HttpPost request = new HttpPost("https://ws.animexx.de/json/persstart5/post_item_kommentar/?api=2");
+		final HttpPost request = new HttpPost("https://ws.animexx.de/json/persstart5/post_item_kommentar/?api=2&item_id="+id+"&widget_id=kontakte");
 
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-		nameValuePairs.add(new BasicNameValuePair("item_id", ""+id));
-		nameValuePairs.add(new BasicNameValuePair("widget_id", "kontakte"));
-		nameValuePairs.add(new BasicNameValuePair("text", message));
+		String s = "";
+		s += "text=" + OAuth.percentEncode("" + message);
+		if (id != null) {
+			s += "&attach_foto=" + id;
+		}
+
 		try {
-			request.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			StringEntity se = new StringEntity(s);
+			se.setContentType("application/x-www-form-urlencoded");
+			request.setEntity(se);
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
+			Toast.makeText(HomeKontaktKommentarFragment.this.getActivity(), "Error!", Toast.LENGTH_LONG).show();	
+			return;
 		}
+
+		
 		
 		new Thread(new Runnable() {
 
@@ -123,6 +134,7 @@ public class HomeKontaktKommentarFragment extends SherlockFragment implements Re
 
 						public void run() {
 							dialog.dismiss();
+							msg.setText("");
 							refresh();
 							Toast.makeText(HomeKontaktKommentarFragment.this.getActivity(), "Gesendet!", Toast.LENGTH_LONG).show();
 						}
