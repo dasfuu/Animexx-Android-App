@@ -13,6 +13,7 @@ import android.net.Uri;
 import de.meisterfuu.animexx.Debug;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.about;
+import de.meisterfuu.animexx.AIDB.MangaViewList;
 import de.meisterfuu.animexx.ENS.ENSActivity;
 import de.meisterfuu.animexx.GB.GBViewList;
 import de.meisterfuu.animexx.Home.HomeKontaktActivity;
@@ -61,6 +62,9 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			break;
 		case R.id.Guestbook:
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), GBViewList.class));
+			break;
+		case R.id.Manga:
+			a.startActivity(new Intent().setClass(a.getApplicationContext(), MangaViewList.class));
 			break;
 		case R.id.Kontakte:
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), ContactList.class));

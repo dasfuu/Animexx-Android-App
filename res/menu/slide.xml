@@ -23,6 +23,11 @@
         android:icon="@drawable/menu_contacts"
         android:title="Kontakte">
     </item>
+        <item
+        android:id="@+id/Manga"
+        android:icon="@drawable/menu_book"
+        android:title="Manga">
+    </item>
     <item android:id="@+id/Guestbook" android:title="Gästebuch" android:icon="@drawable/menu_book"></item>
     <item android:id="@+id/Settings" android:title="Einstellungen" android:icon="@drawable/menu_settings"></item>
     <item android:id="@+id/About" android:title="About" android:icon="@drawable/menu_info"></item>

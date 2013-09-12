@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="de.meisterfuu.animexx"
-    android:versionCode="54"
-    android:versionName="1.8.1" >
+    android:versionCode="55"
+    android:versionName="1.8.2" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -319,6 +319,14 @@
         <activity
             android:name="de.meisterfuu.animexx.events.EventViewPage"
             android:label="@string/title_activity_event_view_page" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.AIDB.MangaViewList"
+            android:label="@string/title_activity_manga_view_list" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.AIDB.MangaBandViewList"
+            android:label="@string/title_activity_manga_band_view_list" >
         </activity>
     </application>
 

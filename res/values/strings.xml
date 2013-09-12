@@ -59,5 +59,7 @@
     <string name="title_activity_user_card_steckbrief">UserCardSteckbrief</string>
     <string name="title_activity_event_view_card_detail">EventViewCardDetail</string>
     <string name="title_activity_event_view_page">EventViewPage</string>
+    <string name="title_activity_manga_view_list">MangaViewList</string>
+    <string name="title_activity_manga_band_view_list">MangaBandViewList</string>
 
 </resources>
