@@ -1,4 +1,4 @@
-package de.meisterfuu.animexx.fanworks;
+package de.meisterfuu.animexx.fanworks.fanart;
 
 import org.json.JSONObject;
 
@@ -11,6 +11,8 @@ import de.meisterfuu.animexx.Helper;
 import de.meisterfuu.animexx.R;
 import de.meisterfuu.animexx.Request;
 
+import de.meisterfuu.animexx.fanworks.FanworkHelper;
+import de.meisterfuu.animexx.fanworks.FanworkObject;
 import de.meisterfuu.animexx.other.ImageDownloader;
 import de.meisterfuu.animexx.other.ImageDownloaderCustom;
 import de.meisterfuu.animexx.other.ImageSaveObject;

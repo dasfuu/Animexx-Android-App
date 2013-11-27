@@ -38,7 +38,7 @@
         android:label="@string/app_name"
         android:theme="@style/AnimexxStyle" >
         <activity
-            android:name="de.meisterfuu.animexx.AnimexxActivity"
+            android:name="de.meisterfuu.animexx.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
@@ -292,12 +292,16 @@
             android:launchMode="singleTask" >
         </activity>
         <activity
-            android:name="de.meisterfuu.animexx.fanworks.Fanart"
+            android:name="de.meisterfuu.animexx.fanworks.fanart.Fanart"
             android:label="@string/title_activity_fanart" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.fanworks.FanartKommentare"
             android:label="@string/title_activity_fanart_kommentare" >
+        </activity>
+        <activity
+            android:name="de.meisterfuu.animexx.fanworks.photo.SinglePhoto"
+            android:label="@string/title_activity_photo_single" >
         </activity>
         <activity
             android:name="de.meisterfuu.animexx.RPG.RPGNewPost"

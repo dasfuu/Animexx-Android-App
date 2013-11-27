@@ -19,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AnimexxActivity extends Activity {
+public class LoginActivity extends Activity {
 
 	private Button AnmeldeButton;
 	private SharedPreferences config;
@@ -52,7 +52,7 @@ public class AnimexxActivity extends Activity {
 
 			console.setText("OAuth successful!");
 			Log.i("OAuth", "OAuth successful");
-			final AnimexxActivity temp = this;
+			final LoginActivity temp = this;
 			if (Request.config.getString("id", "none").equals("none")) {
 				new Thread(new Runnable() {
 

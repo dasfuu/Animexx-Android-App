@@ -24,7 +24,7 @@ import de.meisterfuu.animexx.cards.GBCard;
 import de.meisterfuu.animexx.cards.InteractionCard;
 import de.meisterfuu.animexx.cards.KarotalerCard;
 import de.meisterfuu.animexx.events.EventViewPage;
-import de.meisterfuu.animexx.fanworks.Fanart;
+import de.meisterfuu.animexx.fanworks.fanart.Fanart;
 import de.meisterfuu.animexx.other.KarotalerActivity;
 import de.meisterfuu.animexx.other.SlideMenu;
 import de.meisterfuu.animexx.other.SlideMenuHelper;

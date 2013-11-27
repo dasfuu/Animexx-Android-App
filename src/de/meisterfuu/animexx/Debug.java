@@ -29,7 +29,7 @@ public class Debug extends Activity {
 					public void run() {
 
 							try {
-								final String s = Request.makeSecuredReq("https://ws.animexx.de/json/aidb/mangas/meine/?api=2");
+								final String s = Request.makeSecuredReq("https://ws.animexx.de/json/fanworks/list_fanwork_types/?api=2");
 								Request.ENSNotify("DEBUG", s);
 								Web.post(new Runnable() {
 						                public void run() {

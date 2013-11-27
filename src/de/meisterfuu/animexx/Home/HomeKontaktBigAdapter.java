@@ -17,7 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import de.meisterfuu.animexx.R;
-import de.meisterfuu.animexx.fanworks.Fanart;
+import de.meisterfuu.animexx.fanworks.fanart.Fanart;
+import de.meisterfuu.animexx.fanworks.photo.SinglePhoto;
 import de.meisterfuu.animexx.other.ImageDownloaderCustom;
 import de.meisterfuu.animexx.other.ImageSaveObject;
 import de.meisterfuu.animexx.other.SingleImage;
@@ -139,7 +140,12 @@ public class HomeKontaktBigAdapter extends ArrayAdapter<HomeKontaktObject> {
 						i.putExtra("fanwork_id", Long.parseLong(uri.getLastPathSegment()));
 						context.startActivity(i);
 						return;
-					}
+					} else if (obj.getLink().contains("foto")){
+						Intent i=new Intent(context,SinglePhoto.class);
+						i.putExtra("fanwork_id", uri.getLastPathSegment());
+						context.startActivity(i);
+						return;
+					} 
 					try{
 						Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 						context.startActivity(intent);

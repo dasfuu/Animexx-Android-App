@@ -199,7 +199,7 @@ public class Helper {
 		String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, null);
 		
 		if(( Calendar.getInstance().get( Calendar.MONTH ) == Calendar.DECEMBER) &&  Calendar.getInstance().get( Calendar.DAY_OF_MONTH )  >= 24){
-			a.setTheme(R.style.AnimexxChristmasStyle);
+			//a.setTheme(R.style.AnimexxChristmasStyle);
 		} else {
 			a.setTheme(R.style.AnimexxStyle);		
 		}
@@ -207,7 +207,7 @@ public class Helper {
 		if (token != null && secret != null)
 			return;
 		else
-			a.startActivity(new Intent(a, AnimexxActivity.class));
+			a.startActivity(new Intent(a, LoginActivity.class));
 		a.finish();
 	}
 

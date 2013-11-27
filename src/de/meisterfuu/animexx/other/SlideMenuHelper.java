@@ -57,7 +57,6 @@ public class SlideMenuHelper implements OnSlideMenuItemClickListener {
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), HomeKontaktActivity.class));
 			break;
 		case R.id.About:
-			//a.startActivity(new Intent().setClass(a.getApplicationContext(), HomeKontaktBigFragment.class));
 			a.startActivity(new Intent().setClass(a.getApplicationContext(), about.class));
 			break;
 		case R.id.Guestbook:

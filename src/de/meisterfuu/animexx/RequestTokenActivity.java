@@ -123,7 +123,7 @@ public class RequestTokenActivity extends Activity {
 							String secret = config.getString(OAuth.OAUTH_TOKEN_SECRET, "");
 
 							consumer.setTokenWithSecret(token, secret);
-							temp.startActivity(new Intent(temp, AnimexxActivity.class));
+							temp.startActivity(new Intent(temp, LoginActivity.class));
 							Log.i("OAuth", "Access Token Retrieved");
 							temp.finish();
 						}
