@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 16
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "de.meisterfuu.animexx"
+        minSdkVersion 8
+        targetSdkVersion 14
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_5
+            targetCompatibility JavaVersion.VERSION_1_5
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':JazzyViewPager')
+    compile project(':CardsUILib')
+
+    //compile files('libs/android-support-v4.jar')
+    compile files('libs/gcm.jar')
+    compile files('libs/guava-12.0.1.jar')
+    compile files('libs/signpost-commonshttp4-1.2.1.2.jar')
+    compile files('libs/signpost-core-1.2.1.2.jar')
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+//    compile 'com.google.android.gms:play-services-base:6.5.87'
+
+}

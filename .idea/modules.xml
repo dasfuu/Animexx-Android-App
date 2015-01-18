@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Animexx-Android-App-Gradle.iml" filepath="$PROJECT_DIR$/Animexx-Android-App-Gradle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CardsUILib/CardsUILib.iml" filepath="$PROJECT_DIR$/CardsUILib/CardsUILib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JazzyViewPager/JazzyViewPager.iml" filepath="$PROJECT_DIR$/JazzyViewPager/JazzyViewPager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
+

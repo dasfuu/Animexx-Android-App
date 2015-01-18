@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="startscreen">
+        <item >ENS</item>
+        <item >RPG</item>
+        <item >Kontakte</item>
+        <item >Home</item>
+        <item >Feed</item>
+    </string-array>
+    
+</resources>
